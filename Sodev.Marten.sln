@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sodev.Martens.Presentation", "Sodev.Martens.Presentation\Sodev.Martens.Presentation.csproj", "{5248ABB1-82BD-46E6-83FA-0DEC6BCBA756}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sodev.Marten.Presentation", "Sodev.Martens.Presentation\Sodev.Marten.Presentation.csproj", "{5248ABB1-82BD-46E6-83FA-0DEC6BCBA756}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sodev.Marten.Common", "Sodev.Marten.Common\Sodev.Marten.Common.csproj", "{D457840B-C2A6-404B-8058-38B79F85F65F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sodev.Marten.Base", "Sodev.Marten.Base\Sodev.Marten.Base.csproj", "{059027B2-978F-4C0E-B77E-1DE748F7CAD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sodev.Marten.Persistence", "Sodev.Marten.Persistance\Sodev.Marten.Persistence.csproj", "{0E876480-169A-443A-8E39-D6407BDFC8D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sodev.Marten.Tests", "Sodev.Marten.Tests\Sodev.Marten.Tests.csproj", "{9AD25ED4-92C6-45D5-A204-C23E3954EE28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{5248ABB1-82BD-46E6-83FA-0DEC6BCBA756}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5248ABB1-82BD-46E6-83FA-0DEC6BCBA756}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5248ABB1-82BD-46E6-83FA-0DEC6BCBA756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D457840B-C2A6-404B-8058-38B79F85F65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D457840B-C2A6-404B-8058-38B79F85F65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D457840B-C2A6-404B-8058-38B79F85F65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D457840B-C2A6-404B-8058-38B79F85F65F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{059027B2-978F-4C0E-B77E-1DE748F7CAD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{059027B2-978F-4C0E-B77E-1DE748F7CAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{059027B2-978F-4C0E-B77E-1DE748F7CAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{059027B2-978F-4C0E-B77E-1DE748F7CAD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E876480-169A-443A-8E39-D6407BDFC8D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E876480-169A-443A-8E39-D6407BDFC8D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E876480-169A-443A-8E39-D6407BDFC8D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E876480-169A-443A-8E39-D6407BDFC8D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AD25ED4-92C6-45D5-A204-C23E3954EE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AD25ED4-92C6-45D5-A204-C23E3954EE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AD25ED4-92C6-45D5-A204-C23E3954EE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AD25ED4-92C6-45D5-A204-C23E3954EE28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

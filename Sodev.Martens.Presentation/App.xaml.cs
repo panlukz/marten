@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Sodev.Martens.Presentation
+namespace Sodev.Marten.Presentation
 {
     /// <summary>
     /// Interaction logic for App.xaml

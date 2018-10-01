@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Sodev.Martens.Presentation.Features.Dummy
+namespace Sodev.Marten.Presentation.Features.Dummy
 {
     /// <summary>
     /// Interaction logic for DummyView.xaml
