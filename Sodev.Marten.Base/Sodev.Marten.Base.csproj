@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\Connection.cs" />
+    <Compile Include="Connection\ConnectionParameters.cs" />
+    <Compile Include="Connection\ConnectionState.cs" />
     <Compile Include="Model\Pid.cs" />
     <Compile Include="Model\PidParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
