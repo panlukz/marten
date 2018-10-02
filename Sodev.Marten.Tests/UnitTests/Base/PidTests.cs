@@ -29,7 +29,7 @@ namespace Sodev.Marten.Tests.UnitTests.Base
             var pid = Pid.Create(pidParameters);
 
             //Assert
-            Assert.AreEqual(pid.Formula(), 12);
+            Assert.AreEqual(pid.GetValue(new byte[] { }), 12);
         }
     }
 }
