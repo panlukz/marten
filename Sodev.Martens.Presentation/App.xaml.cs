@@ -13,6 +13,5 @@ namespace Sodev.Marten.Presentation
     /// </summary>
     public partial class App : Application
     {
-
     }
 }
