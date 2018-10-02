@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Base.Model
 {
-    public class Pid<T> where T : new()
+    public class Pid
     {
         private Pid() {}
 
@@ -23,16 +23,24 @@ namespace Sodev.Marten.Base.Model
 
         public string Unit { private set; get; }
 
-        public string Formula { private set; get; }
+        private string formula;
 
-        public T GetValue(byte[] arguments)
+        public double GetValue(byte[] bytesArgs)
         {
-            return new T();
+            var arguments = DeserializeArgumentsFromBytes(bytesArgs);
+            return new Expression(formula, arguments).calculate();
+
+            Argument[] DeserializeArgumentsFromBytes(byte[] bytesArray)
+            {
+                var argumentsArray = new Argument[4];
+                //TODO To implement...
+                return argumentsArray;
+            }
         }
 
-        public static Pid<T> Create(PidParameters parameters)
+        public static Pid Create(PidParameters parameters)
         {
-            return new Pid<T>()
+            return new Pid()
             {
                 Id = parameters.Id,
                 Description = parameters.Description,
@@ -40,15 +48,8 @@ namespace Sodev.Marten.Base.Model
                 MinValue = parameters.MinValue,
                 MaxValue = parameters.MaxValue,
                 Unit = parameters.Unit,
-                Formula = parameters.Formula
+                formula = parameters.Formula
             };
-
-            Func<double> ConvertStringFormulaToAction(string formula)
-            {
-                var A = new Argument("A", 4);
-                Expression e = new Expression(formula, A);
-                return () => e.calculate();
-            }
         }
     }
 }
