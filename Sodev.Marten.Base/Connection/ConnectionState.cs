@@ -1,6 +1,6 @@
 ﻿namespace Sodev.Marten.Base.Connection
 {
-    internal enum ConnectionState
+    public enum ConnectionState
     {
         Closed,
         Ready,

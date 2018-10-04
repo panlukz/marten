@@ -15,7 +15,7 @@ namespace Sodev.Marten.Base.Model
 
         public string Description { private set; get; }
 
-        public int ReturnedBytesNb { private set; get; }
+        public int ReturnedBytesNb { private set; get; } //TODO consider making it private??
 
         public int MinValue { private set; get; }
 
@@ -32,8 +32,14 @@ namespace Sodev.Marten.Base.Model
 
             Argument[] DeserializeArgumentsFromBytes(byte[] bytesArray)
             {
-                var argumentsArray = new Argument[4];
-                //TODO To implement...
+                var alph = new[] { "A", "B", "C", "D" };
+                var argumentsArray = new Argument[ReturnedBytesNb];
+                for (int i = 0; i < bytesArray.Length; i++)
+                {
+                    var argByte = bytesArray[i];
+                    argumentsArray[i] = new Argument(alph[i], argByte);
+                }
+                
                 return argumentsArray;
             }
         }
