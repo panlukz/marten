@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sodev.Marten.Presentation.Features.Dummy
+namespace Sodev.Marten.Presentation.Features.Preferences
 {
     /// <summary>
-    /// Interaction logic for DummyView.xaml
+    /// Interaction logic for PreferencesView.xaml
     /// </summary>
-    public partial class DummyView : UserControl
+    public partial class PreferencesView : UserControl
     {
-        public DummyView()
+        public PreferencesView()
         {
             InitializeComponent();
         }

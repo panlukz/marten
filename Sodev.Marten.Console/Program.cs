@@ -37,7 +37,7 @@ namespace Sodev.Marten.Console
             connection.AnswerReceivedEvent += new Connection.AnswerReceivedHandler(AnswerReceived);
 
             pid = Pid.Create(pidParams);
-
+            connection.SendQuery(new Query { QueryText = "ATE0\r" });
             var query = new Query {QueryText = "010C\r" };
 
             while(true)
@@ -52,7 +52,14 @@ namespace Sodev.Marten.Console
 
         private static void AnswerReceived(object sender, Answer answer)
         {
-            System.Console.Write($"RPM: {answer.AnswerText}");
+            if (!answer.AnswerText.StartsWith("41")) return; //in case if it's not a response for a PID request
+
+
+            var byteArray = answer.AnswerText.Split(' ').Skip(2).Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
+
+            var decipheredValue = Math.Round(pid.GetValue(byteArray));
+
+            System.Console.WriteLine($"RPM: {decipheredValue}");
             
         }
     }

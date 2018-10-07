@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sodev.Marten.Presentation.Features.Dummy
+namespace Sodev.Marten.Presentation.Features.Menu
 {
-    public class DummyViewModel : Screen
+    class MenuViewModel : Screen
     {
     }
 }

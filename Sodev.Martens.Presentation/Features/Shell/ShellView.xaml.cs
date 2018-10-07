@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Sodev.Marten.Presentation.Features.Dummy
+namespace Sodev.Marten.Presentation.Features.Shell
 {
     /// <summary>
-    /// Interaction logic for DummyView.xaml
+    /// Interaction logic for ShellView.xaml
     /// </summary>
-    public partial class DummyView : UserControl
+    public partial class ShellView : Window
     {
-        public DummyView()
+        public ShellView()
         {
             InitializeComponent();
         }

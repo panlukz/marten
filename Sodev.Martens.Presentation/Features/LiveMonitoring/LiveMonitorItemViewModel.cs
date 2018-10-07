@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sodev.Marten.Presentation.Features.Dummy
+namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
-    public class DummyViewModel : Screen
+    class LiveMonitorItemViewModel : Screen
     {
+
     }
 }

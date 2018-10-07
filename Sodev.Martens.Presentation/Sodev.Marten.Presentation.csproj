@@ -61,6 +61,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -87,8 +89,33 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
-    <Compile Include="IShell.cs" />
-    <Compile Include="ShellViewModel.cs" />
+    <Compile Include="Features\LiveMonitoring\LiveMonitoringView.xaml.cs">
+      <DependentUpon>LiveMonitoringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\LiveMonitoring\LiveMonitoringViewModel.cs" />
+    <Compile Include="Features\LiveMonitoring\LiveMonitorItem.xaml.cs">
+      <DependentUpon>LiveMonitorItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\LiveMonitoring\LiveMonitorItemViewModel.cs" />
+    <Compile Include="Interfaces\IServiceLocator.cs" />
+    <Compile Include="Converters\InverseBoolean.cs" />
+    <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Events\NavigationEvent.cs" />
+    <Compile Include="Events\PresentationEventBase.cs" />
+    <Compile Include="Features\Menu\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Menu\MenuViewModel.cs" />
+    <Compile Include="Features\Preferences\PreferencesView.xaml.cs">
+      <DependentUpon>PreferencesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Preferences\PreferencesViewModel.cs" />
+    <Compile Include="Features\Shell\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Shell\ShellViewModel.cs" />
+    <Compile Include="Interfaces\INavigationFlowService.cs" />
+    <Compile Include="Services\NavigationFlowService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\Dummy\DummyView.xaml.cs">
@@ -122,16 +149,35 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\Sodev.Marten.Base\Sodev.Marten.Base.csproj">
+      <Project>{059027B2-978F-4C0E-B77E-1DE748F7CAD5}</Project>
+      <Name>Sodev.Marten.Base</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Features\Dummy\DummyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShellView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Features\LiveMonitoring\LiveMonitoringView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\LiveMonitoring\LiveMonitorItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\Menu\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\Preferences\PreferencesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\Shell\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

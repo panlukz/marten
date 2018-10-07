@@ -62,9 +62,16 @@ namespace Sodev.Marten.Base.Connection
         }
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
+        { 
             var answer = port.ReadExisting();
-            AnswerReceivedEvent(this, new Answer() { AnswerText = answer });
+            //TODO lol this is definetly not very efficient... use regex or something
+            answer = answer.Replace("\n", "");
+            answer = answer.Replace("\r", "");
+            //answer = answer.Replace(" ", "");
+            answer = answer.Replace(">", "");
+
+            if (!string.IsNullOrWhiteSpace(answer))
+                AnswerReceivedEvent(this, new Answer() { AnswerText = answer });
         }
 
         public delegate void AnswerReceivedHandler(object sender, Answer answer);

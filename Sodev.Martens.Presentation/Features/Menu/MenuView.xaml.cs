@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sodev.Marten.Presentation.Features.Dummy
+namespace Sodev.Marten.Presentation.Features.Menu
 {
     /// <summary>
-    /// Interaction logic for DummyView.xaml
+    /// Interaction logic for MenuView.xaml
     /// </summary>
-    public partial class DummyView : UserControl
+    public partial class MenuView : UserControl
     {
-        public DummyView()
+        public MenuView()
         {
             InitializeComponent();
         }
