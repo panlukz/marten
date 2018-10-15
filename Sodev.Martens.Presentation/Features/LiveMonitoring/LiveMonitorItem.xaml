@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.LiveMonitoring"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <lvc:CartesianChart Grid.Row="0" DisableAnimations="True" Series="{Binding Series}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
     </Grid>
 </UserControl>

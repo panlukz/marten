@@ -6,15 +6,31 @@
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.LiveMonitoring"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ListView
-            ItemsSource="{Binding LiveMonitorItems}">
-            <!-- TODO extract the template -->
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:LiveMonitoringViewModel}">
+    <Grid VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Text="Columns:" />
+            <ComboBox ItemsSource="{Binding AvailableColumnsNumber}" SelectedItem="{Binding NumberOfColumns}" />
 
+            <TextBlock Text="Rows:" />
+            <ComboBox ItemsSource="{Binding AvailableRowsNumber}" SelectedItem="{Binding NumberOfRows}" />
+        </StackPanel>
+        
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding LiveMonitorItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:LiveMonitorItem VerticalAlignment="Stretch" />
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding NumberOfColumns}" Rows="{Binding NumberOfRows}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
     </Grid>
 </UserControl>

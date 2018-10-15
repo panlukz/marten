@@ -51,6 +51,8 @@
     <Compile Include="Model\Pid.cs" />
     <Compile Include="Model\PidParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ConnectionService.cs" />
+    <Compile Include="Services\LiveDataService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
+using Sodev.Marten.Base.Services;
 using Sodev.Marten.Presentation.Features.Shell;
 using Sodev.Marten.Presentation.Interfaces;
 using Sodev.Marten.Presentation.Services;
@@ -23,6 +24,8 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.RegisterInstance(typeof(IServiceLocator), string.Empty, this);
             container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<INavigationFlowService, NavigationFlowService>();
+            container.Singleton<IConnectionService, ConnectionService>();
+            container.Singleton<ILiveDataService, LiveDataService>();
             container.PerRequest<ShellViewModel>();
         }
 
