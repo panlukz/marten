@@ -8,18 +8,17 @@
         mc:Ignorable="d"
         Title="ShellView" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <!-- Menu -->
-            <RowDefinition Height="*" />
-            <!-- Active item-->
-        </Grid.RowDefinitions>
-        <menu:MenuView Grid.Row="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" /> <!-- Menu -->
+            <ColumnDefinition Width="*" />    <!-- Active item -->
+        </Grid.ColumnDefinitions>
+        <menu:MenuView Grid.Column="0">
+            <!-- TODO do something about it -->
             <menu:MenuView.DataContext>
                 <menu:MenuViewModel />
             </menu:MenuView.DataContext>
         </menu:MenuView>
-        <Border BorderBrush="Black" BorderThickness="2" Grid.Row="1">
+        <Border BorderBrush="Black" BorderThickness="2" Grid.Column="1">
             <ContentControl x:Name="ActiveItem"  />
 
         </Border>

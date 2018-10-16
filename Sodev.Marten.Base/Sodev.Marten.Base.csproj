@@ -48,10 +48,13 @@
     <Compile Include="Connection\ConnectionParameters.cs" />
     <Compile Include="Connection\ConnectionState.cs" />
     <Compile Include="Connection\Query.cs" />
+    <Compile Include="Events\ConnectionStateChanged.cs" />
+    <Compile Include="Events\DomainEventAggregator.cs" />
+    <Compile Include="Events\DomainEventBase.cs" />
     <Compile Include="Model\Pid.cs" />
     <Compile Include="Model\PidParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ConnectionService.cs" />
+    <Compile Include="Services\IConnectionService.cs" />
     <Compile Include="Services\LiveDataService.cs" />
   </ItemGroup>
   <ItemGroup>

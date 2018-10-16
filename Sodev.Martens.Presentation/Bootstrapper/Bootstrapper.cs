@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
+using Sodev.Marten.Base.Connection;
+using Sodev.Marten.Base.Events;
 using Sodev.Marten.Base.Services;
+using Sodev.Marten.Presentation.Features.Connection;
 using Sodev.Marten.Presentation.Features.Shell;
 using Sodev.Marten.Presentation.Interfaces;
 using Sodev.Marten.Presentation.Services;
@@ -19,14 +22,30 @@ namespace Sodev.Marten.Presentation.Bootstrapper
         protected override void Configure()
         {
             container = new SimpleContainer();
+            container.PerRequest<ConnectionViewModel>();
 
             container.Singleton<IWindowManager, WindowManager>();
             container.RegisterInstance(typeof(IServiceLocator), string.Empty, this);
             container.Singleton<IEventAggregator, EventAggregator>();
+            container.Singleton<IDomainEventAggregator, DomainEventAggregator>();
             container.Singleton<INavigationFlowService, NavigationFlowService>();
-            container.Singleton<IConnectionService, ConnectionService>();
+            container.Singleton<IConnectionService, Connection>();
             container.Singleton<ILiveDataService, LiveDataService>();
+
             container.PerRequest<ShellViewModel>();
+
+            ConfigureDomainEventAggregator();
+        }
+
+        private void ConfigureDomainEventAggregator()
+        {
+            var domainEventAggregator = container.GetInstance<IDomainEventAggregator>();
+            domainEventAggregator.DomainEventPublished += DomainEventAggregator_DomainEventPublished;
+        }
+
+        private void DomainEventAggregator_DomainEventPublished(object sender, DomainEventBase domainEvent)
+        {
+            container.GetInstance<IEventAggregator>().PublishOnUIThread(domainEvent);
         }
 
         protected override object GetInstance(Type service, string key) => container.GetInstance(service, key);

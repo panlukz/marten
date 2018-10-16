@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Sodev.Marten.Presentation.Events;
+using Sodev.Marten.Presentation.Features.Connection;
 using Sodev.Marten.Presentation.Features.Dummy;
 using Sodev.Marten.Presentation.Features.LiveMonitoring;
 using Sodev.Marten.Presentation.Interfaces;
@@ -18,8 +19,7 @@ namespace Sodev.Marten.Presentation.Features.Shell
 
         public ShellViewModel(IEventAggregator eventAggregator, IServiceLocator serviceLocator)
         {
-
-            ActivateItem(new LiveMonitoringViewModel()); //TODO temporary. remove it.
+            ActivateItem(IoC.Get<ConnectionViewModel>()); //TODO temporary. remove it.
             this.eventAggregator = eventAggregator;
             this.serviceLocator = serviceLocator;
             eventAggregator.Subscribe(this);

@@ -95,6 +95,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="Features\Connection\ConnectionView.xaml.cs">
+      <DependentUpon>ConnectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Connection\ConnectionViewModel.cs" />
     <Compile Include="Features\LiveMonitoring\LiveMonitoringView.xaml.cs">
       <DependentUpon>LiveMonitoringView.xaml</DependentUpon>
     </Compile>
@@ -161,6 +165,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Features\Connection\ConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Features\Dummy\DummyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

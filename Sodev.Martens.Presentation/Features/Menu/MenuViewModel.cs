@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Presentation.Features.Menu
 {
-    class MenuViewModel : Screen
+    public class MenuViewModel : Screen
     {
+        
     }
 }

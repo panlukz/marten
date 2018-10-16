@@ -6,7 +6,10 @@
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.Menu"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <UniformGrid Columns="1" Margin="20">
+        <Button Content="Connection" />
+        <Button Content="Live data" />
+        <Button Content="Fault codes" />
+        <Button Content="Preferences" />
+    </UniformGrid>
 </UserControl>

@@ -18,12 +18,12 @@ namespace Sodev.Marten.Console
                 BaudRate = 9600,
                 PortName = "COM5"
             };
-            var connection = new Connection();
+            var connection = new Connection(null); //TODO
 
             connection.SetParameters(conParams);
 
             connection.Open();
-            System.Console.WriteLine($"CONNECTION STATE:{connection.State}");
+            System.Console.WriteLine($"CONNECTION STATE:{connection.GetState()}");
 
             var pidParams = new PidParameters()
             {

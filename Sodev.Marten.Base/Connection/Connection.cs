@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sodev.Marten.Base.Events;
+using Sodev.Marten.Base.Services;
+using System;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
@@ -7,41 +9,44 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Base.Connection
 {
-    public sealed class Connection
+    public class Connection : IConnectionService, IConnectionInfo
     {
         private readonly SerialPort port;
+        private readonly IDomainEventAggregator domainEventAggregator;
+        private ConnectionState state;
 
-        public Connection()
+        public Connection(IDomainEventAggregator domainEventAggregator)
         {
             port = new SerialPort();
+            this.domainEventAggregator = domainEventAggregator;
         }
 
         public void Open()
         {
-            if (State != ConnectionState.Ready)
-                throw new InvalidOperationException($"Connection couldn't be opened w/o passed parameters. Connection state: {State}");
-
+            if (GetState() != ConnectionState.Ready)
+                throw new InvalidOperationException($"Connection couldn't be opened w/o passed parameters. Connection state: {GetState()}");
+            
             port.Open();
-            State = ConnectionState.Opened;
-
+            SetState(ConnectionState.Opened);
+            
             port.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
         }
 
         public void Close()
         {
-            if (State != ConnectionState.Opened)
-                throw new InvalidOperationException($"Connection couldn't be closed. Connection state: {State}");
+            if (GetState() != ConnectionState.Opened)
+                throw new InvalidOperationException($"Connection couldn't be closed. Connection state: {GetState()}");
 
             port.Close();
-            State = ConnectionState.Closed;
+            SetState(ConnectionState.Closed);
 
             port.DataReceived -= new SerialDataReceivedEventHandler(DataReceived);
         }
 
         public void SetParameters(ConnectionParameters parameters)
         {
-            if (State != ConnectionState.Closed)
-                throw new InvalidOperationException($"Parameters can't be set when connections is not closed. Connection state: {State}");
+            if (GetState() != ConnectionState.Closed)
+                throw new InvalidOperationException($"Parameters can't be set when connections is not closed. Connection state: {GetState()}");
 
             port.PortName = parameters.PortName;
             port.BaudRate = parameters.BaudRate;
@@ -51,8 +56,7 @@ namespace Sodev.Marten.Base.Connection
             port.Handshake = Handshake.None;
             port.DataBits = 8;
 
-
-            State = ConnectionState.Ready;
+            SetState(ConnectionState.Ready);
         }
 
         public void SendQuery(Query query)
@@ -78,6 +82,14 @@ namespace Sodev.Marten.Base.Connection
 
         public event AnswerReceivedHandler AnswerReceivedEvent;
 
-        public ConnectionState State { get; private set; }
+        public ConnectionState GetState() => state;
+
+        private void SetState(ConnectionState newState)
+        {
+            state = newState;
+            domainEventAggregator.PublishDomainEvent(new ConnectionStateChanged(newState));
+        }
+
+        public IList<string> GetAvailablePorts() => SerialPort.GetPortNames().ToList();
     }
 }

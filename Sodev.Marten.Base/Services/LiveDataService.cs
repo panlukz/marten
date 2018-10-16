@@ -8,7 +8,12 @@ namespace Sodev.Marten.Base.Services
 {
     public class LiveDataService : ILiveDataService
     {
+        private readonly IConnectionService connectionService;
 
+        public LiveDataService(IConnectionService connectionService)
+        {
+            this.connectionService = connectionService;
+        }
     }
 
     public interface ILiveDataService
