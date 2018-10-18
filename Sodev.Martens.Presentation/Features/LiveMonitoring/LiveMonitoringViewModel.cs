@@ -10,11 +10,13 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
     class LiveMonitoringViewModel : Screen
     {
+        private readonly IEventAggregator eventAggregator;
         private int numberOfRows = 1;
         private int numberOfColumns = 1;
 
-        public LiveMonitoringViewModel()
+        public LiveMonitoringViewModel(IEventAggregator eventAggregator)
         {
+            this.eventAggregator = eventAggregator;
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.

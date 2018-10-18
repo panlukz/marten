@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Features\Shell\ShellViewModel.cs" />
     <Compile Include="Interfaces\INavigationFlowService.cs" />
+    <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="Services\NavigationFlowService.cs" />
   </ItemGroup>
   <ItemGroup>

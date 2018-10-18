@@ -19,7 +19,7 @@ namespace Sodev.Marten.Presentation.Features.Shell
 
         public ShellViewModel(IEventAggregator eventAggregator, IServiceLocator serviceLocator)
         {
-            ActivateItem(IoC.Get<ConnectionViewModel>()); //TODO temporary. remove it.
+            ActivateItem(IoC.Get<LiveMonitoringViewModel>()); //TODO temporary. remove it.
             this.eventAggregator = eventAggregator;
             this.serviceLocator = serviceLocator;
             eventAggregator.Subscribe(this);
@@ -28,7 +28,7 @@ namespace Sodev.Marten.Presentation.Features.Shell
         public void Handle(NavigationEvent navigationEvent)
         {
             var featureType = navigationEvent.FeatureType;
-            ActivateItem(serviceLocator.GetInstance(featureType));
+            ActivateItem(IoC.GetInstance(featureType, null));
         }
     }
 }
