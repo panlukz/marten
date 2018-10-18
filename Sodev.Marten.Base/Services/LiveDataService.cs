@@ -41,17 +41,25 @@ namespace Sodev.Marten.Base.Services
         public void RegisterLiveMonitor(LiveMonitor liveMonitor)
         {
             liveMonitors.Add(liveMonitor);
-            
-            if(liveMonitors.Count == 1)
+
+            if (liveMonitors.Count == 1)
+            {
                 SubscribeLiveDataUpdatedEvent();
+                StartQuering();
+            }
+                
         }
 
         public void UnregisterLiveMonitor(LiveMonitor liveMonitor)
         {
             liveMonitors.Remove(liveMonitor);
 
-            if(liveMonitors.Count == 0)
+            if (liveMonitors.Count == 0)
+            {
+                StopQuering();
                 UnsubscribeLiveDataUpdatedEvent();
+            }
+                
         }
 
         private void SubscribeLiveDataUpdatedEvent()
@@ -73,9 +81,29 @@ namespace Sodev.Marten.Base.Services
 
             var byteArray = answer.AnswerText.Split(' ').Skip(2).Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
 
-            var decipheredValue = Math.Round(pid.GetValue(byteArray));
+            //var decipheredValue = Math.Round(pid.GetValue(byteArray));
 
-            System.Console.WriteLine($"RPM: {decipheredValue}");
+            //System.Console.WriteLine($"RPM: {decipheredValue}");
+        }
+
+        private bool continueQuerying = false;
+
+        private void StartQuering()
+        {
+            continueQuerying = true;
+            Task.Factory.StartNew(() =>
+            {
+                while (continueQuerying)
+                {
+                    QueryForLiveData();
+                    Task.Delay(100);
+                }
+            });
+        }
+
+        private void StopQuering()
+        {
+            continueQuerying = false;
         }
 
         private void QueryForLiveData()

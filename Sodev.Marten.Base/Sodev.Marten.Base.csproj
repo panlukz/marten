@@ -51,6 +51,7 @@
     <Compile Include="Events\ConnectionStateChanged.cs" />
     <Compile Include="Events\DomainEventAggregator.cs" />
     <Compile Include="Events\DomainEventBase.cs" />
+    <Compile Include="Model\LiveMonitor.cs" />
     <Compile Include="Model\Pid.cs" />
     <Compile Include="Model\PidParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

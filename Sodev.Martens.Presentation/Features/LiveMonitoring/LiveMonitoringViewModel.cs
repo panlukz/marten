@@ -5,18 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sodev.Marten.Base.Services;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
     public class LiveMonitoringViewModel : Screen
     {
         private readonly IEventAggregator eventAggregator;
+        private readonly ILiveDataService liveDataService;
         private int numberOfRows = 1;
         private int numberOfColumns = 1;
 
-        public LiveMonitoringViewModel(IEventAggregator eventAggregator)
+        public LiveMonitoringViewModel(IEventAggregator eventAggregator, ILiveDataService liveDataService)
         {
             this.eventAggregator = eventAggregator;
+            this.liveDataService = liveDataService;
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
@@ -25,6 +28,10 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+
+            var newLiveMonitor = liveDataService.GetAvailableLiveMonitors().First();
+
+            liveDataService.RegisterLiveMonitor(newLiveMonitor);
 
         }
 
