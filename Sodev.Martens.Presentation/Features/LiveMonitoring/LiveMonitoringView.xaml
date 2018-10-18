@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.LiveMonitoring"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid VerticalAlignment="Stretch">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />

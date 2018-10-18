@@ -35,7 +35,7 @@ namespace Sodev.Marten.Presentation.Features.Connection
 
 
         //TODO get rid of these magic numbers
-        public IList<int> AvailableBaudRates => new List<int> { 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 };
+        public IList<int> AvailableBaudRates { get; } = new List<int> {1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200};
 
         public int SelectedBaudRate { get; set; } = 9600;
 

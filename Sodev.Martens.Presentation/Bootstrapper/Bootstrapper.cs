@@ -5,6 +5,8 @@ using Sodev.Marten.Base.Connection;
 using Sodev.Marten.Base.Events;
 using Sodev.Marten.Base.Services;
 using Sodev.Marten.Presentation.Features.Connection;
+using Sodev.Marten.Presentation.Features.LiveMonitoring;
+using Sodev.Marten.Presentation.Features.Preferences;
 using Sodev.Marten.Presentation.Features.Shell;
 using Sodev.Marten.Presentation.Interfaces;
 using Sodev.Marten.Presentation.Services;
@@ -23,6 +25,9 @@ namespace Sodev.Marten.Presentation.Bootstrapper
         {
             container = new SimpleContainer();
             container.PerRequest<ConnectionViewModel>();
+            container.Singleton<LiveMonitoringViewModel>();
+            container.PerRequest<PreferencesViewModel>();
+
 
             container.Singleton<IWindowManager, WindowManager>();
             container.RegisterInstance(typeof(IServiceLocator), string.Empty, this);

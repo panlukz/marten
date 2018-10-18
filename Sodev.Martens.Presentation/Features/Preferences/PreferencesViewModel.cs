@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Presentation.Features.Preferences
 {
-    class PreferencesViewModel : Screen
+    public class PreferencesViewModel : Screen
     {
+        public PreferencesViewModel()
+        {
+            
+        }
     }
 }

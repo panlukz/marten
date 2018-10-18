@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
-    class LiveMonitoringViewModel : Screen
+    public class LiveMonitoringViewModel : Screen
     {
         private readonly IEventAggregator eventAggregator;
         private int numberOfRows = 1;
@@ -20,6 +20,12 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
             LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+
         }
 
         public IList<LiveMonitorItemViewModel> LiveMonitorItems { get; private set; } = new List<LiveMonitorItemViewModel>();

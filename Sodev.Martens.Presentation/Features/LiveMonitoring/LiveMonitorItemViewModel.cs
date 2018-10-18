@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
-    public class LiveMonitorItemViewModel : Screen
+    public class LiveMonitorItemViewModel
     {
         public LiveMonitorItemViewModel()
         {

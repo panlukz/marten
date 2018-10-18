@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Sodev.Marten.Presentation.Events;
 using Sodev.Marten.Presentation.Features.Connection;
 using Sodev.Marten.Presentation.Features.LiveMonitoring;
+using Sodev.Marten.Presentation.Features.Preferences;
 
 namespace Sodev.Marten.Presentation.Features.Menu
 {
@@ -31,9 +32,11 @@ namespace Sodev.Marten.Presentation.Features.Menu
 
         public void OpenCodes()
         {
-
         }
 
-        public void OpenPreferences() { }
+        public void OpenPreferences()
+        {
+            eventAggregator.PublishOnUIThread(new NavigationEvent(typeof(PreferencesViewModel)));
+        }
     }
 }

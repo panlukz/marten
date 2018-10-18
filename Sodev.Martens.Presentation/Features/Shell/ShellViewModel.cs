@@ -8,6 +8,7 @@ using Sodev.Marten.Presentation.Events;
 using Sodev.Marten.Presentation.Features.Connection;
 using Sodev.Marten.Presentation.Features.Dummy;
 using Sodev.Marten.Presentation.Features.LiveMonitoring;
+using Sodev.Marten.Presentation.Features.Preferences;
 using Sodev.Marten.Presentation.Interfaces;
 
 namespace Sodev.Marten.Presentation.Features.Shell
@@ -19,10 +20,12 @@ namespace Sodev.Marten.Presentation.Features.Shell
 
         public ShellViewModel(IEventAggregator eventAggregator, IServiceLocator serviceLocator)
         {
-            ActivateItem(IoC.Get<LiveMonitoringViewModel>()); //TODO temporary. remove it.
             this.eventAggregator = eventAggregator;
             this.serviceLocator = serviceLocator;
             eventAggregator.Subscribe(this);
+
+            ActivateItem(IoC.Get<PreferencesViewModel>()); //TODO temporary. remove it.
+
         }
 
         public void Handle(NavigationEvent navigationEvent)
