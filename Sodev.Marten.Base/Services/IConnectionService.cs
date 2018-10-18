@@ -19,6 +19,9 @@ namespace Sodev.Marten.Base.Services
 
         IList<string> GetAvailablePorts();
 
+        void SendQuery(Query query);
+
+        event Connection.Connection.AnswerReceivedHandler AnswerReceivedEvent;
     }
 
     public interface IConnectionInfo

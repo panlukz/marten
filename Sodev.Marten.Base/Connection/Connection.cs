@@ -61,8 +61,10 @@ namespace Sodev.Marten.Base.Connection
 
         public void SendQuery(Query query)
         {
-            port.Write(query.QueryText);
-            port.DiscardOutBuffer();
+            if(state != ConnectionState.Opened) return;
+
+            port.Write($"{query.QueryText}\r");
+            port.DiscardOutBuffer(); //TODO find out if it's necessary here??
         }
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
