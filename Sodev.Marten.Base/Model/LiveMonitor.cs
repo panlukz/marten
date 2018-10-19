@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +24,13 @@ namespace Sodev.Marten.Base.Model
 
         public string Unit => internalPid.Unit;
 
-        public IList<double> Data { get; } = new List<double>();
+        public ObservableCollection<double> Data { get; } = new ObservableCollection<double>();
 
-        internal void UpdateData(double newData) => Data.Add(newData);
+        internal void UpdateData(byte[] newData)
+        {
+            var translatedData = internalPid.GetValue(newData);
+            Data.Add(translatedData);
+            Debug.WriteLine(translatedData);
+        }
     }
 }

@@ -17,7 +17,11 @@
             <ComboBox Width="300" />
             <Button Content="Remove" />
         </StackPanel>
-        
-        <lvc:CartesianChart Grid.Row="2" DisableAnimations="True" Series="{Binding Series}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+        <lvc:CartesianChart Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <lvc:CartesianChart.Series>
+                <lvc:LineSeries Values="{Binding ChartValues}" Fill="Transparent" />
+            </lvc:CartesianChart.Series>
+        </lvc:CartesianChart>
     </Grid>
 </UserControl>

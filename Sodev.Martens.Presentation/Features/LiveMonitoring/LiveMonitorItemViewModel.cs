@@ -2,27 +2,35 @@
 using LiveCharts;
 using LiveCharts.Wpf;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Sodev.Marten.Base.Model;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
-    public class LiveMonitorItemViewModel
+    public class LiveMonitorItemViewModel : Screen
     {
-        public LiveMonitorItemViewModel()
+        private readonly LiveMonitor internalLiveMonitor;
+
+        public LiveMonitorItemViewModel(LiveMonitor liveMonitor)
         {
-            Series = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Values = new ChartValues<double> { 3, 5, 7, 4 }
-                }
-            };
+            internalLiveMonitor = liveMonitor;
+
+            ChartValues = new ChartValues<double>();
+
+            liveMonitor.Data.CollectionChanged += Data_CollectionChanged;
         }
 
-        public SeriesCollection Series { get; private set; }
+        private void Data_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            ChartValues.AddRange(e.NewItems.Cast<object>());
+        }
+
+        public ChartValues<double> ChartValues { get; private set; }
 
     }
 }

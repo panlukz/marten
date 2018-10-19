@@ -20,18 +20,14 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         {
             this.eventAggregator = eventAggregator;
             this.liveDataService = liveDataService;
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel()); //TODO temporary.
+            
+ 
 
             var newLiveMonitor = liveDataService.GetAvailableLiveMonitors().First();
 
             liveDataService.RegisterLiveMonitor(newLiveMonitor);
+
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(newLiveMonitor)); //TODO temporary.
 
         }
 

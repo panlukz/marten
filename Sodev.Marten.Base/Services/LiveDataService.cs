@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,8 +79,13 @@ namespace Sodev.Marten.Base.Services
             //TODO DO STUFF HERE!!!
             if (!answer.AnswerText.StartsWith("41")) return; //in case if it's not a response for a PID request
 
+            var byteArray = answer.AnswerText.Substring(0, 11).Split(' ').Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
 
-            var byteArray = answer.AnswerText.Split(' ').Skip(2).Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
+            UpdateLiveMonitorData(byteArray[1], byteArray.Skip(2).Select(x => x).ToArray());
+
+
+            //var byteArray = answer.AnswerText.Split(' ').Skip(2).Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
+
 
             //var decipheredValue = Math.Round(pid.GetValue(byteArray));
 
@@ -91,12 +97,12 @@ namespace Sodev.Marten.Base.Services
         private void StartQuering()
         {
             continueQuerying = true;
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(async () =>
             {
                 while (continueQuerying)
                 {
                     QueryForLiveData();
-                    Task.Delay(100);
+                    await Task.Delay(200);
                 }
             });
         }
@@ -111,12 +117,13 @@ namespace Sodev.Marten.Base.Services
             var query = new Query();
             foreach (var liveMonitor in liveMonitors)
             {
-                query.QueryText = liveMonitor.Id.ToString();
+                query.QueryText = $"01{liveMonitor.Id:X2}"; //TODO fixed 01 !:(
                 connectionService.SendQuery(query);
+                Debug.WriteLine("Query sent...");
             }
         }
 
-        private void UpdateLiveMonitorData(int pidId, double data)
+        private void UpdateLiveMonitorData(int pidId, byte[] data)
         {
             var liveMonitor = liveMonitors.FirstOrDefault(m => m.Id == pidId);
             liveMonitor?.UpdateData(data);

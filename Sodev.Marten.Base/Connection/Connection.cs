@@ -28,7 +28,9 @@ namespace Sodev.Marten.Base.Connection
             
             port.Open();
             SetState(ConnectionState.Opened);
-            
+
+            SendQuery(new Query { QueryText = "ATE0\r" });
+
             port.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
         }
 
@@ -77,7 +79,7 @@ namespace Sodev.Marten.Base.Connection
             answer = answer.Replace(">", "");
 
             if (!string.IsNullOrWhiteSpace(answer))
-                AnswerReceivedEvent(this, new Answer() { AnswerText = answer });
+                AnswerReceivedEvent?.Invoke(this, new Answer() { AnswerText = answer });
         }
 
         public delegate void AnswerReceivedHandler(object sender, Answer answer);
