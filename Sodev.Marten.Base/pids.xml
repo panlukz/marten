@@ -1,0 +1,48 @@
+﻿<?xml version="1.0"?>
+<ArrayOfPidParameters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PidParameters>
+    <Id>5</Id>
+    <Description>Engine coolant temperature</Description>
+    <ReturnedBytesNb>1</ReturnedBytesNb>
+    <MinValue>-40</MinValue>
+    <MaxValue>215</MaxValue>
+    <Unit>°C</Unit>
+    <Formula>A-40</Formula>
+  </PidParameters>
+  <PidParameters>
+    <Id>10</Id>
+    <Description>Fuel pressure</Description>
+    <ReturnedBytesNb>1</ReturnedBytesNb>
+    <MinValue>0</MinValue>
+    <MaxValue>765</MaxValue>
+    <Unit>kPa</Unit>
+    <Formula>3*A</Formula>
+  </PidParameters>
+  <PidParameters>
+    <Id>12</Id>
+    <Description>Engine RPM</Description>
+    <ReturnedBytesNb>2</ReturnedBytesNb>
+    <MinValue>0</MinValue>
+    <MaxValue>16384</MaxValue>
+    <Unit>rpm</Unit>
+    <Formula>(256*A+B)/4</Formula>
+  </PidParameters>
+  <PidParameters>
+    <Id>13</Id>
+    <Description>Vehicle speed</Description>
+    <ReturnedBytesNb>1</ReturnedBytesNb>
+    <MinValue>0</MinValue>
+    <MaxValue>255</MaxValue>
+    <Unit>km/h</Unit>
+    <Formula>A</Formula>
+  </PidParameters>
+  <PidParameters>
+    <Id>17</Id>
+    <Description>Throttle position</Description>
+    <ReturnedBytesNb>1</ReturnedBytesNb>
+    <MinValue>0</MinValue>
+    <MaxValue>100</MaxValue>
+    <Unit>%</Unit>
+    <Formula>100*A/255</Formula>
+  </PidParameters>
+</ArrayOfPidParameters>

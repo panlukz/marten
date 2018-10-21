@@ -20,18 +20,28 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         {
             this.eventAggregator = eventAggregator;
             this.liveDataService = liveDataService;
-            
- 
+  
+            var speedMonitor = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 13);
+            var rpmMonitor = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 12);
+            var coolantTemp = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 5);
+            var throttlePosition = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 17);
 
-            var newLiveMonitor = liveDataService.GetAvailableLiveMonitors().First();
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(speedMonitor)); //TODO temporary.
+            liveDataService.RegisterLiveMonitor(speedMonitor);
 
-            liveDataService.RegisterLiveMonitor(newLiveMonitor);
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(rpmMonitor)); //TODO temporary.
+            liveDataService.RegisterLiveMonitor(rpmMonitor);
 
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(newLiveMonitor)); //TODO temporary.
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(coolantTemp)); //TODO temporary.
+            liveDataService.RegisterLiveMonitor(coolantTemp);
+
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(throttlePosition)); //TODO temporary.
+            liveDataService.RegisterLiveMonitor(throttlePosition);
+
 
         }
 
-        public IList<LiveMonitorItemViewModel> LiveMonitorItems { get; private set; } = new List<LiveMonitorItemViewModel>();
+        public IList<LiveMonitorItemViewModel> LiveMonitorItems { get; private set; } = new List<LiveMonitorItemViewModel>(8);
 
         public int NumberOfRows
         {

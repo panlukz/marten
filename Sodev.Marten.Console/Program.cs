@@ -37,8 +37,8 @@ namespace Sodev.Marten.Console
             connection.AnswerReceivedEvent += new Connection.AnswerReceivedHandler(AnswerReceived);
 
             pid = Pid.Create(pidParams);
-            connection.SendQuery(new Query { QueryText = "ATE0\r" });
-            var query = new Query {QueryText = "010C\r" };
+            connection.SendQuery(new ObdQuery { QueryText = "ATE0\r" });
+            var query = new ObdQuery {QueryText = "010C\r" };
 
             while(true)
             {
@@ -50,16 +50,15 @@ namespace Sodev.Marten.Console
 
         private static Pid pid;
 
-        private static void AnswerReceived(object sender, Answer answer)
+        private static void AnswerReceived(object sender, ObdAnswer answer)
         {
-            if (!answer.AnswerText.StartsWith("41")) return; //in case if it's not a response for a PID request
-
-
-            var byteArray = answer.AnswerText.Split(' ').Skip(2).Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
-
-            var decipheredValue = Math.Round(pid.GetValue(byteArray));
-
-            System.Console.WriteLine($"RPM: {decipheredValue}");
+            //TODO refactor needed to make it works again!
+            //if (!answer.AnswerText.StartsWith("41")) return; //in case if it's not a response for a PID request
+            //
+            //
+            //var byteArray = answer.AnswerText.Split(' ').Skip(2).Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
+            //var decipheredValue = Math.Round(pid.GetValue(byteArray));
+            //System.Console.WriteLine($"RPM: {decipheredValue}");
             
         }
     }

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
+using LiveCharts.Configurations;
 using Sodev.Marten.Base.Connection;
 using Sodev.Marten.Base.Events;
 using Sodev.Marten.Base.Services;
+using Sodev.Marten.Base;
+using Sodev.Marten.Base.Model;
 using Sodev.Marten.Presentation.Features.Connection;
 using Sodev.Marten.Presentation.Features.LiveMonitoring;
 using Sodev.Marten.Presentation.Features.Preferences;
@@ -27,6 +30,7 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.PerRequest<ConnectionViewModel>();
             container.Singleton<LiveMonitoringViewModel>();
             container.PerRequest<PreferencesViewModel>();
+            container.PerRequest<ShellViewModel>();
 
 
             container.Singleton<IWindowManager, WindowManager>();
@@ -36,10 +40,14 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.Singleton<INavigationFlowService, NavigationFlowService>();
             container.Singleton<IConnectionService, Connection>();
             container.Singleton<ILiveDataService, LiveDataService>();
+            container.Singleton<IPidRepository, PidRepository>();
 
-            container.PerRequest<ShellViewModel>();
 
             ConfigureDomainEventAggregator();
+
+            LiveCharts.Charting.For<LiveDataModel>(Mappers.Xy<LiveDataModel>()
+                .X(x => x.TimeSpan.Ticks)
+                .Y(y => y.Value));
         }
 
         private void ConfigureDomainEventAggregator()

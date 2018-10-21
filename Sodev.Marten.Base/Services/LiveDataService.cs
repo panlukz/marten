@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sodev.Marten.Base.Connection;
+using Sodev.Marten.Base.Events;
 using Sodev.Marten.Base.Model;
 
 namespace Sodev.Marten.Base.Services
@@ -12,52 +14,52 @@ namespace Sodev.Marten.Base.Services
     public class LiveDataService : ILiveDataService
     {
         private readonly IConnectionService connectionService;
+        private readonly IPidRepository pidRepository;
+        private readonly IDomainEventAggregator domainEventAggregator;
 
-        private readonly IList<LiveMonitor> liveMonitors = new List<LiveMonitor>();
+        private readonly List<LiveMonitor> registeredLiveMonitors = new List<LiveMonitor>();
+        private readonly List<LiveMonitor> availableLiveMonitors = new List<LiveMonitor>();
+        private DateTime? queryingStartTimeStamp;
 
-        public LiveDataService(IConnectionService connectionService)
+
+        public LiveDataService(IConnectionService connectionService, IPidRepository pidRepository, IDomainEventAggregator domainEventAggregator)
         {
             this.connectionService = connectionService;
+            this.pidRepository = pidRepository;
+            this.domainEventAggregator = domainEventAggregator;
+
+            RefreshLiveMonitorsList();
         }
 
-        public IEnumerable<LiveMonitor> GetAvailableLiveMonitors()
+        private void RefreshLiveMonitorsList()
         {
-            //TODO implement it properly!!
-            var pidParams = new PidParameters()
-            {
-                ReturnedBytesNb = 2,
-                Id = 0x0C,
-                Formula = "((A * 256) + B) / 4",
-                Unit = "rpm",
-                Description = "RPM"
-            };
-            var pid = Pid.Create(pidParams);
-
-            return new List<LiveMonitor>
-            {
-                new LiveMonitor(pid)
-            };
+            if(registeredLiveMonitors.Count > 0) availableLiveMonitors.Clear();
+            var pidsParamsList = pidRepository.GetAllPidsParameters();
+            var newLiveMonitors = pidsParamsList.Select(x => new LiveMonitor(Pid.Create(x)));
+            availableLiveMonitors.AddRange(newLiveMonitors);
         }
+
+        public IEnumerable<LiveMonitor> GetAvailableLiveMonitors() => availableLiveMonitors;
 
         public void RegisterLiveMonitor(LiveMonitor liveMonitor)
         {
-            liveMonitors.Add(liveMonitor);
+            registeredLiveMonitors.Add(liveMonitor);
 
-            if (liveMonitors.Count == 1)
+            if (registeredLiveMonitors.Count == 1)
             {
                 SubscribeLiveDataUpdatedEvent();
-                StartQuering();
+                StartQuerying();
             }
                 
         }
 
         public void UnregisterLiveMonitor(LiveMonitor liveMonitor)
         {
-            liveMonitors.Remove(liveMonitor);
+            registeredLiveMonitors.Remove(liveMonitor);
 
-            if (liveMonitors.Count == 0)
+            if (registeredLiveMonitors.Count == 0)
             {
-                StopQuering();
+                StopQuerying();
                 UnsubscribeLiveDataUpdatedEvent();
             }
                 
@@ -74,48 +76,41 @@ namespace Sodev.Marten.Base.Services
             connectionService.AnswerReceivedEvent -= OnLiveDataUpdated;
         }
 
-        private void OnLiveDataUpdated(object sender, Answer answer)
+        private void OnLiveDataUpdated(object sender, ObdAnswer answer)
         {
-            //TODO DO STUFF HERE!!!
-            if (!answer.AnswerText.StartsWith("41")) return; //in case if it's not a response for a PID request
+            //TODO DO STUFF HERE!!! this method should be responsible for redistributing answers among appropriate handlers!
 
-            var byteArray = answer.AnswerText.Substring(0, 11).Split(' ').Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
+            //var byteArray = answer.AnswerText.Split(' ').Select(x => Convert.ToByte(x, 16)).ToArray<byte>();
 
-            UpdateLiveMonitorData(byteArray[1], byteArray.Skip(2).Select(x => x).ToArray());
-
-
-            //var byteArray = answer.AnswerText.Split(' ').Skip(2).Select(x => Convert.ToByte($"0x{x}", 16)).ToArray<byte>();
-
-
-            //var decipheredValue = Math.Round(pid.GetValue(byteArray));
-
-            //System.Console.WriteLine($"RPM: {decipheredValue}");
+            UpdateLiveMonitorData(answer.PidId, answer.Data, answer.TimeStamp);
         }
 
         private bool continueQuerying = false;
-
-        private void StartQuering()
+        private void StartQuerying()
         {
             continueQuerying = true;
+            queryingStartTimeStamp = DateTime.Now;
+            domainEventAggregator.PublishDomainEvent(new StartQueryingEvent(queryingStartTimeStamp.Value));
             Task.Factory.StartNew(async () =>
             {
                 while (continueQuerying)
                 {
                     QueryForLiveData();
-                    await Task.Delay(200);
+                    await Task.Delay(500);
                 }
             });
         }
 
-        private void StopQuering()
+        private void StopQuerying()
         {
             continueQuerying = false;
+            queryingStartTimeStamp = null;
         }
 
         private void QueryForLiveData()
         {
-            var query = new Query();
-            foreach (var liveMonitor in liveMonitors)
+            var query = new ObdQuery();
+            foreach (var liveMonitor in registeredLiveMonitors)
             {
                 query.QueryText = $"01{liveMonitor.Id:X2}"; //TODO fixed 01 !:(
                 connectionService.SendQuery(query);
@@ -123,10 +118,11 @@ namespace Sodev.Marten.Base.Services
             }
         }
 
-        private void UpdateLiveMonitorData(int pidId, byte[] data)
+        private void UpdateLiveMonitorData(int pidId, byte[] data, DateTime timeStamp)
         {
-            var liveMonitor = liveMonitors.FirstOrDefault(m => m.Id == pidId);
-            liveMonitor?.UpdateData(data);
+            var liveMonitor = registeredLiveMonitors.FirstOrDefault(m => m.Id == pidId);
+            var timeSpan = (timeStamp - queryingStartTimeStamp);
+            liveMonitor?.UpdateData(data, timeSpan.Value);
         }
     }
 

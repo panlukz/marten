@@ -24,13 +24,26 @@ namespace Sodev.Marten.Base.Model
 
         public string Unit => internalPid.Unit;
 
-        public ObservableCollection<double> Data { get; } = new ObservableCollection<double>();
+        public ObservableCollection<LiveDataModel> Data { get; } = new ObservableCollection<LiveDataModel>();
 
-        internal void UpdateData(byte[] newData)
+        internal void UpdateData(byte[] newData, TimeSpan timeSpan)
         {
             var translatedData = internalPid.GetValue(newData);
-            Data.Add(translatedData);
+            var model = new LiveDataModel(translatedData, timeSpan);
+            Data.Add(model);
             Debug.WriteLine(translatedData);
         }
+    }
+
+    public class LiveDataModel
+    {
+        public LiveDataModel(double value, TimeSpan timeSpan)
+        {
+            Value = value;
+            TimeSpan = timeSpan;
+        }
+
+        public double Value { get; private set; }
+        public TimeSpan TimeSpan { get; private set; }
     }
 }

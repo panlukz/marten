@@ -164,6 +164,10 @@
       <Project>{059027B2-978F-4C0E-B77E-1DE748F7CAD5}</Project>
       <Name>Sodev.Marten.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sodev.Marten.Persistance\Sodev.Marten.Persistence.csproj">
+      <Project>{0E876480-169A-443A-8E39-D6407BDFC8D9}</Project>
+      <Name>Sodev.Marten.Persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Features\Connection\ConnectionView.xaml">

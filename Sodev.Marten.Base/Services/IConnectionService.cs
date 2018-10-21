@@ -19,7 +19,7 @@ namespace Sodev.Marten.Base.Services
 
         IList<string> GetAvailablePorts();
 
-        void SendQuery(Query query);
+        void SendQuery(ObdQuery query);
 
         event Connection.Connection.AnswerReceivedHandler AnswerReceivedEvent;
     }

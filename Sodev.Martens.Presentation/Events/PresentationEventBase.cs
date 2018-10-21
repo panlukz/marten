@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Presentation.Events
 {
-    internal abstract class PresentationEventBase
+    public abstract class PresentationEventBase
     {
     }
 }

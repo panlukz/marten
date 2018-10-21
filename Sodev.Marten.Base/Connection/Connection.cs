@@ -2,6 +2,7 @@
 using Sodev.Marten.Base.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -29,9 +30,9 @@ namespace Sodev.Marten.Base.Connection
             port.Open();
             SetState(ConnectionState.Opened);
 
-            SendQuery(new Query { QueryText = "ATE0\r" });
+            SendQuery(new ObdQuery { QueryText = "ATE0\r" });
 
-            port.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
+            port.DataReceived += DataReceived;
         }
 
         public void Close()
@@ -61,28 +62,46 @@ namespace Sodev.Marten.Base.Connection
             SetState(ConnectionState.Ready);
         }
 
-        public void SendQuery(Query query)
+        public void SendQuery(ObdQuery query)
         {
-            if(state != ConnectionState.Opened) return;
+            if(state != ConnectionState.Opened) throw new InvalidOperationException("Connection is not opened");
 
             port.Write($"{query.QueryText}\r");
-            port.DiscardOutBuffer(); //TODO find out if it's necessary here??
+            //port.DiscardOutBuffer(); //TODO find out if it's necessary here??
         }
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
-        { 
+        {
             var answer = port.ReadExisting();
             //TODO lol this is definetly not very efficient... use regex or something
             answer = answer.Replace("\n", "");
             answer = answer.Replace("\r", "");
-            //answer = answer.Replace(" ", "");
-            answer = answer.Replace(">", "");
+            //answer = answer.Replace(">", "");
 
-            if (!string.IsNullOrWhiteSpace(answer))
-                AnswerReceivedEvent?.Invoke(this, new Answer() { AnswerText = answer });
+            //If answer contains < sign, it means there is actually more than one answer
+            //meaning each answer has to be handled separately
+            var answersArray = answer.Split('>');
+
+            Debug.WriteLine($"DataReceived payload: {answer}");
+
+            foreach (var ans in answersArray)
+            {
+                if (!ans.StartsWith("41")
+                    && !string.IsNullOrEmpty(ans)
+                    && !ans.Equals("OK")
+                    && !ans.Equals(">")) throw new NotImplementedException(); //in case if it's not a response for a PID request
+
+                PublishObdAnswer(ans);
+            }
         }
 
-        public delegate void AnswerReceivedHandler(object sender, Answer answer);
+        private void PublishObdAnswer(string answer)
+        {
+            if (!string.IsNullOrWhiteSpace(answer) && !answer.Equals("OK"))
+                AnswerReceivedEvent?.Invoke(this, new ObdAnswer(answer));
+        }
+
+        public delegate void AnswerReceivedHandler(object sender, ObdAnswer answer);
 
         public event AnswerReceivedHandler AnswerReceivedEvent;
 
