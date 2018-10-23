@@ -1,19 +1,12 @@
 ﻿using Caliburn.Micro;
 using LiveCharts;
-using LiveCharts.Wpf;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Sodev.Marten.Base.Events;
 using Sodev.Marten.Base.Model;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
-    public class LiveMonitorItemViewModel : PropertyChangedBase, IHandle<StartQueryingEvent>
+    public class LiveMonitorItemViewModel : PropertyChangedBase
     {
         private readonly LiveMonitor liveMonitor;
         private readonly IEventAggregator eventAggregator = IoC.Get<IEventAggregator>(); //TODO :-(
@@ -30,6 +23,8 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         {
             ChartValues.AddRange(e.NewItems.Cast<object>());
 
+            if (ChartValues.Count > 20) ChartValues.RemoveAt(0);
+
             NotifyOfPropertyChange(() => MinXValue);
             NotifyOfPropertyChange(() => MaxXValue);
         }
@@ -44,51 +39,37 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 
         public int MaxValue => liveMonitor.MaxValue;
 
-        public DateTime MeasuringStartTime { get; private set; }
-
-        public double MaxXValue
+        public long MaxXValue
         {
             get
             {
                 if (liveMonitor.Data.Count > 0)
                 {
-                    return liveMonitor.Data.Last().TimeSpan.Ticks - MeasuringStartTime.Ticks + TimeSpan.FromSeconds(1).Ticks;
+                    return liveMonitor.Data.Last().TimeSpan.Ticks + TimeSpan.FromSeconds(0.25d).Ticks;
                 }
                 else
-                    return (TimeSpan.FromSeconds(20)).Ticks;
+                    return 0;
             }
         }
 
-        public double MinXValue
+        public long MinXValue
         {
             get
             {
                 if (liveMonitor.Data.Count > 0)
                 {
-                    return liveMonitor.Data.Last().TimeSpan.Ticks;
+                    return liveMonitor.Data.Last().TimeSpan.Ticks - (TimeSpan.FromSeconds(10)).Ticks;
                 }
                 else
-                    return MeasuringStartTime.Ticks;
+                    return -1 * TimeSpan.FromSeconds(10).Ticks;
             }
         }
 
-        public Func<double, string> DateTimeFormatter => value => (new DateTime((long)value) - MeasuringStartTime).ToString();
+        public Func<double, string> DateTimeFormatter => value => value < 0 ? string.Empty : TimeSpan.FromTicks((long)value).ToString("c");
 
         public double AxisStep { get; } = TimeSpan.FromSeconds(1).Ticks;
 
         public double AxisUnit => TimeSpan.TicksPerSecond;
 
-
-        public void Handle(StartQueryingEvent message)
-        {
-            MeasuringStartTime = message.TimeStamp;
-            NotifyOfPropertyChange(() => MeasuringStartTime);
-            NotifyOfPropertyChange(() => MaxXValue);
-            NotifyOfPropertyChange(() => MinXValue);
-            NotifyOfPropertyChange(() => DateTimeFormatter);
-
-
-
-        }
     }
 }
