@@ -1,20 +1,27 @@
 ﻿using Caliburn.Micro;
 using LiveCharts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sodev.Marten.Base.Model;
+using Sodev.Marten.Base.Services;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
     public class LiveMonitorItemViewModel : PropertyChangedBase
     {
-        private readonly LiveMonitor liveMonitor;
+        private LiveMonitor liveMonitor;
+        private readonly ILiveDataService liveDataService;
         private readonly IEventAggregator eventAggregator = IoC.Get<IEventAggregator>(); //TODO :-(
 
-        public LiveMonitorItemViewModel(LiveMonitor liveMonitor)
+        public LiveMonitorItemViewModel(LiveMonitor liveMonitor, ILiveDataService liveDataService)
         {
             eventAggregator.Subscribe(this);
             this.liveMonitor = liveMonitor;
+            this.liveDataService = liveDataService;
+
+
+            liveDataService.RegisterLiveMonitor(liveMonitor);
             ChartValues = new ChartValues<LiveDataModel>();
             liveMonitor.Data.CollectionChanged += Data_CollectionChanged;
         }
@@ -23,6 +30,8 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         {
             ChartValues.AddRange(e.NewItems.Cast<object>());
 
+            //TODO Probably it can't be just a fixed value (20). It has to be connected with the sample rate
+            //Saying differently, how many reads we get in a know period of time
             if (ChartValues.Count > 20) ChartValues.RemoveAt(0);
 
             NotifyOfPropertyChange(() => MinXValue);
@@ -31,7 +40,7 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 
         public ChartValues<LiveDataModel> ChartValues { get; private set; }
 
-        public string Description => liveMonitor.Name;
+        //public string Description => liveMonitor.Name; TODO probably not needed
 
         public string Unit => liveMonitor.Unit;
 
@@ -70,6 +79,28 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         public double AxisStep { get; } = TimeSpan.FromSeconds(1).Ticks;
 
         public double AxisUnit => TimeSpan.TicksPerSecond;
+
+        public List<LiveMonitor> LiveMonitors => liveDataService.GetAvailableLiveMonitors().ToList();
+
+        public LiveMonitor SelectedLiveMonitor
+        {
+            get => liveMonitor;
+            set
+            {
+                if(value == liveMonitor) return;
+
+                liveMonitor.Data.CollectionChanged -= Data_CollectionChanged;
+                ChartValues.Clear();
+                liveDataService.UnregisterLiveMonitor(liveMonitor);
+                liveMonitor = value;
+                liveDataService.RegisterLiveMonitor(liveMonitor);
+                liveMonitor.Data.CollectionChanged += Data_CollectionChanged;
+
+                NotifyOfPropertyChange(() => Unit);
+                NotifyOfPropertyChange(() => MinValue);
+                NotifyOfPropertyChange(() => MaxValue);
+            }
+        }
 
     }
 }

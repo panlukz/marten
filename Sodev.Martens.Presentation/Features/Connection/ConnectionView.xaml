@@ -5,28 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.Connection"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:converters="clr-namespace:Sodev.Marten.Presentation.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:InverseBoolean x:Key="InverseBooleanConverter" />
+    </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Port:" />
-        <ComboBox Grid.Column="1" Grid.Row="0"
-                  ItemsSource="{Binding AvailablePorts}" SelectedItem="{Binding SelectedPort}" />
+        <Grid Margin="400, 100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="Baud rate:" />
-        <ComboBox Grid.Column="1" Grid.Row="1"
-                  ItemsSource="{Binding AvailableBaudRates}" SelectedItem="{Binding SelectedBaudRate}" />
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Port:" />
+            <ComboBox Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}"
+                      ItemsSource="{Binding AvailablePorts}" SelectedItem="{Binding SelectedPort}" />
 
-        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
-                Content="Connect" cal:Message.Attach="Connect" />
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Baud rate:" />
+            <ComboBox Grid.Column="1" Grid.Row="1" IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}"
+                      ItemsSource="{Binding AvailableBaudRates}" SelectedItem="{Binding SelectedBaudRate}" />
+
+            <Button Grid.Column="0" Grid.Row="2"
+                    Content="Connect" cal:Message.Attach="Connect" />
+            <Button Grid.Column="1" Grid.Row="2"
+                    Content="Disconnect" cal:Message.Attach="Disconnect" />
+        </Grid>
     </Grid>
+    
 </UserControl>

@@ -27,7 +27,7 @@ namespace Sodev.Marten.Presentation.Bootstrapper
         protected override void Configure()
         {
             container = new SimpleContainer();
-            container.PerRequest<ConnectionViewModel>();
+            container.Singleton<ConnectionViewModel>();
             container.Singleton<LiveMonitoringViewModel>();
             container.PerRequest<PreferencesViewModel>();
             container.PerRequest<ShellViewModel>();

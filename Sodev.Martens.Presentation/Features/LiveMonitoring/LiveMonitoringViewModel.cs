@@ -26,17 +26,13 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
             var coolantTemp = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 5);
             var throttlePosition = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 17);
 
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(speedMonitor)); //TODO temporary.
-            liveDataService.RegisterLiveMonitor(speedMonitor);
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(speedMonitor, liveDataService)); //TODO temporary.
 
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(rpmMonitor)); //TODO temporary.
-            liveDataService.RegisterLiveMonitor(rpmMonitor);
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(rpmMonitor, liveDataService)); //TODO temporary.
 
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(coolantTemp)); //TODO temporary.
-            liveDataService.RegisterLiveMonitor(coolantTemp);
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(coolantTemp, liveDataService)); //TODO temporary.
 
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(throttlePosition)); //TODO temporary.
-            liveDataService.RegisterLiveMonitor(throttlePosition);
+            LiveMonitorItems.Add(new LiveMonitorItemViewModel(throttlePosition, liveDataService)); //TODO temporary.
 
 
         }

@@ -23,7 +23,7 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding LiveMonitorItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:LiveMonitorItem VerticalAlignment="Stretch" />
+                    <local:LiveMonitorItem />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>

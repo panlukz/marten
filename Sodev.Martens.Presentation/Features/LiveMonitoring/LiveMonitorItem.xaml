@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.LiveMonitoring"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:model="clr-namespace:Sodev.Marten.Base.Model;assembly=Sodev.Marten.Base"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="30, 20, 30, 0">
@@ -15,7 +16,13 @@
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <ComboBox Width="300" />
+            <ComboBox ItemsSource="{Binding LiveMonitors}" SelectedItem="{Binding SelectedLiveMonitor}"  Width="300">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="model:LiveMonitor">
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Button Content="Remove" />
         </StackPanel>
 

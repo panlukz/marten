@@ -2,11 +2,7 @@
 using Sodev.Marten.Base.Connection;
 using Sodev.Marten.Base.Events;
 using Sodev.Marten.Base.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sodev.Marten.Presentation.Features.Connection
 {
@@ -48,9 +44,22 @@ namespace Sodev.Marten.Presentation.Features.Connection
             };
             connectionService.SetParameters(connectionParameters);
             connectionService.Open();
+            NotifyOfPropertyChange(() => IsConnected); //TODO hey maybe refresh it based on event sent by connection service??
+            NotifyOfPropertyChange(() => CanDisconnect);
+        }
+
+        public void Disconnect()
+        {
+            connectionService.Close();
+            NotifyOfPropertyChange(() => IsConnected);
+            NotifyOfPropertyChange(() => CanDisconnect);
         }
 
         public bool CanConnect => connectionService.GetState() == ConnectionState.Closed && !string.IsNullOrEmpty(SelectedPort);
+
+        public bool CanDisconnect => connectionService.GetState() == ConnectionState.Opened;
+
+        public bool IsConnected => connectionService.GetState() == ConnectionState.Opened;
 
         public void Handle(ConnectionStateChanged message)
         {

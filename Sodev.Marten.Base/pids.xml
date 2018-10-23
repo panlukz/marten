@@ -37,6 +37,15 @@
     <Formula>A</Formula>
   </PidParameters>
   <PidParameters>
+    <Id>16</Id>
+    <Description>MAF air flow rate</Description>
+    <ReturnedBytesNb>2</ReturnedBytesNb>
+    <MinValue>0</MinValue>
+    <MaxValue>656</MaxValue>
+    <Unit>grams/sec</Unit>
+    <Formula>(256A+B)/100</Formula>
+  </PidParameters>
+  <PidParameters>
     <Id>17</Id>
     <Description>Throttle position</Description>
     <ReturnedBytesNb>1</ReturnedBytesNb>
@@ -44,5 +53,14 @@
     <MaxValue>100</MaxValue>
     <Unit>%</Unit>
     <Formula>100*A/255</Formula>
+  </PidParameters>
+  <PidParameters>
+    <Id>80</Id>
+    <Description>Maximum value for air flow rate from mass air flow sensor	</Description>
+    <ReturnedBytesNb>4</ReturnedBytesNb>
+    <MinValue>0</MinValue>
+    <MaxValue>2550</MaxValue>
+    <Unit>g/s</Unit>
+    <Formula>A*10</Formula>
   </PidParameters>
 </ArrayOfPidParameters>

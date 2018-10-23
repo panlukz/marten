@@ -27,7 +27,7 @@ namespace Sodev.Marten.Base.Connection
             if (GetState() != ConnectionState.Ready)
                 throw new InvalidOperationException($"Connection couldn't be opened w/o passed parameters. Connection state: {GetState()}");
             
-            port.Open();
+            port.Open(); //TODO handle exceptions here
             SetState(ConnectionState.Opened);
 
             SendQuery(new ObdQuery { QueryText = "ATE0\r" });
@@ -76,7 +76,6 @@ namespace Sodev.Marten.Base.Connection
             //TODO lol this is definetly not very efficient... use regex or something
             answer = answer.Replace("\n", "");
             answer = answer.Replace("\r", "");
-            //answer = answer.Replace(">", "");
 
             //If answer contains < sign, it means there is actually more than one answer
             //meaning each answer has to be handled separately
@@ -89,7 +88,9 @@ namespace Sodev.Marten.Base.Connection
                 if (!ans.StartsWith("41")
                     && !string.IsNullOrEmpty(ans)
                     && !ans.Equals("OK")
-                    && !ans.Equals(">")) throw new NotImplementedException(); //in case if it's not a response for a PID request
+                    && !ans.Equals(">")
+                    && !ans.Equals("NO DATA")
+                    && !ans.Equals("ATE0OK")) throw new NotImplementedException(); //in case if it's not a response for a PID request
 
                 PublishObdAnswer(ans);
             }
