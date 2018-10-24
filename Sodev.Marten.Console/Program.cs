@@ -37,8 +37,8 @@ namespace Sodev.Marten.Console
             connection.AnswerReceivedEvent += new Connection.AnswerReceivedHandler(AnswerReceived);
 
             pid = Pid.Create(pidParams);
-            connection.SendQuery(new ObdQuery { QueryText = "ATE0\r" });
-            var query = new ObdQuery {QueryText = "010C\r" };
+            connection.SendQuery(new ObdQuery { SerializedQuery = "ATE0\r" });
+            var query = new ObdQuery {SerializedQuery = "010C\r" };
 
             while(true)
             {

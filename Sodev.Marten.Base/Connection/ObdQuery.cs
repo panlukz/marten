@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,24 +7,22 @@ namespace Sodev.Marten.Base.Connection
 {
     public class ObdQuery
     {
-        public string QueryText { get; set; }
-    }
-
-    public class ObdAnswer
-    {
-        public ObdAnswer(string answerText)
+        [Obsolete("This method will be removed soon")]
+        public ObdQuery(string queryString)
         {
-            Mode =  Convert.ToInt32(answerText.Substring(1, 1));
-            PidId = Convert.ToInt32(answerText.Substring(3, 2), 16);
-            Data = answerText.Substring(6, answerText.Length - 6).Split(' ').Select(x => Convert.ToByte(x, 16)).ToArray();
+            SerializedQuery = queryString;
         }
 
-        public int Mode { get; private set; }
+        public ObdQuery(int serviceNb)
+        {
+            SerializedQuery = $"{serviceNb:D2}";
+        }
 
-        public int PidId { get; private set; }
+        public ObdQuery(int serviceNb, int pidId)
+        {
+            SerializedQuery = $"{serviceNb:D2}{pidId:X2}";
+        }
 
-        public byte[] Data { get; private set; }
-
-        public DateTime TimeStamp { get; private set; } = DateTime.Now;
+        public string SerializedQuery { get; }
     }
 }

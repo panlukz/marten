@@ -31,6 +31,17 @@ namespace Sodev.Marten.Base.Services
             RefreshLiveMonitorsList();
         }
 
+        private int[] EvaluateAvailablePidsForConnectedEcu()
+        {
+            //TODO temporary, it has to be requested in a task probably...
+            if (connectionService.GetState() != ConnectionState.Opened) return new int[0];
+            var allAvailablePidsQuery = new ObdQuery(01, 00);
+            connectionService.SendQuery(allAvailablePidsQuery);
+
+
+            return new int[0];
+        }
+
         private void RefreshLiveMonitorsList()
         {
             if(registeredLiveMonitors.Count > 0) availableLiveMonitors.Clear();
@@ -48,7 +59,7 @@ namespace Sodev.Marten.Base.Services
             if (registeredLiveMonitors.Count == 1)
             {
                 SubscribeLiveDataUpdatedEvent();
-                StartQuerying();
+                StartLiveDataQuerying();
             }
                 
         }
@@ -59,7 +70,7 @@ namespace Sodev.Marten.Base.Services
 
             if (registeredLiveMonitors.Count == 0)
             {
-                StopQuerying();
+                StopLiveDataQuerying();
                 UnsubscribeLiveDataUpdatedEvent();
             }
                 
@@ -67,7 +78,7 @@ namespace Sodev.Marten.Base.Services
 
         private void SubscribeLiveDataUpdatedEvent()
         {
-            connectionService.AnswerReceivedEvent -= OnLiveDataUpdated; //to ensure that it won't be hooked up twice
+            connectionService.AnswerReceivedEvent -= OnLiveDataUpdated; //to ensure it won't be hooked up twice
             connectionService.AnswerReceivedEvent += OnLiveDataUpdated;
         }
 
@@ -79,14 +90,11 @@ namespace Sodev.Marten.Base.Services
         private void OnLiveDataUpdated(object sender, ObdAnswer answer)
         {
             //TODO DO STUFF HERE!!! this method should be responsible for redistributing answers among appropriate handlers!
-
-            //var byteArray = answer.AnswerText.Split(' ').Select(x => Convert.ToByte(x, 16)).ToArray<byte>();
-
             UpdateLiveMonitorData(answer.PidId, answer.Data, answer.TimeStamp);
         }
 
         private bool continueQuerying = false;
-        private void StartQuerying()
+        private void StartLiveDataQuerying()
         {
             continueQuerying = true;
             queryingStartTimeStamp = DateTime.Now;
@@ -101,7 +109,7 @@ namespace Sodev.Marten.Base.Services
             });
         }
 
-        private void StopQuerying()
+        private void StopLiveDataQuerying()
         {
             continueQuerying = false;
             queryingStartTimeStamp = null;
@@ -109,12 +117,10 @@ namespace Sodev.Marten.Base.Services
 
         private void QueryForLiveData()
         {
-            var query = new ObdQuery();
             foreach (var liveMonitor in registeredLiveMonitors)
             {
-                query.QueryText = $"01{liveMonitor.Id:X2}"; //TODO fixed 01 !:(
+                var query = new ObdQuery(1, liveMonitor.Id);
                 connectionService.SendQuery(query);
-                Debug.WriteLine("Query sent...");
             }
         }
 

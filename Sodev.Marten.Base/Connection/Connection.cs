@@ -30,7 +30,7 @@ namespace Sodev.Marten.Base.Connection
             port.Open(); //TODO handle exceptions here
             SetState(ConnectionState.Opened);
 
-            SendQuery(new ObdQuery { QueryText = "ATE0\r" });
+            SendQuery(new ObdQuery("ATE0\r"));
 
             port.DataReceived += DataReceived;
         }
@@ -66,7 +66,7 @@ namespace Sodev.Marten.Base.Connection
         {
             if(state != ConnectionState.Opened) throw new InvalidOperationException("Connection is not opened");
 
-            port.Write($"{query.QueryText}\r");
+            port.Write($"{query.SerializedQuery}\r");
             //port.DiscardOutBuffer(); //TODO find out if it's necessary here??
         }
 
