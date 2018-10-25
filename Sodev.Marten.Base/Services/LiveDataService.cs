@@ -33,6 +33,8 @@ namespace Sodev.Marten.Base.Services
 
         private int[] EvaluateAvailablePidsForConnectedEcu()
         {
+            //TODO it has to be implemented :(
+
             //TODO temporary, it has to be requested in a task probably...
             if (connectionService.GetState() != ConnectionState.Opened) return new int[0];
             var allAvailablePidsQuery = new ObdQuery(01, 00);

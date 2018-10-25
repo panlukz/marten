@@ -30,7 +30,9 @@ namespace Sodev.Marten.Base.Connection
             port.Open(); //TODO handle exceptions here
             SetState(ConnectionState.Opened);
 
-            SendQuery(new ObdQuery("ATE0\r"));
+            SendAtCommand(AtCommand.Echo, true);
+            SendAtCommand(AtCommand.Headers, false);
+            SendAtCommand(AtCommand.Separators, true);
 
             port.DataReceived += DataReceived;
         }
@@ -67,7 +69,13 @@ namespace Sodev.Marten.Base.Connection
             if(state != ConnectionState.Opened) throw new InvalidOperationException("Connection is not opened");
 
             port.Write($"{query.SerializedQuery}\r");
-            //port.DiscardOutBuffer(); //TODO find out if it's necessary here??
+        }
+
+        private void SendAtCommand(AtCommand command, bool state)
+        {
+            if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
+            var strCommand = $"AT{(char)command}{(state ? 0 : 1)}\r";
+            port.Write(strCommand);
         }
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -77,7 +85,7 @@ namespace Sodev.Marten.Base.Connection
             answer = answer.Replace("\n", "");
             answer = answer.Replace("\r", "");
 
-            //If answer contains < sign, it means there is actually more than one answer
+            //If answer contains '<' sign, it means there is actually more than one answer
             //meaning each answer has to be handled separately
             var answersArray = answer.Split('>');
 
