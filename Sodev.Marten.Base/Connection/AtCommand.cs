@@ -2,8 +2,8 @@
 {
     public enum AtCommand
     {
-        Echo = 'E',
+        NoEcho = 'E',
         Headers = 'H',
-        Separators = 'S'
+        NoSeparators = 'S'
     }
 }

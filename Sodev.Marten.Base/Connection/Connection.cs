@@ -30,10 +30,12 @@ namespace Sodev.Marten.Base.Connection
             port.Open(); //TODO handle exceptions here
             SetState(ConnectionState.Opened);
 
-            SendAtCommand(AtCommand.Echo, true);
-            SendAtCommand(AtCommand.Headers, false);
-            SendAtCommand(AtCommand.Separators, true);
-
+            SendAtCommand(AtCommand.NoEcho, true);
+            //TODO these to make a lot of problems :-(
+            //SendAtCommand(AtCommand.Headers, false);
+            //SendAtCommand(AtCommand.NoSeparators, true);
+                
+            //TODO for some reason it's important to subscribe this method after AT commands are sent. find out why?
             port.DataReceived += DataReceived;
         }
 
@@ -45,7 +47,7 @@ namespace Sodev.Marten.Base.Connection
             port.Close();
             SetState(ConnectionState.Closed);
 
-            port.DataReceived -= new SerialDataReceivedEventHandler(DataReceived);
+            port.DataReceived -= DataReceived;
         }
 
         public void SetParameters(ConnectionParameters parameters)
@@ -69,27 +71,33 @@ namespace Sodev.Marten.Base.Connection
             if(state != ConnectionState.Opened) throw new InvalidOperationException("Connection is not opened");
 
             port.Write($"{query.SerializedQuery}\r");
+            Debug.WriteLine($"Data sent: {query.SerializedQuery}");
         }
 
         private void SendAtCommand(AtCommand command, bool state)
         {
-            if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
+            //if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
             var strCommand = $"AT{(char)command}{(state ? 0 : 1)}\r";
             port.Write(strCommand);
+        }
+
+        private void WriteToPort(string message)
+        {
+            //Task.Factory.StartNew()
         }
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var answer = port.ReadExisting();
-            //TODO lol this is definetly not very efficient... use regex or something
-            answer = answer.Replace("\n", "");
-            answer = answer.Replace("\r", "");
+
+            //remove new line special characters
+            answer = answer.Replace("\n", "").Replace("\r", "");
 
             //If answer contains '<' sign, it means there is actually more than one answer
             //meaning each answer has to be handled separately
             var answersArray = answer.Split('>');
 
-            Debug.WriteLine($"DataReceived payload: {answer}");
+            Debug.WriteLine($"Data received: {string.Concat(answersArray)}");
 
             foreach (var ans in answersArray)
             {

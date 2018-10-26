@@ -8,5 +8,6 @@ namespace Sodev.Marten.Base.Communication
 {
     public class Communication
     {
+
     }
 }

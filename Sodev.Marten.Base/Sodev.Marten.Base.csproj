@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\Communication.cs" />
+    <Compile Include="Connection\AtCommand.cs" />
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionParameters.cs" />
     <Compile Include="Connection\ConnectionState.cs" />
