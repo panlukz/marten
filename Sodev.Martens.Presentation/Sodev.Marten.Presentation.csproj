@@ -95,6 +95,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="Common\Color.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Features\Connection\ConnectionView.xaml.cs">
       <DependentUpon>ConnectionView.xaml</DependentUpon>
     </Compile>
@@ -103,8 +105,8 @@
       <DependentUpon>LiveMonitoringView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\LiveMonitoring\LiveMonitoringViewModel.cs" />
-    <Compile Include="Features\LiveMonitoring\LiveMonitorItem.xaml.cs">
-      <DependentUpon>LiveMonitorItem.xaml</DependentUpon>
+    <Compile Include="Features\LiveMonitoring\LiveMonitorItemView.xaml.cs">
+      <DependentUpon>LiveMonitorItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\LiveMonitoring\LiveMonitorItemViewModel.cs" />
     <Compile Include="Interfaces\IServiceLocator.cs" />
@@ -182,7 +184,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Features\LiveMonitoring\LiveMonitorItem.xaml">
+    <Page Include="Features\LiveMonitoring\LiveMonitorItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

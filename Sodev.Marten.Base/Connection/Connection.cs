@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sodev.Marten.Base.Connection
@@ -22,6 +23,11 @@ namespace Sodev.Marten.Base.Connection
             this.domainEventAggregator = domainEventAggregator;
         }
 
+        ~Connection()
+        {
+            Close();
+        }
+
         public void Open()
         {
             if (GetState() != ConnectionState.Ready)
@@ -30,10 +36,12 @@ namespace Sodev.Marten.Base.Connection
             port.Open(); //TODO handle exceptions here
             SetState(ConnectionState.Opened);
 
+            port.WriteLine("ATZ");
+            Thread.Sleep(5000);
             SendAtCommand(AtCommand.NoEcho, true);
             //TODO these to make a lot of problems :-(
-            //SendAtCommand(AtCommand.Headers, false);
-            //SendAtCommand(AtCommand.NoSeparators, true);
+            SendAtCommand(AtCommand.Headers, false);
+            SendAtCommand(AtCommand.NoSeparators, false);
                 
             //TODO for some reason it's important to subscribe this method after AT commands are sent. find out why?
             port.DataReceived += DataReceived;
@@ -78,6 +86,7 @@ namespace Sodev.Marten.Base.Connection
         {
             //if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
             var strCommand = $"AT{(char)command}{(state ? 0 : 1)}\r";
+            Thread.Sleep(5000); //TODO lol only for testing...
             port.Write(strCommand);
         }
 
@@ -106,7 +115,7 @@ namespace Sodev.Marten.Base.Connection
                     && !ans.Equals("OK")
                     && !ans.Equals(">")
                     && !ans.Equals("NO DATA")
-                    && !ans.Equals("ATE0OK")) throw new NotImplementedException(); //in case if it's not a response for a PID request
+                    && !ans.Equals("ATE0OK")) return;//throw new NotImplementedException(); //in case if it's not a response for a PID request
 
                 PublishObdAnswer(ans);
             }

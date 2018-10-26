@@ -17,8 +17,8 @@ namespace Sodev.Marten.Base.Services
         private readonly IPidRepository pidRepository;
         private readonly IDomainEventAggregator domainEventAggregator;
 
-        private readonly List<LiveMonitor> registeredLiveMonitors = new List<LiveMonitor>();
-        private readonly List<LiveMonitor> availableLiveMonitors = new List<LiveMonitor>();
+        private readonly List<ILiveMonitor> registeredLiveMonitors = new List<ILiveMonitor>();
+        private readonly List<ILiveMonitor> availableLiveMonitors = new List<ILiveMonitor>();
         private DateTime? queryingStartTimeStamp;
 
 
@@ -52,9 +52,9 @@ namespace Sodev.Marten.Base.Services
             availableLiveMonitors.AddRange(newLiveMonitors);
         }
 
-        public IEnumerable<LiveMonitor> GetAvailableLiveMonitors() => availableLiveMonitors;
+        public IEnumerable<ILiveMonitor> GetAvailableLiveMonitors() => availableLiveMonitors;
 
-        public void RegisterLiveMonitor(LiveMonitor liveMonitor)
+        public void RegisterLiveMonitor(ILiveMonitor liveMonitor)
         {
             registeredLiveMonitors.Add(liveMonitor);
 
@@ -62,11 +62,12 @@ namespace Sodev.Marten.Base.Services
             {
                 SubscribeLiveDataUpdatedEvent();
                 StartLiveDataQuerying();
+                Debug.WriteLine("DE3 ___ Live data querying has started... ");
             }
-                
+
         }
 
-        public void UnregisterLiveMonitor(LiveMonitor liveMonitor)
+        public void UnregisterLiveMonitor(ILiveMonitor liveMonitor)
         {
             registeredLiveMonitors.Remove(liveMonitor);
 
@@ -74,6 +75,7 @@ namespace Sodev.Marten.Base.Services
             {
                 StopLiveDataQuerying();
                 UnsubscribeLiveDataUpdatedEvent();
+                Debug.WriteLine("DE3 ___ Live data querying has stopped... ");
             }
                 
         }
@@ -105,8 +107,14 @@ namespace Sodev.Marten.Base.Services
             {
                 while (continueQuerying)
                 {
-                    QueryForLiveData();
-                    await Task.Delay(500);
+                    try
+                    {
+                        await QueryForLiveData();
+
+                    }
+                    catch(Exception e)
+                    { }
+
                 }
             });
         }
@@ -117,12 +125,14 @@ namespace Sodev.Marten.Base.Services
             queryingStartTimeStamp = null;
         }
 
-        private void QueryForLiveData()
+        private async Task QueryForLiveData()
         {
-            foreach (var liveMonitor in registeredLiveMonitors)
+            foreach (var liveMonitor in registeredLiveMonitors.ToList())
             {
-                var query = new ObdQuery(1, liveMonitor.Id);
-                connectionService.SendQuery(query);
+                    var query = new ObdQuery(1, liveMonitor.Id);
+                    connectionService.SendQuery(query);
+
+                    await Task.Delay(200);
             }
         }
 
@@ -136,10 +146,10 @@ namespace Sodev.Marten.Base.Services
 
     public interface ILiveDataService
     {
-        IEnumerable<LiveMonitor> GetAvailableLiveMonitors();
+        IEnumerable<ILiveMonitor> GetAvailableLiveMonitors();
 
-        void RegisterLiveMonitor(LiveMonitor liveMonitor);
+        void RegisterLiveMonitor(ILiveMonitor liveMonitor);
 
-        void UnregisterLiveMonitor(LiveMonitor liveMonitor);
+        void UnregisterLiveMonitor(ILiveMonitor liveMonitor);
     }
 }
