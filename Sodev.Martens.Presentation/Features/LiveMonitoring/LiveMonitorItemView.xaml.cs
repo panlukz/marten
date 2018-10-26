@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {
     /// <summary>
-    /// Interaction logic for LiveMonitorItem.xaml
+    /// Interaction logic for LiveMonitorItemView.xaml
     /// </summary>
-    public partial class LiveMonitorItem : UserControl
+    public partial class LiveMonitorItemView : UserControl
     {
-        public LiveMonitorItem()
+        public LiveMonitorItemView()
         {
             InitializeComponent();
         }

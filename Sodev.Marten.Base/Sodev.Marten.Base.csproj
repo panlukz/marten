@@ -56,6 +56,7 @@
     <Compile Include="Events\DomainEventBase.cs" />
     <Compile Include="Events\StartQueryingEvent.cs" />
     <Compile Include="Helpers\XmlSerializeHelper.cs" />
+    <Compile Include="Model\ILiveMonitor.cs" />
     <Compile Include="Model\LiveMonitor.cs" />
     <Compile Include="Model\Pid.cs" />
     <Compile Include="Model\PidParameters.cs" />

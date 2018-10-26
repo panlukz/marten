@@ -20,21 +20,11 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         {
             this.eventAggregator = eventAggregator;
             this.liveDataService = liveDataService;
-  
-            var speedMonitor = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 13);
-            var rpmMonitor = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 12);
-            var coolantTemp = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 5);
-            var throttlePosition = liveDataService.GetAvailableLiveMonitors().First(x => x.Id == 17);
 
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(speedMonitor, liveDataService)); //TODO temporary.
-
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(rpmMonitor, liveDataService)); //TODO temporary.
-
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(coolantTemp, liveDataService)); //TODO temporary.
-
-            LiveMonitorItems.Add(new LiveMonitorItemViewModel(throttlePosition, liveDataService)); //TODO temporary.
-
-
+            for (int i = 0; i < 8; i++) //TODO get rid of fixed numbers (8)
+            {
+                LiveMonitorItems.Add(new LiveMonitorItemViewModel(liveDataService));
+            }
         }
 
         public IList<LiveMonitorItemViewModel> LiveMonitorItems { get; private set; } = new List<LiveMonitorItemViewModel>(8);

@@ -23,7 +23,7 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding LiveMonitorItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:LiveMonitorItem />
+                    <local:LiveMonitorItemView />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Base.Model
 {
-    public class LiveMonitor
+    public class LiveMonitor : ILiveMonitor
     {
         public LiveMonitor(Pid pid) => internalPid = pid;
 
@@ -26,12 +26,32 @@ namespace Sodev.Marten.Base.Model
 
         public ObservableCollection<LiveDataModel> Data { get; } = new ObservableCollection<LiveDataModel>();
 
-        internal void UpdateData(byte[] newData, TimeSpan timeSpan)
+        public void UpdateData(byte[] newData, TimeSpan timeSpan)
         {
             var translatedData = internalPid.GetValue(newData);
             var model = new LiveDataModel(translatedData, timeSpan);
             Data.Add(model);
             Debug.WriteLine(translatedData);
+        }
+    }
+
+    public class EmptyLiveMonitor : ILiveMonitor
+    {
+        public int Id => -1;
+
+        public string Name => string.Empty;
+
+        public int MinValue => 0;
+
+        public int MaxValue => 100;
+
+        public string Unit => string.Empty;
+
+        public ObservableCollection<LiveDataModel> Data { get; } = new ObservableCollection<LiveDataModel>();
+
+        public void UpdateData(byte[] newData, TimeSpan timeSpan)
+        {
+            //Do nothing TODO probably breaks one of the SOLID principles regarding interfaces. I'm sorry Uncle Bob ;-(
         }
     }
 
