@@ -29,7 +29,11 @@ namespace Sodev.Marten.Base.Connection
                 Close();
         }
 
-        public void Open()
+        public string DeviceName { get; private set; } = string.Empty;
+
+        public string ProtocolName { get; private set; } = string.Empty;
+
+        public async void OpenAsync()
         {
             if (GetState() != ConnectionState.Ready)
                 throw new InvalidOperationException($"Connection couldn't be opened w/o passed parameters. Connection state: {GetState()}");
@@ -39,6 +43,32 @@ namespace Sodev.Marten.Base.Connection
 
             SendAtCommand(AtCommand.Reset);
             SendAtCommand(AtCommand.NoEcho, true);
+
+            SendAtCommand(AtCommand.SetAutoProtocol);
+
+            Thread.Sleep(1000); //TODO lol only for testing...
+            port.Write("0100\r");
+
+            for (int i = 0; i < 2; i++)
+            {
+                SendAtCommand(AtCommand.CheckProtocol);
+                await Task.Delay(500);
+                var a = port.ReadExisting()
+                    .Replace("\r", string.Empty)
+                    .Replace("\n", string.Empty)
+                    .Replace(">", string.Empty);
+                if (!string.IsNullOrEmpty(a))
+                {
+                    ProtocolName = a;
+                    break;
+                    
+                }
+                else if(i == 1) //second trial
+                {
+                    throw new Exception("error");
+                }
+            }
+            
 
             //TODO these two make a lot of problems :-(
             SendAtCommand(AtCommand.NoHeaders, true);
@@ -83,12 +113,12 @@ namespace Sodev.Marten.Base.Connection
             Debug.WriteLine($"Data sent: {query.SerializedQuery}");
         }
 
-        private void SendAtCommand(AtCommand command, bool? state=null)
+        private void SendAtCommand(string command, bool? state=null) //TODO string??
         {
             //if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
             var parsedState = state.HasValue ? state.Value ? "0" : "1" : string.Empty;
-            var strCommand = $"AT{(char)command}{parsedState}\r";
-            Thread.Sleep(100); //TODO lol only for testing...
+            var strCommand = $"AT{command}{parsedState}\r";
+            Thread.Sleep(1000); //TODO lol only for testing...
             port.Write(strCommand);
             Debug.WriteLine($"AT RESPONSE: {port.ReadExisting()}");
 

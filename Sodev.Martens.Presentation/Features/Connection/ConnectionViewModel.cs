@@ -43,7 +43,7 @@ namespace Sodev.Marten.Presentation.Features.Connection
                 BaudRate = SelectedBaudRate
             };
             connectionService.SetParameters(connectionParameters);
-            connectionService.Open();
+            connectionService.OpenAsync();
             NotifyOfPropertyChange(() => IsConnected); //TODO hey maybe refresh it based on event sent by connection service??
             NotifyOfPropertyChange(() => CanDisconnect);
         }

@@ -1,10 +1,12 @@
 ﻿namespace Sodev.Marten.Base.Connection
 {
-    public enum AtCommand
+    public static class AtCommand
     {
-        NoEcho = 'E',
-        NoHeaders = 'H',
-        NoSeparators = 'S',
-        Reset = 'Z'
+        public const string NoEcho = "E";
+        public const string NoHeaders = "H";
+        public const string NoSeparators = "S";
+        public const string Reset = "Z";
+        public const string SetAutoProtocol = "SP0";
+        public const string CheckProtocol = "DP";
     }
 }
