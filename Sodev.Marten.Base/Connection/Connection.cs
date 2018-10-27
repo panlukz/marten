@@ -25,7 +25,8 @@ namespace Sodev.Marten.Base.Connection
 
         ~Connection()
         {
-            Close();
+            if(GetState() == ConnectionState.Opened)
+                Close();
         }
 
         public void Open()
@@ -36,11 +37,11 @@ namespace Sodev.Marten.Base.Connection
             port.Open(); //TODO handle exceptions here
             SetState(ConnectionState.Opened);
 
-            port.WriteLine("ATZ");
-            Thread.Sleep(5000);
+            SendAtCommand(AtCommand.Reset);
             SendAtCommand(AtCommand.NoEcho, true);
-            //TODO these to make a lot of problems :-(
-            SendAtCommand(AtCommand.Headers, false);
+
+            //TODO these two make a lot of problems :-(
+            SendAtCommand(AtCommand.NoHeaders, true);
             SendAtCommand(AtCommand.NoSeparators, false);
                 
             //TODO for some reason it's important to subscribe this method after AT commands are sent. find out why?
@@ -82,12 +83,15 @@ namespace Sodev.Marten.Base.Connection
             Debug.WriteLine($"Data sent: {query.SerializedQuery}");
         }
 
-        private void SendAtCommand(AtCommand command, bool state)
+        private void SendAtCommand(AtCommand command, bool? state=null)
         {
             //if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
-            var strCommand = $"AT{(char)command}{(state ? 0 : 1)}\r";
-            Thread.Sleep(5000); //TODO lol only for testing...
+            var parsedState = state.HasValue ? state.Value ? "0" : "1" : string.Empty;
+            var strCommand = $"AT{(char)command}{parsedState}\r";
+            Thread.Sleep(100); //TODO lol only for testing...
             port.Write(strCommand);
+            Debug.WriteLine($"AT RESPONSE: {port.ReadExisting()}");
+
         }
 
         private void WriteToPort(string message)
