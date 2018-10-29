@@ -32,7 +32,7 @@
                       ItemsSource="{Binding AvailableBaudRates}" SelectedItem="{Binding SelectedBaudRate}" />
 
             <Button Grid.Column="0" Grid.Row="2"
-                    Content="Connect" cal:Message.Attach="Connect" />
+                    Content="Connect" cal:Message.Attach="ConnectAsync" />
             <Button Grid.Column="1" Grid.Row="2"
                     Content="Disconnect" cal:Message.Attach="Disconnect" />
         </Grid>

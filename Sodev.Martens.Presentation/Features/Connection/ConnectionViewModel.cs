@@ -25,7 +25,7 @@ namespace Sodev.Marten.Presentation.Features.Connection
             set
             {
                 selectedPort = value;
-                NotifyOfPropertyChange(() => CanConnect);
+                NotifyOfPropertyChange(() => CanConnectAsync);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Sodev.Marten.Presentation.Features.Connection
 
         public int SelectedBaudRate { get; set; } = 9600;
 
-        public void Connect()
+        public async void ConnectAsync()
         {
             var connectionParameters = new ConnectionParameters
             {
@@ -43,7 +43,7 @@ namespace Sodev.Marten.Presentation.Features.Connection
                 BaudRate = SelectedBaudRate
             };
             connectionService.SetParameters(connectionParameters);
-            connectionService.OpenAsync();
+            await connectionService.OpenAsync();
             NotifyOfPropertyChange(() => IsConnected); //TODO hey maybe refresh it based on event sent by connection service??
             NotifyOfPropertyChange(() => CanDisconnect);
         }
@@ -55,7 +55,7 @@ namespace Sodev.Marten.Presentation.Features.Connection
             NotifyOfPropertyChange(() => CanDisconnect);
         }
 
-        public bool CanConnect => connectionService.GetState() == ConnectionState.Closed && !string.IsNullOrEmpty(SelectedPort);
+        public bool CanConnectAsync => connectionService.GetState() == ConnectionState.Closed && !string.IsNullOrEmpty(SelectedPort);
 
         public bool CanDisconnect => connectionService.GetState() == ConnectionState.Opened;
 
@@ -63,7 +63,7 @@ namespace Sodev.Marten.Presentation.Features.Connection
 
         public void Handle(ConnectionStateChanged message)
         {
-            NotifyOfPropertyChange(() => CanConnect);
+            NotifyOfPropertyChange(() => CanConnectAsync);
         }
     }
 }

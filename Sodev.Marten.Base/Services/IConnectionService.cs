@@ -9,7 +9,7 @@ namespace Sodev.Marten.Base.Services
 {
     public interface IConnectionService
     {
-        void OpenAsync();
+        Task OpenAsync();
 
         void SetParameters(ConnectionParameters parameters);
 

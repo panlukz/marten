@@ -33,47 +33,38 @@ namespace Sodev.Marten.Base.Connection
 
         public string ProtocolName { get; private set; } = string.Empty;
 
-        public async void OpenAsync()
+        public async Task OpenAsync()
         {
             if (GetState() != ConnectionState.Ready)
                 throw new InvalidOperationException($"Connection couldn't be opened w/o passed parameters. Connection state: {GetState()}");
             
             port.Open(); //TODO handle exceptions here
-            SetState(ConnectionState.Opened);
-
-            SendAtCommand(AtCommand.Reset);
-            SendAtCommand(AtCommand.NoEcho, true);
-
-            SendAtCommand(AtCommand.SetAutoProtocol);
-
-            Thread.Sleep(1000); //TODO lol only for testing...
-            port.Write("0100\r");
-
-            for (int i = 0; i < 2; i++)
-            {
-                SendAtCommand(AtCommand.CheckProtocol);
-                await Task.Delay(500);
-                var a = port.ReadExisting()
-                    .Replace("\r", string.Empty)
-                    .Replace("\n", string.Empty)
-                    .Replace(">", string.Empty);
-                if (!string.IsNullOrEmpty(a))
-                {
-                    ProtocolName = a;
-                    break;
-                    
-                }
-                else if(i == 1) //second trial
-                {
-                    throw new Exception("error");
-                }
-            }
             
 
+            await Task.Delay(1000);
+            await SendAtCommandAndVerifyAnswer(AtCommand.Reset, "ELM327");
+
+            await Task.Delay(1000);
+            await SendAtCommandAndVerifyAnswer(AtCommand.NoEcho, "OK", true);
+
+            await Task.Delay(1000);
+            await SendAtCommandAndVerifyAnswer(AtCommand.SetAutoProtocol, "OK");
+
+            await Task.Delay(1000);
+            port.Write("0100\r");
+
+            ProtocolName = await SendAtCommandAndVerifyAnswer(AtCommand.CheckProtocol, "Automatic");
+
             //TODO these two make a lot of problems :-(
-            SendAtCommand(AtCommand.NoHeaders, true);
-            SendAtCommand(AtCommand.NoSeparators, false);
-                
+            await Task.Delay(1000);
+            await SendAtCommandAndVerifyAnswer(AtCommand.NoHeaders, "OK", true);
+
+            await Task.Delay(1000);
+            await SendAtCommandAndVerifyAnswer(AtCommand.NoSeparators, "OK", false);
+
+            SetState(ConnectionState.Opened);
+
+
             //TODO for some reason it's important to subscribe this method after AT commands are sent. find out why?
             port.DataReceived += DataReceived;
         }
@@ -118,10 +109,41 @@ namespace Sodev.Marten.Base.Connection
             //if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
             var parsedState = state.HasValue ? state.Value ? "0" : "1" : string.Empty;
             var strCommand = $"AT{command}{parsedState}\r";
-            Thread.Sleep(1000); //TODO lol only for testing...
             port.Write(strCommand);
             Debug.WriteLine($"AT RESPONSE: {port.ReadExisting()}");
 
+        }
+
+        private async Task<string> SendAtCommandAndVerifyAnswer(string command, string expectedAnswer=null, bool? state = null)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var parsedState = state.HasValue ? state.Value ? "0" : "1" : string.Empty;
+                var strCommand = $"AT{command}{parsedState}\r";
+                Debug.WriteLine($"AT Command sent: {strCommand}");
+                await Task.Delay(1000);
+
+                port.Write(strCommand);
+
+                await Task.Delay(1000);
+
+                var a = port.ReadExisting()
+                    .Replace("\r", string.Empty)
+                    .Replace("\n", string.Empty)
+                    .Replace(">", string.Empty);
+
+                Debug.WriteLine($"AT RESPONSE: {a}");
+
+                if (!string.IsNullOrEmpty(a) && a.Contains(expectedAnswer))
+                {
+                    return a;
+                }
+                else if (i == 4) //second trial
+                {
+                    throw new Exception("error: failed");
+                }
+            }
+            return string.Empty;
         }
 
         private void WriteToPort(string message)
