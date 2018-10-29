@@ -16,10 +16,12 @@ namespace Sodev.Marten.Base.Connection
         private readonly SerialPort port;
         private readonly IDomainEventAggregator domainEventAggregator;
         private ConnectionState state;
+        private ConnectionProcedure connectionProcedure;
 
         public Connection(IDomainEventAggregator domainEventAggregator)
         {
             port = new SerialPort();
+            connectionProcedure = new ConnectionProcedure(port);
             this.domainEventAggregator = domainEventAggregator;
         }
 
@@ -37,36 +39,42 @@ namespace Sodev.Marten.Base.Connection
         {
             if (GetState() != ConnectionState.Ready)
                 throw new InvalidOperationException($"Connection couldn't be opened w/o passed parameters. Connection state: {GetState()}");
-            
-            port.Open(); //TODO handle exceptions here
-            
 
-            await Task.Delay(1000);
-            await SendAtCommandAndVerifyAnswer(AtCommand.Reset, "ELM327");
+            await connectionProcedure.StartConnectionProcedure();
 
-            await Task.Delay(1000);
-            await SendAtCommandAndVerifyAnswer(AtCommand.NoEcho, "OK", true);
-
-            await Task.Delay(1000);
-            await SendAtCommandAndVerifyAnswer(AtCommand.SetAutoProtocol, "OK");
-
-            await Task.Delay(1000);
-            port.Write("0100\r");
-
-            ProtocolName = await SendAtCommandAndVerifyAnswer(AtCommand.CheckProtocol, "Automatic");
-
-            //TODO these two make a lot of problems :-(
-            await Task.Delay(1000);
-            await SendAtCommandAndVerifyAnswer(AtCommand.NoHeaders, "OK", true);
-
-            await Task.Delay(1000);
-            await SendAtCommandAndVerifyAnswer(AtCommand.NoSeparators, "OK", false);
+            //port.Open(); //TODO handle exceptions here
+            //
+            //await Task.Delay(1000);
+            //await SendAtCommandAndVerifyAnswer(AtCommand.Reset, "ELM327");
+            //
+            //await Task.Delay(1000);
+            //await SendAtCommandAndVerifyAnswer(AtCommand.NoEcho, "OK", true);
+            //
+            //await Task.Delay(1000);
+            //await SendAtCommandAndVerifyAnswer(AtCommand.SetAutoProtocol, "OK");
+            //
+            //await Task.Delay(1000);
+            //port.Write("0100\r");
+            //
+            //ProtocolName = await SendAtCommandAndVerifyAnswer(AtCommand.CheckProtocol, "Automatic");
+            //
+            ////TODO these two make a lot of problems :-(
+            //await Task.Delay(1000);
+            //await SendAtCommandAndVerifyAnswer(AtCommand.NoHeaders, "OK", true);
+            //
+            //await Task.Delay(1000);
+            //await SendAtCommandAndVerifyAnswer(AtCommand.NoSeparators, "OK", false);
 
             SetState(ConnectionState.Opened);
 
 
             //TODO for some reason it's important to subscribe this method after AT commands are sent. find out why?
             port.DataReceived += DataReceived;
+        }
+
+        private void StartConnectionProcedure()
+        {
+            //TODO
         }
 
         public void Close()

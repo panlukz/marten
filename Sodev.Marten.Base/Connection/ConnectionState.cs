@@ -4,6 +4,8 @@
     {
         Closed,
         Ready,
+        ConnectedToInterface,
+        ConnectedToCar,
         Opened
     }
 }

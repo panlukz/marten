@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communication\Communication.cs" />
+    <Compile Include="Communication\CommunicationService.cs" />
     <Compile Include="Connection\AtCommand.cs" />
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionParameters.cs" />
+    <Compile Include="Connection\ConnectionProcedure.cs" />
     <Compile Include="Connection\ConnectionState.cs" />
     <Compile Include="Connection\ObdAnswer.cs" />
     <Compile Include="Connection\ObdQuery.cs" />
