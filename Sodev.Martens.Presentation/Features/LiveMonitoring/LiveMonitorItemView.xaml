@@ -45,23 +45,61 @@
             <Button Content="Remove" cal:Message.Attach="Remove" />
         </StackPanel>
 
-        <lvc:CartesianChart Grid.Row="2" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}">
-            <lvc:CartesianChart.Series>
-                <lvc:LineSeries Values="{Binding ChartValues}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" Fill="Transparent" PointGeometry="{x:Null}" />
-            </lvc:CartesianChart.Series>
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis Position="RightTop" Title="{Binding Unit}" MinValue="{Binding MinValue}"
-                          MaxValue="{Binding MaxValue}" />
-            </lvc:CartesianChart.AxisY>
-            <lvc:CartesianChart.AxisX >
-                <lvc:Axis Title="Time" MinValue="{Binding MinXValue}" MaxValue="{Binding MaxXValue}" 
-                          Unit="{Binding AxisUnit}" 
-                          LabelFormatter="{Binding DateTimeFormatter}" >
-                    <lvc:Axis.Separator>
-                        <lvc:Separator Step="{Binding AxisStep}" />
-                    </lvc:Axis.Separator>
-                </lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-        </lvc:CartesianChart>
+        <ContentControl Grid.Row="2" Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MonitorType}" Value="LiveData">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <lvc:CartesianChart DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}">
+                                            <lvc:CartesianChart.Series>
+                                                <lvc:LineSeries Values="{Binding ChartValues}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" Fill="Transparent" PointGeometry="{x:Null}" />
+                                            </lvc:CartesianChart.Series>
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Position="RightTop" Title="{Binding Unit}" MinValue="{Binding MinValue}"
+                                                          MaxValue="{Binding MaxValue}" />
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.AxisX >
+                                                <lvc:Axis Title="Time" MinValue="{Binding MinXValue}" MaxValue="{Binding MaxXValue}" 
+                                                          Unit="{Binding AxisUnit}" 
+                                                          LabelFormatter="{Binding DateTimeFormatter}" >
+                                                    <lvc:Axis.Separator>
+                                                        <lvc:Separator Step="{Binding AxisStep}" />
+                                                    </lvc:Axis.Separator>
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                        </lvc:CartesianChart>
+
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MonitorType}" Value="Gauge">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <lvc:AngularGauge Value="{Binding CurrentValue}" FromValue="{Binding MinValue}" ToValue="{Binding MaxValue}" 
+                                                          LabelsStep="50" TicksStep="25" Wedge="300"
+                                                          TicksForeground="White" Foreground="White" 
+                                                          FontWeight="Bold" FontSize="16"
+                                                          SectionsInnerRadius=".5">
+                                            <lvc:AngularGauge.Sections>
+                                                <lvc:AngularSection FromValue="{Binding MinValue}" ToValue="50" Fill="#F8A725"/>
+                                                <lvc:AngularSection FromValue="50" ToValue="{Binding MaxValue}" Fill="#FF3939"/>
+                                            </lvc:AngularGauge.Sections>
+                                        </lvc:AngularGauge>
+
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
     </Grid>
 </UserControl>

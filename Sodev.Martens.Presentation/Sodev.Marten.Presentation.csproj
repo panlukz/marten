@@ -109,6 +109,7 @@
       <DependentUpon>LiveMonitorItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\LiveMonitoring\LiveMonitorItemViewModel.cs" />
+    <Compile Include="Features\LiveMonitoring\MonitorType.cs" />
     <Compile Include="Interfaces\IServiceLocator.cs" />
     <Compile Include="Converters\InverseBoolean.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />

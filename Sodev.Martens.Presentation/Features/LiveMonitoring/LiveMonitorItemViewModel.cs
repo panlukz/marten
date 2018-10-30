@@ -34,9 +34,12 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 
             NotifyOfPropertyChange(() => MinXValue);
             NotifyOfPropertyChange(() => MaxXValue);
+            NotifyOfPropertyChange(() => CurrentValue);
         }
 
         public ChartValues<LiveDataModel> ChartValues { get; private set; }
+
+        public double CurrentValue => ChartValues.Count > 0 ? ChartValues.Last().Value : 0; 
 
         public string Unit => liveMonitor.Unit;
 
@@ -117,6 +120,8 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
                 NotifyOfPropertyChange(() => StrokeColor);
             }
         }
+
+        public MonitorType MonitorType => MonitorType.Gauge;
 
         public void Remove()
         {
