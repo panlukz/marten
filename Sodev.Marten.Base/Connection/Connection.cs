@@ -42,31 +42,7 @@ namespace Sodev.Marten.Base.Connection
 
             await connectionProcedure.StartConnectionProcedure();
 
-            //port.Open(); //TODO handle exceptions here
-            //
-            //await Task.Delay(1000);
-            //await SendAtCommandAndVerifyAnswer(AtCommand.Reset, "ELM327");
-            //
-            //await Task.Delay(1000);
-            //await SendAtCommandAndVerifyAnswer(AtCommand.NoEcho, "OK", true);
-            //
-            //await Task.Delay(1000);
-            //await SendAtCommandAndVerifyAnswer(AtCommand.SetAutoProtocol, "OK");
-            //
-            //await Task.Delay(1000);
-            //port.Write("0100\r");
-            //
-            //ProtocolName = await SendAtCommandAndVerifyAnswer(AtCommand.CheckProtocol, "Automatic");
-            //
-            ////TODO these two make a lot of problems :-(
-            //await Task.Delay(1000);
-            //await SendAtCommandAndVerifyAnswer(AtCommand.NoHeaders, "OK", true);
-            //
-            //await Task.Delay(1000);
-            //await SendAtCommandAndVerifyAnswer(AtCommand.NoSeparators, "OK", false);
-
             SetState(ConnectionState.Opened);
-
 
             //TODO for some reason it's important to subscribe this method after AT commands are sent. find out why?
             port.DataReceived += DataReceived;

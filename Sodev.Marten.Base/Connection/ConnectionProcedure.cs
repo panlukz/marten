@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
-using Sodev.Marten.Base.Communication;
 
 namespace Sodev.Marten.Base.Connection
 {
@@ -26,7 +23,7 @@ namespace Sodev.Marten.Base.Connection
         {
             procedureSteps = new List<ConnectionProcedureStep>
             {
-                new ConnectionProcedureStep(StepName.ResetInterface, () => SendAtCommand("ATZ"), () => IsAnswerCorrect("ELM327")),
+                new ConnectionProcedureStep(StepName.ResetInterface, () => SendAtCommand("ATZ"), VerifyAndPublishNewDeviceName),
                 new ConnectionProcedureStep(StepName.DisableEcho, () => SendAtCommand("ATE0"), () => IsAnswerCorrect("OK")),
                 new ConnectionProcedureStep(StepName.SetAutoProtocol, () => SendAtCommand("ATSP0"), () => IsAnswerCorrect("OK")),
                 new ConnectionProcedureStep(StepName.CheckCarConnection, () => SendAtCommand("0100"), VerifyCarConnection),
@@ -42,34 +39,44 @@ namespace Sodev.Marten.Base.Connection
 
             foreach (var step in procedureSteps)
             {
-                await Task.Delay(500);
                 await PerformAStepAndVerifyResult(step);
+
+                PublishConnectionProgress(step.StepName);
             }
         }
 
+        private void PublishConnectionProgress(StepName stepName)
+        {
+            var stepDescription = stepName.ToString(); //TODO implement...
+            var progress = CalculateProgress();
+            var eventPayload = new ConnectionProcedureStateChangedPayload(stepDescription, progress);
+
+            StateUpdated?.Invoke(this, eventPayload);
+
+            int CalculateProgress()
+            {
+                var currentStep = procedureSteps.First(x => x.StepName == stepName);
+                var indexOfCurrentStep = procedureSteps.IndexOf(currentStep);
+                return (indexOfCurrentStep + 1) / procedureSteps.Count * 100;
+            }
+        }
+
+
         private async Task PerformAStepAndVerifyResult(ConnectionProcedureStep step)
         {
-            var isAnswerCorrect = false;
+            var isAnswerAsExpected = false;
+            var nbOfAttempts = 5;
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < nbOfAttempts; i++)
             {
                 step.StepAction.Invoke();
-                await Task.Delay(2000);
+                await Task.Delay(step.WaitTimeMs);
 
-                if (step.IsAnswerExpected)
-                {
-                    isAnswerCorrect = step.VerifyAnswerAction.Invoke();
-                    if (isAnswerCorrect) break;
-                }
-                else
-                {
-                    break;
-                }
+                isAnswerAsExpected = step.HandleAnswerAction.Invoke();
+                if (isAnswerAsExpected) break;
             }
 
-            //TODO change it to connection procedure exception:
-            if (!isAnswerCorrect) throw new Exception($"Unexpected answer on step {step.StepName}");
-
+            if (!isAnswerAsExpected) throw new ConnectionProcedureException(step.StepName);
         }
 
         private bool IsAnswerCorrect(string expectedAnswer)
@@ -78,15 +85,23 @@ namespace Sodev.Marten.Base.Connection
             return answer.Contains(expectedAnswer); //TODO for now only if contains is checked.
         }
 
+        private bool VerifyAndPublishNewDeviceName()
+        {
+            var deviceName = port.ReadExisting();
+            DeviceNameUpdated?.Invoke(this, new ConnectionProcedureParameterUpdatedPayload("DeviceName", deviceName));
+            return true; //TODO is it as expected??
+        }
+
         private bool VerifyAndPublishNewProtocol()
         {
-            var name = port.ReadExisting();
-            //TODO here new protocol name has to be published...
+            var protocolName = port.ReadExisting();
+            ProtocolNameUpdated?.Invoke(this, new ConnectionProcedureParameterUpdatedPayload("ProtocolName", protocolName));
             return true;
         }
 
         private bool VerifyCarConnection()
         {
+            var carConnection = port.ReadExisting();
             return true;
         }
 
@@ -110,17 +125,60 @@ namespace Sodev.Marten.Base.Connection
         private class ConnectionProcedureStep
         {
             public ConnectionProcedureStep() {}
-            public ConnectionProcedureStep(StepName stepName, Action stepAction, Func<bool> verifyAnswerAction =null)
+            public ConnectionProcedureStep(StepName stepName, Action stepAction, Func<bool> handleAnswerAction=null, int waitTimeMs=1000)
             {
                 StepName = stepName;
                 StepAction = stepAction;
-                VerifyAnswerAction = verifyAnswerAction;
+                WaitTimeMs = waitTimeMs;
+                HandleAnswerAction = handleAnswerAction;
             }
 
             public StepName StepName { get; set; }
             public Action StepAction { get; set; }
-            public Func<bool> VerifyAnswerAction { get; set; }
-            public bool IsAnswerExpected => VerifyAnswerAction != null;
+            public int WaitTimeMs { get; set; }
+            public Func<bool> HandleAnswerAction { get; set; }
         }
+
+        private class ConnectionProcedureException : Exception
+        {
+            public ConnectionProcedureException(StepName step) : base($"Exception occured on executing step {step}")
+            {}
+        }
+
+        public event ConnectionProcedureStateUpdated StateUpdated;
+
+        public event ConnectionProcedureParameterUpdated ProtocolNameUpdated;
+
+        public event ConnectionProcedureParameterUpdated DeviceNameUpdated;
+
     }
+
+    public class ConnectionProcedureStateChangedPayload
+    {
+        public ConnectionProcedureStateChangedPayload(string description, int progress)
+        {
+            Description = description;
+            Progress = progress;
+        }
+
+        public string Description { get; }
+        public int Progress { get; }
+    }
+
+    public delegate void ConnectionProcedureStateUpdated(object sender, ConnectionProcedureStateChangedPayload payload);
+
+    public class ConnectionProcedureParameterUpdatedPayload
+    {
+        public ConnectionProcedureParameterUpdatedPayload(string parameterName, string parameterValue)
+        {
+            ParameterName = parameterName;
+            ParameterValue = parameterValue;
+        }
+
+        public string ParameterName { get; }
+        public string ParameterValue { get; }
+    }
+
+    public delegate void ConnectionProcedureParameterUpdated(object sender, ConnectionProcedureParameterUpdatedPayload payload);
+
 }
