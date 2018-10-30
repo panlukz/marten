@@ -48,11 +48,6 @@ namespace Sodev.Marten.Base.Connection
             port.DataReceived += DataReceived;
         }
 
-        private void StartConnectionProcedure()
-        {
-            //TODO
-        }
-
         public void Close()
         {
             if (GetState() != ConnectionState.Opened)
@@ -86,48 +81,6 @@ namespace Sodev.Marten.Base.Connection
 
             port.Write($"{query.SerializedQuery}\r");
             Debug.WriteLine($"Data sent: {query.SerializedQuery}");
-        }
-
-        private void SendAtCommand(string command, bool? state=null) //TODO string??
-        {
-            //if(GetState() == ConnectionState.Opened) throw new NotImplementedException("Sending AT commands when the connection is opened is not supported yet."); 
-            var parsedState = state.HasValue ? state.Value ? "0" : "1" : string.Empty;
-            var strCommand = $"AT{command}{parsedState}\r";
-            port.Write(strCommand);
-            Debug.WriteLine($"AT RESPONSE: {port.ReadExisting()}");
-
-        }
-
-        private async Task<string> SendAtCommandAndVerifyAnswer(string command, string expectedAnswer=null, bool? state = null)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                var parsedState = state.HasValue ? state.Value ? "0" : "1" : string.Empty;
-                var strCommand = $"AT{command}{parsedState}\r";
-                Debug.WriteLine($"AT Command sent: {strCommand}");
-                await Task.Delay(1000);
-
-                port.Write(strCommand);
-
-                await Task.Delay(1000);
-
-                var a = port.ReadExisting()
-                    .Replace("\r", string.Empty)
-                    .Replace("\n", string.Empty)
-                    .Replace(">", string.Empty);
-
-                Debug.WriteLine($"AT RESPONSE: {a}");
-
-                if (!string.IsNullOrEmpty(a) && a.Contains(expectedAnswer))
-                {
-                    return a;
-                }
-                else if (i == 4) //second trial
-                {
-                    throw new Exception("error: failed");
-                }
-            }
-            return string.Empty;
         }
 
         private void WriteToPort(string message)
