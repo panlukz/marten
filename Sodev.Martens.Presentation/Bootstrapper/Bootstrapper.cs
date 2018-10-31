@@ -38,7 +38,7 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<IDomainEventAggregator, DomainEventAggregator>();
             container.Singleton<INavigationFlowService, NavigationFlowService>();
-            container.Singleton<IConnectionService, Connection>();
+            container.Singleton<IConnectionService, ConnectionService>();
             container.Singleton<ILiveDataService, LiveDataService>();
             container.Singleton<IPidRepository, PidRepository>();
 

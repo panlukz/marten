@@ -5,27 +5,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sodev.Marten.Base.Connection
 {
-    public class Connection : IConnectionService, IConnectionInfo
+    public class ConnectionService : IConnectionService, IConnectionInfo
     {
         private readonly SerialPort port;
         private readonly IDomainEventAggregator domainEventAggregator;
         private ConnectionState state;
         private ConnectionProcedure connectionProcedure;
 
-        public Connection(IDomainEventAggregator domainEventAggregator)
+        public ConnectionService(IDomainEventAggregator domainEventAggregator)
         {
             port = new SerialPort();
             connectionProcedure = new ConnectionProcedure(port);
             this.domainEventAggregator = domainEventAggregator;
         }
 
-        ~Connection()
+        ~ConnectionService()
         {
             if(GetState() == ConnectionState.Opened)
                 Close();

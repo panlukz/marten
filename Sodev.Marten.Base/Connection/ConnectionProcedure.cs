@@ -65,7 +65,7 @@ namespace Sodev.Marten.Base.Connection
         private async Task PerformAStepAndVerifyResult(ConnectionProcedureStep step)
         {
             var isAnswerAsExpected = false;
-            var nbOfAttempts = 5;
+            const int nbOfAttempts = 5;
 
             for (int i = 0; i < nbOfAttempts; i++)
             {
@@ -145,11 +145,11 @@ namespace Sodev.Marten.Base.Connection
             {}
         }
 
-        public event ConnectionProcedureStateUpdated StateUpdated;
+        public event EventHandler<ConnectionProcedureStateChangedPayload> StateUpdated;
 
-        public event ConnectionProcedureParameterUpdated ProtocolNameUpdated;
+        public event EventHandler<ConnectionProcedureParameterUpdatedPayload> ProtocolNameUpdated;
 
-        public event ConnectionProcedureParameterUpdated DeviceNameUpdated;
+        public event EventHandler<ConnectionProcedureParameterUpdatedPayload> DeviceNameUpdated;
 
     }
 
@@ -165,8 +165,6 @@ namespace Sodev.Marten.Base.Connection
         public int Progress { get; }
     }
 
-    public delegate void ConnectionProcedureStateUpdated(object sender, ConnectionProcedureStateChangedPayload payload);
-
     public class ConnectionProcedureParameterUpdatedPayload
     {
         public ConnectionProcedureParameterUpdatedPayload(string parameterName, string parameterValue)
@@ -178,7 +176,5 @@ namespace Sodev.Marten.Base.Connection
         public string ParameterName { get; }
         public string ParameterValue { get; }
     }
-
-    public delegate void ConnectionProcedureParameterUpdated(object sender, ConnectionProcedureParameterUpdatedPayload payload);
 
 }
