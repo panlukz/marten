@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Sodev.Marten.Base.Communication
 {
-    public class CommunicationService
+    public class ObdCommunication
     {
 
+    }
+
+    public interface IObdCommuncation
+    {
+        
     }
 }

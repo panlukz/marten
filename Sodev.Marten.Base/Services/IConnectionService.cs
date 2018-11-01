@@ -21,7 +21,7 @@ namespace Sodev.Marten.Base.Services
 
         void SendQuery(ObdQuery query);
 
-        event Connection.ConnectionService.AnswerReceivedHandler AnswerReceivedEvent;
+        event EventHandler<ObdAnswer> AnswerReceivedEvent;
     }
 
     public interface IConnectionInfo

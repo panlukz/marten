@@ -29,10 +29,6 @@ namespace Sodev.Marten.Base.Connection
                 Close();
         }
 
-        public string DeviceName { get; private set; } = string.Empty;
-
-        public string ProtocolName { get; private set; } = string.Empty;
-
         public async Task OpenAsync()
         {
             if (GetState() != ConnectionState.Ready)
@@ -64,7 +60,8 @@ namespace Sodev.Marten.Base.Connection
 
             port.PortName = parameters.PortName;
             port.BaudRate = parameters.BaudRate;
-            //TODO more to be added
+            
+            //the rest parameters has to be always the same
             port.Parity = Parity.None; 
             port.StopBits = StopBits.One;
             port.Handshake = Handshake.None;
@@ -79,11 +76,6 @@ namespace Sodev.Marten.Base.Connection
 
             port.Write($"{query.SerializedQuery}\r");
             Debug.WriteLine($"Data sent: {query.SerializedQuery}");
-        }
-
-        private void WriteToPort(string message)
-        {
-            //Task.Factory.StartNew()
         }
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -106,7 +98,7 @@ namespace Sodev.Marten.Base.Connection
                     && !ans.Equals("OK")
                     && !ans.Equals(">")
                     && !ans.Equals("NO DATA")
-                    && !ans.Equals("ATE0OK")) return;//throw new NotImplementedException(); //in case if it's not a response for a PID request
+                    && !ans.Equals("ATE0OK")) throw new NotImplementedException(); //in case if it's not a response for a PID request
 
                 PublishObdAnswer(ans);
             }
@@ -118,9 +110,7 @@ namespace Sodev.Marten.Base.Connection
                 AnswerReceivedEvent?.Invoke(this, new ObdAnswer(answer));
         }
 
-        public delegate void AnswerReceivedHandler(object sender, ObdAnswer answer);
-
-        public event AnswerReceivedHandler AnswerReceivedEvent;
+        public event EventHandler<ObdAnswer> AnswerReceivedEvent;
 
         public ConnectionState GetState() => state;
 
