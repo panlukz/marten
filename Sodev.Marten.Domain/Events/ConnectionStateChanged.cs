@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sodev.Marten.Base.Events
+namespace Sodev.Marten.Domain.Events
 {
-    public class ConnectionStateChanged : DomainEventBase
+    public class ConnectionStateChanged : ObdEventBase
     {
         public ConnectionStateChanged(ConnectionState newState)
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Sodev.Marten.Base.Model;
 
-namespace Sodev.Marten.Base.Services
+namespace Sodev.Marten.Domain.Services
 {
     public interface IPidRepository
     {

@@ -167,6 +167,10 @@
       <Project>{059027B2-978F-4C0E-B77E-1DE748F7CAD5}</Project>
       <Name>Sodev.Marten.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sodev.Marten.Domain\Sodev.Marten.Domain.csproj">
+      <Project>{cf3a217d-e704-4c08-8d4e-552c47769077}</Project>
+      <Name>Sodev.Marten.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sodev.Marten.Persistance\Sodev.Marten.Persistence.csproj">
       <Project>{0E876480-169A-443A-8E39-D6407BDFC8D9}</Project>
       <Name>Sodev.Marten.Persistence</Name>

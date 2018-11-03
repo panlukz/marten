@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sodev.Marten.Base.Events;
+using Sodev.Marten.Domain.Events;
 
-namespace Sodev.Marten.Base.Events
+namespace Sodev.Marten.Domain.Events
 {
-    public class StartQueryingEvent : DomainEventBase
+    public class StartQueryingEvent : ObdEventBase
     {
         public DateTime TimeStamp { get; }
 

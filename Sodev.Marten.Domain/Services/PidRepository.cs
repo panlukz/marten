@@ -6,9 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sodev.Marten.Base.Helpers;
+using Sodev.Marten.Domain.Helpers;
+using Sodev.Marten.Domain.Services;
 
-namespace Sodev.Marten.Base.Services
+namespace Sodev.Marten.Domain.Services
 {
     public class PidRepository : IPidRepository
     {

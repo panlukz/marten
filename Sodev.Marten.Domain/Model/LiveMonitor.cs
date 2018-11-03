@@ -5,8 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sodev.Marten.Base.Model;
 
-namespace Sodev.Marten.Base.Model
+namespace Sodev.Marten.Domain.Model
 {
     public class LiveMonitor : ILiveMonitor
     {

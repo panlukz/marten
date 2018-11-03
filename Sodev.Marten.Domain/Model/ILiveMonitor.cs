@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace Sodev.Marten.Base.Model
+namespace Sodev.Marten.Domain.Model
 {
     public interface ILiveMonitor
     {

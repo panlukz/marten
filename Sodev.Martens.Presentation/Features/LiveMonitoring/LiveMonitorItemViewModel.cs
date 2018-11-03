@@ -3,8 +3,8 @@ using LiveCharts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sodev.Marten.Base.Model;
-using Sodev.Marten.Base.Services;
+using Sodev.Marten.Domain.Model;
+using Sodev.Marten.Domain.Services;
 using Sodev.Marten.Presentation.Common;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
@@ -121,7 +121,7 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
             }
         }
 
-        public MonitorType MonitorType => MonitorType.Gauge;
+        public MonitorType MonitorType => MonitorType.LiveData;
 
         public void Remove()
         {

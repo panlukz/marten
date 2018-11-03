@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using Sodev.Marten.Base.Connection;
 
 namespace Sodev.Marten.Base.Services
 {
-    public interface IConnectionService
+    public interface IConnection
     {
         Task OpenAsync();
 
@@ -19,9 +20,10 @@ namespace Sodev.Marten.Base.Services
 
         IList<string> GetAvailablePorts();
 
-        void SendQuery(ObdQuery query);
+        void WriteData(string data);
 
-        event EventHandler<ObdAnswer> AnswerReceivedEvent;
+        event EventHandler<string> DataReceived;
+
     }
 
     public interface IConnectionInfo

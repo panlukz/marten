@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
 using LiveCharts.Configurations;
-using Sodev.Marten.Base.Connection;
-using Sodev.Marten.Base.Events;
-using Sodev.Marten.Base.Services;
-using Sodev.Marten.Base;
-using Sodev.Marten.Base.Model;
+using Sodev.Marten.Domain.Events;
+using Sodev.Marten.Base.ObdCommunication;
+using Sodev.Marten.Domain.Model;
+using Sodev.Marten.Domain.Services;
 using Sodev.Marten.Presentation.Features.Connection;
 using Sodev.Marten.Presentation.Features.LiveMonitoring;
 using Sodev.Marten.Presentation.Features.Preferences;
@@ -36,9 +35,9 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.Singleton<IWindowManager, WindowManager>();
             container.RegisterInstance(typeof(IServiceLocator), string.Empty, this);
             container.Singleton<IEventAggregator, EventAggregator>();
-            container.Singleton<IDomainEventAggregator, DomainEventAggregator>();
+            container.Singleton<IObdEventBus, ObdEventBus>();
+            container.Singleton<IObdCommuncation, ObdSerialCommunication>();
             container.Singleton<INavigationFlowService, NavigationFlowService>();
-            container.Singleton<IConnectionService, ConnectionService>();
             container.Singleton<ILiveDataService, LiveDataService>();
             container.Singleton<IPidRepository, PidRepository>();
 
@@ -52,11 +51,11 @@ namespace Sodev.Marten.Presentation.Bootstrapper
 
         private void ConfigureDomainEventAggregator()
         {
-            var domainEventAggregator = container.GetInstance<IDomainEventAggregator>();
-            domainEventAggregator.DomainEventPublished += DomainEventAggregator_DomainEventPublished;
+            var obdEventBus = container.GetInstance<IObdEventBus>();
+            obdEventBus.OnEventPublished += OnEventAggregatorOnEventPublished;
         }
 
-        private void DomainEventAggregator_DomainEventPublished(object sender, DomainEventBase domainEvent)
+        private void OnEventAggregatorOnEventPublished(object sender, ObdEventBase domainEvent)
         {
             container.GetInstance<IEventAggregator>().PublishOnUIThread(domainEvent);
         }

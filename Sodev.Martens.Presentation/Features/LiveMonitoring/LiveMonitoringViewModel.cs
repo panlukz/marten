@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sodev.Marten.Base.Services;
+using Sodev.Marten.Domain.Services;
 
 namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 {

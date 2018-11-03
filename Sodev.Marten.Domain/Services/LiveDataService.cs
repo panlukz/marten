@@ -6,27 +6,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sodev.Marten.Base.Connection;
-using Sodev.Marten.Base.Events;
 using Sodev.Marten.Base.Model;
+using Sodev.Marten.Base.ObdCommunication;
+using Sodev.Marten.Domain.Events;
+using Sodev.Marten.Domain.Model;
 
-namespace Sodev.Marten.Base.Services
+namespace Sodev.Marten.Domain.Services
 {
     public class LiveDataService : ILiveDataService
     {
-        private readonly IConnectionService connectionService;
+        private readonly IObdCommuncation obdCommuncation;
         private readonly IPidRepository pidRepository;
-        private readonly IDomainEventAggregator domainEventAggregator;
+        private readonly IObdEventBus obdEventBus;
 
         private readonly List<ILiveMonitor> registeredLiveMonitors = new List<ILiveMonitor>();
         private readonly List<ILiveMonitor> availableLiveMonitors = new List<ILiveMonitor>();
         private DateTime? queryingStartTimeStamp;
 
 
-        public LiveDataService(IConnectionService connectionService, IPidRepository pidRepository, IDomainEventAggregator domainEventAggregator)
+        public LiveDataService(IObdCommuncation obdCommuncation, IPidRepository pidRepository, IObdEventBus obdEventBus)
         {
-            this.connectionService = connectionService;
+            this.obdCommuncation = obdCommuncation;
             this.pidRepository = pidRepository;
-            this.domainEventAggregator = domainEventAggregator;
+            this.obdEventBus = obdEventBus;
 
             RefreshLiveMonitorsList();
         }
@@ -36,9 +38,9 @@ namespace Sodev.Marten.Base.Services
             //TODO it has to be implemented :(
 
             //TODO temporary, it has to be requested in a task probably...
-            if (connectionService.GetState() != ConnectionState.Opened) return new int[0];
+            if (obdCommuncation.ConnectionState != ConnectionState.Opened) return new int[0];
             var allAvailablePidsQuery = new ObdQuery(01, 00);
-            connectionService.SendQuery(allAvailablePidsQuery);
+            obdCommuncation.SendQuery(allAvailablePidsQuery);
 
 
             return new int[0];
@@ -82,13 +84,13 @@ namespace Sodev.Marten.Base.Services
 
         private void SubscribeLiveDataUpdatedEvent()
         {
-            connectionService.AnswerReceivedEvent -= OnLiveDataUpdated; //to ensure it won't be hooked up twice
-            connectionService.AnswerReceivedEvent += OnLiveDataUpdated;
+            obdCommuncation.AnswerReceivedEvent -= OnLiveDataUpdated; //to ensure it won't be hooked up twice
+            obdCommuncation.AnswerReceivedEvent += OnLiveDataUpdated;
         }
 
         private void UnsubscribeLiveDataUpdatedEvent()
         {
-            connectionService.AnswerReceivedEvent -= OnLiveDataUpdated;
+            obdCommuncation.AnswerReceivedEvent -= OnLiveDataUpdated;
         }
 
         private void OnLiveDataUpdated(object sender, ObdAnswer answer)
@@ -102,7 +104,7 @@ namespace Sodev.Marten.Base.Services
         {
             continueQuerying = true;
             queryingStartTimeStamp = DateTime.Now;
-            domainEventAggregator.PublishDomainEvent(new StartQueryingEvent(queryingStartTimeStamp.Value));
+            obdEventBus.PublishEvent(new StartQueryingEvent(queryingStartTimeStamp.Value));
             Task.Factory.StartNew(async () =>
             {
                 while (continueQuerying)
@@ -130,7 +132,7 @@ namespace Sodev.Marten.Base.Services
             foreach (var liveMonitor in registeredLiveMonitors.ToList())
             {
                     var query = new ObdQuery(1, liveMonitor.Id);
-                    connectionService.SendQuery(query);
+                obdCommuncation.SendQuery(query);
 
                     await Task.Delay(200);
             }

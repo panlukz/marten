@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Sodev.Marten.Base.Helpers
+namespace Sodev.Marten.Domain.Helpers
 {
     public static class XmlSerializeHelper
     {

@@ -1,23 +1,23 @@
 ﻿using Caliburn.Micro;
 using Sodev.Marten.Base.Connection;
-using Sodev.Marten.Base.Events;
-using Sodev.Marten.Base.Services;
 using System.Collections.Generic;
+using Sodev.Marten.Base.ObdCommunication;
+using Sodev.Marten.Domain.Events;
 
 namespace Sodev.Marten.Presentation.Features.Connection
 {
     public class ConnectionViewModel : Screen, IHandle<ConnectionStateChanged>
     {
-        private readonly IConnectionService connectionService;
+        private readonly IObdCommuncation obdCommuncation;
         private string selectedPort;
 
-        public ConnectionViewModel(IEventAggregator eventAggregator, IConnectionService connectionService)
+        public ConnectionViewModel(IEventAggregator eventAggregator, IObdCommuncation obdCommuncation)
         {
-            this.connectionService = connectionService;
+            this.obdCommuncation = obdCommuncation;
             eventAggregator.Subscribe(this);
         }
 
-        public IList<string> AvailablePorts => connectionService.GetAvailablePorts();
+        public IList<string> AvailablePorts => obdCommuncation.GetAvailablePorts();
 
         public string SelectedPort
         {
@@ -42,24 +42,24 @@ namespace Sodev.Marten.Presentation.Features.Connection
                 PortName = SelectedPort,
                 BaudRate = SelectedBaudRate
             };
-            connectionService.SetParameters(connectionParameters);
-            await connectionService.OpenAsync();
-            NotifyOfPropertyChange(() => IsConnected); //TODO hey maybe refresh it based on event sent by connection service??
+            obdCommuncation.SetConnectionParameters(connectionParameters);
+            await obdCommuncation.OpenAsync();
+            NotifyOfPropertyChange(() => IsConnected); //TODO hey maybe refresh it based on event sent by obdCommuncation service??
             NotifyOfPropertyChange(() => CanDisconnect);
         }
 
         public void Disconnect()
         {
-            connectionService.Close();
+            obdCommuncation.Close();
             NotifyOfPropertyChange(() => IsConnected);
             NotifyOfPropertyChange(() => CanDisconnect);
         }
 
-        public bool CanConnectAsync => connectionService.GetState() == ConnectionState.Closed && !string.IsNullOrEmpty(SelectedPort);
+        public bool CanConnectAsync => obdCommuncation.ConnectionState == ConnectionState.Closed && !string.IsNullOrEmpty(SelectedPort);
 
-        public bool CanDisconnect => connectionService.GetState() == ConnectionState.Opened;
+        public bool CanDisconnect => obdCommuncation.ConnectionState == ConnectionState.Opened;
 
-        public bool IsConnected => connectionService.GetState() == ConnectionState.Opened;
+        public bool IsConnected => obdCommuncation.ConnectionState == ConnectionState.Opened;
 
         public void Handle(ConnectionStateChanged message)
         {
