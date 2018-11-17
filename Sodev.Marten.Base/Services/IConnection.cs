@@ -24,6 +24,7 @@ namespace Sodev.Marten.Base.Services
 
         event EventHandler<string> DataReceived;
 
+        event EventHandler<ConnectionProcedureStateChangedPayload> StateChanged;
     }
 
     public interface IConnectionInfo

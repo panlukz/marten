@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using Sodev.Marten.Base.Connection;
@@ -61,12 +62,8 @@ namespace Sodev.Marten.Base.ObdCommunication
 
             foreach (var ans in answersArray)
             {
-                if (!ans.StartsWith("41")
-                    && !string.IsNullOrEmpty(ans)
-                    && !ans.Equals("OK")
-                    && !ans.Equals(">")
-                    && !ans.Equals("NO DATA")
-                    && !ans.Equals("ATE0OK")) throw new NotImplementedException(); //in case if it's not a response for a PID request
+                if (ans.Equals("OK")
+                    || ans.Equals("NO DATA")) continue; //these two have to be handled separately... //throw new NotImplementedException(); //in case if it's not a response for a PID request
 
                 PublishObdAnswer(ans);
             }
@@ -75,10 +72,29 @@ namespace Sodev.Marten.Base.ObdCommunication
         private void PublishObdAnswer(string answer)
         {
             if (!string.IsNullOrWhiteSpace(answer) && !answer.Equals("OK"))
-                AnswerReceivedEvent?.Invoke(this, new ObdAnswer(answer));
+            {
+                try
+                {
+                    var obdAnswer = new ObdAnswer(answer);
+
+                    if (obdAnswer.Data.Length > 0) //TODO refactor...
+                        AnswerReceivedEvent?.Invoke(this, obdAnswer);
+                }
+                catch (FormatException ex)
+                {
+                    //TODO log it
+                    Debug.WriteLine($"DE3 _______ FormatException has been thrown during parsing obd answer: {ex.Message} ");
+                }
+            }
         }
 
         public event EventHandler<ObdAnswer> AnswerReceivedEvent;
+
+        public event EventHandler<ConnectionProcedureStateChangedPayload> ConnectionStateChanged
+        {
+            add => connection.StateChanged += value;
+            remove => connection.StateChanged -= value;
+        }
     }
 
     public interface IObdCommuncation
@@ -90,5 +106,6 @@ namespace Sodev.Marten.Base.ObdCommunication
         void SetConnectionParameters(ConnectionParameters parameters);
         Task OpenAsync();
         void Close();
+        event EventHandler<ConnectionProcedureStateChangedPayload> ConnectionStateChanged;
     }
 }

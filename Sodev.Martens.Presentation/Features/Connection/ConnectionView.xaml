@@ -12,29 +12,40 @@
         <converters:InverseBoolean x:Key="InverseBooleanConverter" />
     </UserControl.Resources>
     <Grid>
-        <Grid Margin="400, 100">
+        <Grid Margin="400, 0" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="22" />
+                <RowDefinition Height="15" /> <!-- 1. Spacer -->
+                <RowDefinition Height="22" />
+                <RowDefinition Height="22" /> <!-- 3. Spacer -->
+                <RowDefinition Height="30" />
+                <RowDefinition Height="22" /> <!-- 5. Spacer -->
+                <RowDefinition Height="50" /> <!-- 6. Status -->
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Port:" />
             <ComboBox Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}"
                       ItemsSource="{Binding AvailablePorts}" SelectedItem="{Binding SelectedPort}" />
 
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Baud rate:" />
-            <ComboBox Grid.Column="1" Grid.Row="1" IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}"
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Baud rate:" />
+            <ComboBox Grid.Column="1" Grid.Row="2" IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}"
                       ItemsSource="{Binding AvailableBaudRates}" SelectedItem="{Binding SelectedBaudRate}" />
 
-            <Button Grid.Column="0" Grid.Row="2"
+            <Button Grid.Column="0" Grid.Row="4" Margin="10, 0"
                     Content="Connect" cal:Message.Attach="ConnectAsync" />
-            <Button Grid.Column="1" Grid.Row="2"
+            <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
                     Content="Disconnect" cal:Message.Attach="Disconnect" />
+
+            <Grid Grid.Row="6" Grid.ColumnSpan="2" VerticalAlignment="Stretch">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+                    <ProgressBar Height="25" Value="{Binding CurrentConnectionProcedureProgress, Mode=OneWay}" />
+                    <TextBlock Text="{Binding CurrentConnectionProcedureStepDescription, Mode=OneWay}" />
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
     

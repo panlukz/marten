@@ -57,7 +57,7 @@ namespace Sodev.Marten.Base.Connection
             {
                 var currentStep = procedureSteps.First(x => x.StepName == stepName);
                 var indexOfCurrentStep = procedureSteps.IndexOf(currentStep);
-                return (indexOfCurrentStep + 1) / procedureSteps.Count * 100;
+                return (int) ((indexOfCurrentStep + 1) * 100.0 / procedureSteps.Count);
             }
         }
 

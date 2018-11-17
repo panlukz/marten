@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using Sodev.Marten.Base.Connection;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Sodev.Marten.Base.ObdCommunication;
 using Sodev.Marten.Domain.Events;
 
@@ -43,14 +44,32 @@ namespace Sodev.Marten.Presentation.Features.Connection
                 BaudRate = SelectedBaudRate
             };
             obdCommuncation.SetConnectionParameters(connectionParameters);
+
+            obdCommuncation.ConnectionStateChanged += OnConnectionStateChanged; //TODO consider moving it to constructor?
+
             await obdCommuncation.OpenAsync();
             NotifyOfPropertyChange(() => IsConnected); //TODO hey maybe refresh it based on event sent by obdCommuncation service??
             NotifyOfPropertyChange(() => CanDisconnect);
         }
 
+        private void OnConnectionStateChanged(object sender, ConnectionProcedureStateChangedPayload e)
+        {
+            CurrentConnectionProcedureProgress = e.Progress;
+            CurrentConnectionProcedureStepDescription = e.Description;
+            NotifyOfPropertyChange(() => CurrentConnectionProcedureProgress);
+            NotifyOfPropertyChange(() => CurrentConnectionProcedureStepDescription);
+        }
+
+        public string CurrentConnectionProcedureStepDescription { get; private set; }
+
+        public int CurrentConnectionProcedureProgress { get; private set; }
+
         public void Disconnect()
         {
             obdCommuncation.Close();
+
+            obdCommuncation.ConnectionStateChanged -= OnConnectionStateChanged;
+
             NotifyOfPropertyChange(() => IsConnected);
             NotifyOfPropertyChange(() => CanDisconnect);
         }

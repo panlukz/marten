@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionHandling\CommunicationException.cs" />
     <Compile Include="ObdCommunication\ObdCommunicationService.cs" />
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionParameters.cs" />

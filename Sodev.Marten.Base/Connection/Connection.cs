@@ -33,6 +33,9 @@ namespace Sodev.Marten.Base.Connection
 
             await connectionProcedure.StartConnectionProcedure();
 
+            port.DiscardOutBuffer();
+            port.DiscardInBuffer();
+
             SetState(ConnectionState.Opened);
 
             //connection procedure has finished so we can hook up the communication
@@ -85,9 +88,15 @@ namespace Sodev.Marten.Base.Connection
         private void SetState(ConnectionState newState)
         {
             state = newState;
-            //obdEventBus.PublishEvent(new ConnectionStateChanged(newState));
+            //obdEventBus.PublishEvent(new StateChanged(newState));
         }
 
         public IList<string> GetAvailablePorts() => SerialPort.GetPortNames().ToList();
+
+        public event EventHandler<ConnectionProcedureStateChangedPayload> StateChanged
+        {
+            add => connectionProcedure.StateUpdated += value;
+            remove => connectionProcedure.StateUpdated -= value;
+        }
     }
 }

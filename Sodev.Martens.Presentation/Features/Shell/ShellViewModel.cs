@@ -24,7 +24,7 @@ namespace Sodev.Marten.Presentation.Features.Shell
             this.serviceLocator = serviceLocator;
             eventAggregator.Subscribe(this);
 
-            ActivateItem(IoC.Get<PreferencesViewModel>()); //TODO temporary. remove it.
+            ActivateItem(IoC.Get<ConnectionViewModel>()); //TODO temporary. remove it.
 
         }
 
