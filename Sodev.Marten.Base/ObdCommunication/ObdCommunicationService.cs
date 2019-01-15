@@ -63,22 +63,59 @@ namespace Sodev.Marten.Base.ObdCommunication
             foreach (var ans in answersArray)
             {
                 if (ans.Equals("OK")
-                    || ans.Equals("NO DATA")) continue; //these two have to be handled separately... //throw new NotImplementedException(); //in case if it's not a response for a PID request
+                    || ans.Equals("NO DATA")
+                    || string.IsNullOrWhiteSpace(ans)) continue; //TODO these two have to be handled separately... //throw new NotImplementedException(); //in case if it's not a response for a PID request
 
-                PublishObdAnswer(ans);
+
+                switch (DetermineAnswerType(ans))
+                {
+                    case AnswerType.Pid:
+                        PublishPidAnswer(ans);
+                        break;
+                    case AnswerType.Dtc:
+                        PublishDtcAnswer(ans);
+                        break;
+                    case AnswerType.ClearDtc:
+                        PublishClearDtcAnswer();
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
 
-        private void PublishObdAnswer(string answer)
+        private AnswerType DetermineAnswerType(string answer)
+        {
+            var serviceNb = 0;
+            var conversionResult = int.TryParse(answer[1].ToString(), out serviceNb);
+
+            if(serviceNb == 1)
+                return AnswerType.Pid;
+            else if (serviceNb == 3)
+                return AnswerType.Dtc;
+            else if (serviceNb == 4)
+                return AnswerType.ClearDtc;
+
+            throw new Exception("Well, something went definitely wrong...");
+        }
+
+        private void PublishDtcAnswer(string answer)
+        {
+            var dtcAnswer = new DtcAnswer(answer);
+            DtcAnswerReceivedEvent?.Invoke(this, dtcAnswer);
+        }
+
+        private void PublishPidAnswer(string answer)
         {
             if (!string.IsNullOrWhiteSpace(answer) && !answer.Equals("OK"))
             {
                 try
                 {
-                    var obdAnswer = new ObdAnswer(answer);
+                    var obdAnswer = new PidAnswer(answer);
 
                     if (obdAnswer.Data.Length > 0) //TODO refactor...
-                        AnswerReceivedEvent?.Invoke(this, obdAnswer);
+                        PidAnswerReceivedEvent?.Invoke(this, obdAnswer);
                 }
                 catch (FormatException ex)
                 {
@@ -88,7 +125,16 @@ namespace Sodev.Marten.Base.ObdCommunication
             }
         }
 
-        public event EventHandler<ObdAnswer> AnswerReceivedEvent;
+        private void PublishClearDtcAnswer()
+        {
+            DtcClearedEvent?.Invoke(this, true);
+        }
+
+        public event EventHandler<PidAnswer> PidAnswerReceivedEvent;
+
+        public event EventHandler<DtcAnswer> DtcAnswerReceivedEvent;
+        public event EventHandler<bool> DtcClearedEvent;
+
 
         public event EventHandler<ConnectionProcedureStateChangedPayload> ConnectionStateChanged
         {
@@ -100,12 +146,21 @@ namespace Sodev.Marten.Base.ObdCommunication
     public interface IObdCommuncation
     {
         void SendQuery(ObdQuery query);
-        event EventHandler<ObdAnswer> AnswerReceivedEvent;
+        event EventHandler<PidAnswer> PidAnswerReceivedEvent;
+        event EventHandler<DtcAnswer> DtcAnswerReceivedEvent;
         IList<string> GetAvailablePorts();
         ConnectionState ConnectionState { get; }
         void SetConnectionParameters(ConnectionParameters parameters);
         Task OpenAsync();
         void Close();
         event EventHandler<ConnectionProcedureStateChangedPayload> ConnectionStateChanged;
+        event EventHandler<bool> DtcClearedEvent;
+    }
+
+    internal enum AnswerType
+    {
+        Pid,
+        Dtc,
+        ClearDtc
     }
 }

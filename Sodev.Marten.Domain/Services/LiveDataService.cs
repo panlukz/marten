@@ -84,16 +84,16 @@ namespace Sodev.Marten.Domain.Services
 
         private void SubscribeLiveDataUpdatedEvent()
         {
-            obdCommuncation.AnswerReceivedEvent -= OnLiveDataUpdated; //to ensure it won't be hooked up twice
-            obdCommuncation.AnswerReceivedEvent += OnLiveDataUpdated;
+            obdCommuncation.PidAnswerReceivedEvent -= OnLiveDataUpdated; //to ensure it won't be hooked up twice
+            obdCommuncation.PidAnswerReceivedEvent += OnLiveDataUpdated;
         }
 
         private void UnsubscribeLiveDataUpdatedEvent()
         {
-            obdCommuncation.AnswerReceivedEvent -= OnLiveDataUpdated;
+            obdCommuncation.PidAnswerReceivedEvent -= OnLiveDataUpdated;
         }
 
-        private void OnLiveDataUpdated(object sender, ObdAnswer answer)
+        private void OnLiveDataUpdated(object sender, PidAnswer answer)
         {
             //TODO DO STUFF HERE!!! this method should be responsible for redistributing answers among appropriate handlers!
             UpdateLiveMonitorData(answer.PidId, answer.Data, answer.TimeStamp);

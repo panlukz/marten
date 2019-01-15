@@ -101,6 +101,10 @@
       <DependentUpon>ConnectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Connection\ConnectionViewModel.cs" />
+    <Compile Include="Features\FaultCodes\FaultCodesView.xaml.cs">
+      <DependentUpon>FaultCodesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\FaultCodes\FaultCodesViewModel.cs" />
     <Compile Include="Features\LiveMonitoring\LiveMonitoringView.xaml.cs">
       <DependentUpon>LiveMonitoringView.xaml</DependentUpon>
     </Compile>
@@ -182,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Features\Dummy\DummyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\FaultCodes\FaultCodesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

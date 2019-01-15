@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sodev.Marten.Presentation.Events;
 using Sodev.Marten.Presentation.Features.Connection;
+using Sodev.Marten.Presentation.Features.FaultCodes;
 using Sodev.Marten.Presentation.Features.LiveMonitoring;
 using Sodev.Marten.Presentation.Features.Preferences;
 
@@ -32,6 +33,7 @@ namespace Sodev.Marten.Presentation.Features.Menu
 
         public void OpenCodes()
         {
+            eventAggregator.PublishOnUIThread(new NavigationEvent(typeof(FaultCodesViewModel)));
         }
 
         public void OpenPreferences()

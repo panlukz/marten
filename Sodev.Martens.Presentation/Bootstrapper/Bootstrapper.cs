@@ -7,6 +7,7 @@ using Sodev.Marten.Base.ObdCommunication;
 using Sodev.Marten.Domain.Model;
 using Sodev.Marten.Domain.Services;
 using Sodev.Marten.Presentation.Features.Connection;
+using Sodev.Marten.Presentation.Features.FaultCodes;
 using Sodev.Marten.Presentation.Features.LiveMonitoring;
 using Sodev.Marten.Presentation.Features.Preferences;
 using Sodev.Marten.Presentation.Features.Shell;
@@ -29,6 +30,7 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.Singleton<ConnectionViewModel>();
             container.Singleton<LiveMonitoringViewModel>();
             container.PerRequest<PreferencesViewModel>();
+            container.PerRequest<FaultCodesViewModel>();
             container.PerRequest<ShellViewModel>();
 
 
@@ -39,6 +41,7 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.Singleton<IObdCommuncation, ObdSerialCommunication>();
             container.Singleton<INavigationFlowService, NavigationFlowService>();
             container.Singleton<ILiveDataService, LiveDataService>();
+            container.Singleton<IFaultCodesService, FaultCodesService>();
             container.Singleton<IPidRepository, PidRepository>();
 
 

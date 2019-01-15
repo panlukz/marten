@@ -50,7 +50,7 @@
     <Compile Include="Connection\ConnectionParameters.cs" />
     <Compile Include="Connection\ConnectionProcedure.cs" />
     <Compile Include="Connection\ConnectionState.cs" />
-    <Compile Include="Connection\ObdAnswer.cs" />
+    <Compile Include="Connection\PidAnswer.cs" />
     <Compile Include="Connection\ObdQuery.cs" />
     <Compile Include="Model\Pid.cs" />
     <Compile Include="Model\PidParameters.cs" />
@@ -64,6 +64,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

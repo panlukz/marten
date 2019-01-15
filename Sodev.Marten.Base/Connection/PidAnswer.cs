@@ -5,9 +5,9 @@ using Sodev.Marten.Base.ExceptionHandling;
 
 namespace Sodev.Marten.Base.Connection
 {
-    public class ObdAnswer
+    public class PidAnswer
     {
-        public ObdAnswer(string answerText)
+        public PidAnswer(string answerText)
         {
             ServiceNb = DeserializeServiceNb(answerText.Substring(1, 1));
             PidId = DeserializePidId(answerText.Substring(3, 2));
@@ -48,4 +48,16 @@ namespace Sodev.Marten.Base.Connection
         }
 
     }
+
+    public class DtcAnswer
+    {
+        public DtcAnswer(string answerText)
+        {
+            DtcNumber = answerText; //TODO first obviously convert it
+        }
+
+        public string DtcNumber { get; }
+
+    }
+
 }
