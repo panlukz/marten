@@ -12,6 +12,8 @@
             <TextBlock Text="Fault codes detected:" />
             <TextBlock Text="{Binding FaultCodesNumber}" />
         </StackPanel>
+
+        <ListView ItemsSource="{Binding FaultCodesList}"></ListView>
         
         <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
                     Content="Request fault codes" cal:Message.Attach="RequestFaultCodes" />

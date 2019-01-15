@@ -18,6 +18,8 @@ namespace Sodev.Marten.Domain.Services
         int FaultCodesNumber { get; }
         bool FaultCodesPresent { get; }
         IList<Dtc> FaultCodesList { get; }
+        void UnsubscribeAnswerReceivedEvent();
+        void SubscribeAnswerReceivedEvent();
     }
 
     public class FaultCodesService : IFaultCodesService
@@ -34,11 +36,9 @@ namespace Sodev.Marten.Domain.Services
         {
             this.obdCommuncation = obdCommuncation;
             this.obdEventBus = obdEventBus;
-
-            SubscribeAnswerReceivedEvent();
         }
 
-        private void SubscribeAnswerReceivedEvent()
+        public void SubscribeAnswerReceivedEvent()
         {
             obdCommuncation.DtcAnswerReceivedEvent -= OnDtcAnswerReceived; //to ensure it won't be hooked up twice
             obdCommuncation.DtcAnswerReceivedEvent += OnDtcAnswerReceived;
@@ -52,8 +52,7 @@ namespace Sodev.Marten.Domain.Services
 
 
 
-        //TODO use when leaving the view...
-        private void UnsubscribeAnswerReceivedEvent()
+        public void UnsubscribeAnswerReceivedEvent()
         {
             obdCommuncation.DtcAnswerReceivedEvent -= OnDtcAnswerReceived;
             obdCommuncation.PidAnswerReceivedEvent -= OnPidAnswerReceived;
@@ -82,9 +81,10 @@ namespace Sodev.Marten.Domain.Services
 
         private void OnDtcClearedEvent(object sender, bool e)
         {
-            obdEventBus.PublishEvent(new FaultCodeEvent(FaultCodeEventType.FaultCodesCleared));
+            Task.Factory.StartNew(RetrieveFaultCodes)
+                .ContinueWith(t =>
+                obdEventBus.PublishEvent(new FaultCodeEvent(FaultCodeEventType.FaultCodesCleared)));
         }
-
 
         private void OnDtcAnswerReceived(object sender, DtcAnswer e)
         {
@@ -94,14 +94,16 @@ namespace Sodev.Marten.Domain.Services
 
         public void RequestFaultCodes()
         {
-            Task.Factory.StartNew( () =>
-            {
-                FaultCodesList.Clear();
-                RequestStoredDtcNumber();
-                mre.WaitOne();
-                obdCommuncation.SendQuery(getStoredDtcQuery);
-                mre.Reset();
-            });
+            Task.Factory.StartNew(RetrieveFaultCodes);
+        }
+
+        private void RetrieveFaultCodes()
+        {
+            FaultCodesList.Clear();
+            RequestStoredDtcNumber();
+            mre.WaitOne();
+            obdCommuncation.SendQuery(getStoredDtcQuery);
+            mre.Reset();
         }
 
         private void RequestStoredDtcNumber()

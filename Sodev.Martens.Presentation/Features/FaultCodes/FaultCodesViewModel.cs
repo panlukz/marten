@@ -19,6 +19,18 @@ namespace Sodev.Marten.Presentation.Features.FaultCodes
             NotifyOfPropertyChange(nameof(FaultCodesList));
         }
 
+        protected override void OnActivate()
+        {
+            faultCodesService.SubscribeAnswerReceivedEvent();
+            base.OnActivate();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            faultCodesService.UnsubscribeAnswerReceivedEvent();
+            base.OnDeactivate(close);
+        }
+
         public FaultCodesViewModel(IFaultCodesService faultCodesService, IEventAggregator eventAggregator)
         {
             this.faultCodesService = faultCodesService;
@@ -37,7 +49,7 @@ namespace Sodev.Marten.Presentation.Features.FaultCodes
 
         public int FaultCodesNumber => faultCodesService.FaultCodesNumber;
 
-        public IList<string> FaultCodesList => faultCodesService.FaultCodesList.Select(x => x.Number).ToList();
 
+        public BindableCollection<string> FaultCodesList => new BindableCollection<string>(faultCodesService.FaultCodesList.Select(x => x.Number).ToList());
     }
 }

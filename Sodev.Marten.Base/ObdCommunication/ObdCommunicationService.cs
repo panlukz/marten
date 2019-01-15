@@ -51,8 +51,9 @@ namespace Sodev.Marten.Base.ObdCommunication
 
         private void DataReceived(object sender, string answer)
         {
+            answer = answer.Replace("\r\n", ">");
             //remove new line special characters
-            answer = answer.Replace("\n", "").Replace("\r", "");
+            //answer = answer.Replace("\n", "").Replace("\r", "");
 
             //If answer contains '<' sign, it means there is actually more than one answer
             //meaning each answer has to be handled separately
@@ -62,8 +63,7 @@ namespace Sodev.Marten.Base.ObdCommunication
 
             foreach (var ans in answersArray)
             {
-                if (ans.Equals("OK")
-                    || ans.Equals("NO DATA")
+                if (ans.Equals("NO DATA")
                     || string.IsNullOrWhiteSpace(ans)) continue; //TODO these two have to be handled separately... //throw new NotImplementedException(); //in case if it's not a response for a PID request
 
 
@@ -87,6 +87,8 @@ namespace Sodev.Marten.Base.ObdCommunication
 
         private AnswerType DetermineAnswerType(string answer)
         {
+            if(answer.Equals("OK")) return AnswerType.ClearDtc;
+
             var serviceNb = 0;
             var conversionResult = int.TryParse(answer[1].ToString(), out serviceNb);
 
@@ -94,8 +96,6 @@ namespace Sodev.Marten.Base.ObdCommunication
                 return AnswerType.Pid;
             else if (serviceNb == 3)
                 return AnswerType.Dtc;
-            else if (serviceNb == 4)
-                return AnswerType.ClearDtc;
 
             throw new Exception("Well, something went definitely wrong...");
         }
