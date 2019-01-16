@@ -2,12 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using Sodev.Marten.Base.Connection;
+using Sodev.Marten.Base.Model;
 using Sodev.Marten.Base.ObdCommunication;
 using Sodev.Marten.Domain.Events;
+using Sodev.Marten.Domain.Helpers;
 
 namespace Sodev.Marten.Domain.Services
 {
@@ -17,7 +21,7 @@ namespace Sodev.Marten.Domain.Services
         void RequestClearingFaultCodes();
         int FaultCodesNumber { get; }
         bool FaultCodesPresent { get; }
-        IList<Dtc> FaultCodesList { get; }
+        List<Dtc> FaultCodesList { get; }
         void UnsubscribeAnswerReceivedEvent();
         void SubscribeAnswerReceivedEvent();
     }
@@ -64,9 +68,9 @@ namespace Sodev.Marten.Domain.Services
         {
             if (e.ServiceNb != 1 && e.PidId != 1) throw new Exception("Unexpected answer on this feature");
 
-            var bitArray = new BitArray(new byte[] { e.Data[0] });
+            var bitArray = new BitArray(new byte[] {e.Data[0]});
 
-            var faultCodesPresent = bitArray.Get(0);
+            var isMilOn = bitArray.Get(0);
             bitArray.Set(7, false);
 
             var array = new int[1];
@@ -83,12 +87,12 @@ namespace Sodev.Marten.Domain.Services
         {
             Task.Factory.StartNew(RetrieveFaultCodes)
                 .ContinueWith(t =>
-                obdEventBus.PublishEvent(new FaultCodeEvent(FaultCodeEventType.FaultCodesCleared)));
+                    obdEventBus.PublishEvent(new FaultCodeEvent(FaultCodeEventType.FaultCodesCleared)));
         }
 
         private void OnDtcAnswerReceived(object sender, DtcAnswer e)
         {
-            FaultCodesList.Add(new Dtc(e.DtcNumber));
+            FaultCodesList.AddRange(Dtc.CreateList(e.Data));
             obdEventBus.PublishEvent(new FaultCodeEvent(FaultCodeEventType.FaultCodesRetrieved));
         }
 
@@ -119,32 +123,73 @@ namespace Sodev.Marten.Domain.Services
         public int FaultCodesNumber { get; private set; }
         public bool FaultCodesPresent => FaultCodesNumber > 0;
 
-        public IList<Dtc> FaultCodesList { get; private set; } = new List<Dtc>();
+        public List<Dtc> FaultCodesList { get; private set; } = new List<Dtc>();
 
-    }
+}
 
     public class Dtc //probably a base layer object
     {
-        public string Number { get; }
+        public string Id { get; private set; }
 
-        public Dtc(string strDtc)
+        public string DisplayId
         {
-            Number = strDtc;
+            get
+            {
+                var typeSign = DtcSubSystem.GetTypeDescription(int.Parse(Id[0].ToString()))[0];
+                return typeSign + Id.Substring(1);
+            }
+        }
+
+        public string Type => DtcSubSystem.GetTypeDescription(int.Parse(Id[0].ToString()));
+
+        public string SubSystem => DtcSubSystem.GetSubsystemDescription(int.Parse(Id[2].ToString()));
+
+        public string Desc { get; set; }
+        
+        private Dtc()
+        {
+        }
+
+        public static List<Dtc> CreateList(byte[] data)
+        {
+            var list = new List<Dtc>();
+            for (var i = 0; i < data.Length; i+=4)
+            {
+                var first = data[0+i] >> 2;
+                var second = data[0+i] & 3;
+
+                if(first == 0 && second == 0 && data[1 + i] == 0 && data[2 + i] == 0 && data[3 + i] == 0) 
+                    break; //all codes read
+
+                var specificCode = $"{data[1+i]:D}{data[2+i]:D}{data[3+i]:D}";
+                var dtc = new Dtc();
+                dtc.Id = $"{first}{second}{specificCode}";
+
+                if (dtcDetails == null) dtcDetails = InitializeKnowDtcList();
+
+                dtc.Desc = dtcDetails.FirstOrDefault(x => x.Id == dtc.Id)?.Desc;
+
+                list.Add(dtc);
+            }
+
+            return list;
+        }
+
+        private static List<DtcDetails> dtcDetails;
+
+        private static List<DtcDetails> InitializeKnowDtcList()
+        {
+
+            var hardcodedPath = "dtcdb.xml";//TODO get rid of it!
+            var xmlString = File.ReadAllText(hardcodedPath);
+            return XmlSerializeHelper.DeSerializeObject<List<DtcDetails>>(xmlString);
         }
     }
 
-    public enum DtcType
+    public class DtcDetails
     {
-        PowerTrain,
-        Chassis,
-        Body,
-        Network
-    }
-
-    public enum DtcSpecificType
-    {
-        ObdSpecific,
-        ManufacturerSpecific
+        public string Id { get; set; }
+        public string Desc { get; set; }
     }
 
     public class DtcSubSystem
@@ -170,14 +215,14 @@ namespace Sodev.Marten.Domain.Services
             {3, "Network"}
         };
 
-        public string GetTypeDescription(int typeId)
+        public static string GetTypeDescription(int typeId)
         {
-            if (!subsystemDesc.ContainsKey(typeId)) return string.Empty;
+            if (!typeDesc.ContainsKey(typeId)) return string.Empty;
 
-            return subsystemDesc[typeId];
+            return typeDesc[typeId];
         }
 
-        public string GetSubsystemDescription(int subsystemId)
+        public static string GetSubsystemDescription(int subsystemId)
         {
             if (!subsystemDesc.ContainsKey(subsystemId)) return string.Empty;
 

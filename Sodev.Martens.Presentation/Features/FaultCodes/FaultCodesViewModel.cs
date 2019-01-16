@@ -50,6 +50,6 @@ namespace Sodev.Marten.Presentation.Features.FaultCodes
         public int FaultCodesNumber => faultCodesService.FaultCodesNumber;
 
 
-        public BindableCollection<string> FaultCodesList => new BindableCollection<string>(faultCodesService.FaultCodesList.Select(x => x.Number).ToList());
+        public BindableCollection<Dtc> FaultCodesList => new BindableCollection<Dtc>(faultCodesService.FaultCodesList);
     }
 }

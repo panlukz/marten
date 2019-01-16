@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.FaultCodes"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:services="clr-namespace:Sodev.Marten.Domain.Services;assembly=Sodev.Marten.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Orientation="Vertical">
@@ -13,7 +14,22 @@
             <TextBlock Text="{Binding FaultCodesNumber}" />
         </StackPanel>
 
-        <ListView ItemsSource="{Binding FaultCodesList}"></ListView>
+        <ListView ItemsSource="{Binding FaultCodesList}">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="services:Dtc">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Fault code id: " />
+                        <TextBlock Text="{Binding DisplayId}" FontWeight="Bold" />
+                        <TextBlock Text="Description: " />
+                        <TextBlock Text="{Binding Desc}" FontWeight="Bold" />
+                        <TextBlock Text="Type: " />
+                        <TextBlock Text="{Binding Type}" FontWeight="Bold" />
+                        <TextBlock Text="Subsystem: " />
+                        <TextBlock Text="{Binding SubSystem}" FontWeight="Bold" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         
         <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
                     Content="Request fault codes" cal:Message.Attach="RequestFaultCodes" />

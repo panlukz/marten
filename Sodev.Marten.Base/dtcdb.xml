@@ -1,0 +1,799 @@
+﻿<?xml version="1.0"?>
+<ArrayOfDtcDetails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DtcDetails>
+    <Id>00001</Id>
+    <Desc>Fuel Volume Regulator Control Circuit / Open</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00002</Id>
+    <Desc>Fuel Volume Regulator Control Circuit Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00003</Id>
+    <Desc>Fuel Volume Regulator Control Circuit Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00004</Id>
+    <Desc>Fuel Volume Regulator Control Circuit High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00005</Id>
+    <Desc>Fuel Shutoff Valve Control Circuit / Open</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00006</Id>
+    <Desc>Fuel Shutoff Valve Control Circuit Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00007</Id>
+    <Desc>Fuel Shutoff Valve Control Circuit High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00008</Id>
+    <Desc>Engine Position System Performance - Bank 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00009</Id>
+    <Desc>Engine Position System Performance - Bank 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00010</Id>
+    <Desc>Intake Camshaft Position Actuator Circuit / Open (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00011</Id>
+    <Desc>Intake Camshaft Position Timing - Over-Advanced (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00012</Id>
+    <Desc>Intake Camshaft Position Timing - Over-Retarded (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00013</Id>
+    <Desc>Exhaust Camshaft Position Actuator Circuit / Open (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00014</Id>
+    <Desc>Exhaust Camshaft Position Timing - Over-Advanced (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00015</Id>
+    <Desc>Exhaust Camshaft Position Timing - Over-Retarded (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00016</Id>
+    <Desc>Crankshaft Position Camshaft Position Correlation Bank 2 Sensor A</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00017</Id>
+    <Desc>Crankshaft Position Camshaft Position Correlation Bank 2 Sensor B</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00018</Id>
+    <Desc>Crankshaft Position Camshaft Position Correlation Bank 2 Sensor A</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00019</Id>
+    <Desc>Crankshaft Position Camshaft Position Correlation Bank 2 Sensor B</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00020</Id>
+    <Desc>Intake Camshaft Position Actuator Circuit / Open (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00021</Id>
+    <Desc>Intake Camshaft Position Timing - Over-Advanced (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00022</Id>
+    <Desc>Intake Camshaft Position Timing - Over-Retarded (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00023</Id>
+    <Desc>Exhaust Camshaft Position Actuator Circuit / Open (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00024</Id>
+    <Desc>Exhaust Camshaft Position Timing - Over-Advanced (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00025</Id>
+    <Desc>Exhaust Camshaft Position Timing - Over-Retarded (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00026</Id>
+    <Desc>Intake Valve Control Solenoid Circuit Range/Performance (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00027</Id>
+    <Desc>Exhaust Valve Control Solenoid Circuit Range/Performance (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00028</Id>
+    <Desc>Intake Valve Control Solenoid Circuit Range/Performance (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00029</Id>
+    <Desc>Exhaust Valve Control Solenoid Circuit Range/Performance (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00030</Id>
+    <Desc>Heated Oxygen Sensor (H02S) Heater Control Circuit Bank 2 Sensor 1</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00031</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit Low Voltage Bank 2 Sensor 1</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00032</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit High Voltage Bank 2 Sensor 1</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00033</Id>
+    <Desc>Turbo/Super Charger Bypass Valve Control Circuit / Open</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00034</Id>
+    <Desc>Turbo/Super Charger Bypass Valve Control Circuit Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00035</Id>
+    <Desc>Turbo/Super Charger Bypass Valve Control Circuit High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00036</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Control Circuit Bank 2 Sensor 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00037</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit Low Voltage Bank 2 Sensor 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00038</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit High Voltage Bank 2 Sensor 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00039</Id>
+    <Desc>Turbo/Super Charger Bypass Valve Control Circuit Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00040</Id>
+    <Desc>Oxygen Sensor Signals Swapped Bank 2 Sensor 1 / Bank 2 Sensor 1</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00041</Id>
+    <Desc>Oxygen Sensor Signals Swapped Bank 2 Sensor 2 / Bank 2 Sensor 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00042</Id>
+    <Desc>HO2S Heater Control Circuit (Bank 2, Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00043</Id>
+    <Desc>HO2S Heater Control Circuit Low (Bank 2, Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00044</Id>
+    <Desc>HO2S Heater Control Circuit High (Bank 2, Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00046</Id>
+    <Desc>Turbo/Super Charger Boost Control Solenoid Circuit / Open</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00046</Id>
+    <Desc>Turbo/Super Charger Boost Control Solenoid Circuit Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00047</Id>
+    <Desc>Turbo/Super Charger Boost Control Solenoid Circuit Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00048</Id>
+    <Desc>Turbo/Super Charger Boost Control Solenoid Circuit High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00049</Id>
+    <Desc>Turbo/Super Charger Turbine Overspeed</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00050</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit Bank 2 Sensor 1</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00051</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit Low Voltage Bank 2 Sensor 1</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00052</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit High Voltage Bank 2 Sensor 1</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00053</Id>
+    <Desc>HO2S Heater Resistance Bank 2 Sensor 1 (PCM)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00054</Id>
+    <Desc>HO2S Heater Resistance Bank 2 Sensor 2 (PCM)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00055</Id>
+    <Desc>HO2S Heater Resistance Bank 2 Sensor 3 (PCM)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00056</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit Bank 2 Sensor 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00057</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit Low Voltage Bank 2 Sensor 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00058</Id>
+    <Desc>Heated Oxygen Sensor (HO2S) Heater Circuit High Voltage Bank 2 Sensor 2</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00059</Id>
+    <Desc>HO2S Heater Resistance (Bank 2, Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00060</Id>
+    <Desc>HO2S Heater Resistance (Bank 2, Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00061</Id>
+    <Desc>HO2S Heater Resistance (Bank 2, Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00062</Id>
+    <Desc>HO2S Heater Control Circuit (Bank 2, Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00063</Id>
+    <Desc>HO2S Heater Control Circuit Low (Bank 2, Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00064</Id>
+    <Desc>HO2S Heater Control Circuit High (Bank 2, Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00065</Id>
+    <Desc>Air Assisted Injector Control Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00066</Id>
+    <Desc>Air Assisted Injector Control Circuit or Circuit Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00067</Id>
+    <Desc>Air Assisted Injector Control Circuit or Circuit High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00068</Id>
+    <Desc>MAP / MAF - Throttle Position Correlation</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00069</Id>
+    <Desc>MAP - Barometric Pressure Correlation</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00070</Id>
+    <Desc>Ambient Air Temperature Sensor Circuit</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00071</Id>
+    <Desc>Ambient Air Temperature Sensor Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00072</Id>
+    <Desc>Ambient Air Temperature Sensor Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00073</Id>
+    <Desc>Ambient Air Temperature Sensor Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00074</Id>
+    <Desc>Ambient Air Temperature Sensor Circuit Intermittent/Erratic</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00075</Id>
+    <Desc>Intake Valve Control Circuit (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00076</Id>
+    <Desc>Intake Valve Control Circuit Low (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00077</Id>
+    <Desc>Intake Valve Control Circuit High (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00078</Id>
+    <Desc>Exhaust Valve Control Circuit (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00079</Id>
+    <Desc>Exhaust Valve Control Circuit Low (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00080</Id>
+    <Desc>Exhaust Valve Control Circuit High (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00081</Id>
+    <Desc>Intake Valve Control Circuit (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00082</Id>
+    <Desc>Intake Valve Control Circuit Low (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00083</Id>
+    <Desc>Intake Valve Control Circuit High (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00084</Id>
+    <Desc>Exhaust Valve Control Circuit (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00085</Id>
+    <Desc>Exhaust Valve Control Circuit Low (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00086</Id>
+    <Desc>Exhaust Valve Control Circuit High (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00087</Id>
+    <Desc>Fuel Rail/System Pressure - Too Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00088</Id>
+    <Desc>Fuel Rail/System Pressure - Too High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00089</Id>
+    <Desc>Fuel Pressure Regulator Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00090</Id>
+    <Desc>Fuel Pressure Regulator Control Circuit</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00091</Id>
+    <Desc>Fuel Pressure Regulator Control Circuit Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00092</Id>
+    <Desc>Fuel Pressure Regulator Control Circuit High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00093</Id>
+    <Desc>Fuel System Leak Detected - Large Leak</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00094</Id>
+    <Desc>Fuel System Leak Detected - Small Leak</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00095</Id>
+    <Desc>Intake Air Temperature Sensor 2 Circuit</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00096</Id>
+    <Desc>Intake Air Temperature Sensor 2 Circuit Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00097</Id>
+    <Desc>Intake Air Temperature Sensor 2 Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00098</Id>
+    <Desc>Intake Air Temperature Sensor 2 Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00099</Id>
+    <Desc>Intake Air Temperature Sensor 2 Circuit Intermittent/Erratic</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00100</Id>
+    <Desc>Mass or Volume Air flow Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00101</Id>
+    <Desc>Mass or Volume Air flow Circuit Range/Performance Problem</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00102</Id>
+    <Desc>Mass or Volume Air Flow Circuit low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00103</Id>
+    <Desc>Mass or Volume Air flow Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00104</Id>
+    <Desc>Mass or Volume Air flow Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00105</Id>
+    <Desc>Manifold Absolute Pressure/Barometric Pressure Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00106</Id>
+    <Desc>Manifold Absolute Pressure/Barometric Pressure Circuit Range/Performance Problem</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00107</Id>
+    <Desc>Manifold Absolute Pressure/Barometric Pressure Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00108</Id>
+    <Desc>Manifold Absolute Pressure/Barometric Pressure Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00109</Id>
+    <Desc>Manifold Absolute Pressure/Barometric Pressure Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00110</Id>
+    <Desc>Intake Air Temperature Circuit Malfunction More details...</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00111</Id>
+    <Desc>Intake Air Temperature Circuit Range/Performance Problem</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00112</Id>
+    <Desc>Intake Air Temperature Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00113</Id>
+    <Desc>Intake Air Temperature Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00114</Id>
+    <Desc>Intake Air Temperature Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00115</Id>
+    <Desc>Engine Coolant Temperature Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00116</Id>
+    <Desc>Engine Coolant Temperature Circuit Range/Performance Problem</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00117</Id>
+    <Desc>Engine Coolant Temperature Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00118</Id>
+    <Desc>Engine Coolant Temperature Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00119</Id>
+    <Desc>Engine Coolant Temperature Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00120</Id>
+    <Desc>Throttle Pedal Position Sensor/Switch A Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00121</Id>
+    <Desc>Throttle/Pedal Position Sensor/Switch A Circuit Range/Performance Problem</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00122</Id>
+    <Desc>Throttle/Pedal Position Sensor/Switch A Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00123</Id>
+    <Desc>Throttle/Pedal Position Sensor/Switch A Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00124</Id>
+    <Desc>Throttle/Pedal Position Sensor/Switch A Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00125</Id>
+    <Desc>Insufficient Coolant Temperature for Closed Loop Fuel Control</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00126</Id>
+    <Desc>Insufficient Coolant Temperature for Stable Operation</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00127</Id>
+    <Desc>Intake Air Temperature Too High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00128</Id>
+    <Desc>Coolant Thermostat (Coolant Temp Below Thermostat Regulating Temperature)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00129</Id>
+    <Desc>Barometric Pressure Too Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00130</Id>
+    <Desc>O2 Sensor Circuit Malfunction (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00131</Id>
+    <Desc>O2 Sensor Circuit Low Voltage (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00132</Id>
+    <Desc>O2 Sensor Circuit High Voltage (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00133</Id>
+    <Desc>O2 Sensor Circuit Slow Response (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00134</Id>
+    <Desc>O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00135</Id>
+    <Desc>O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00136</Id>
+    <Desc>O2 Sensor Circuit Malfunction (Bank 1 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00137</Id>
+    <Desc>O2 Sensor Circuit Low Voltage (Bank 1 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00138</Id>
+    <Desc>O2 Sensor Circuit High Voltage (Bank 1 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00139</Id>
+    <Desc>O2 Sensor Circuit Slow Response (Bank 1 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00140</Id>
+    <Desc>O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00141</Id>
+    <Desc>O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00142</Id>
+    <Desc>O2 Sensor Circuit Malfunction (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00143</Id>
+    <Desc>O2 Sensor Circuit Low Voltage (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00144</Id>
+    <Desc>O2 Sensor Circuit High Voltage (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00145</Id>
+    <Desc>O2 Sensor Circuit Slow Response (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00146</Id>
+    <Desc>O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00147</Id>
+    <Desc>O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00148</Id>
+    <Desc>Fuel Delivery Error</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00149</Id>
+    <Desc>Fuel Timing Error</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00150</Id>
+    <Desc>O2 Sensor Circuit Malfunction (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00151</Id>
+    <Desc>O2 Sensor Circuit Low Voltage (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00152</Id>
+    <Desc>O2 Sensor Circuit High Voltage (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00153</Id>
+    <Desc>O2 Sensor Circuit Slow Response (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00154</Id>
+    <Desc>O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00155</Id>
+    <Desc>O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 1)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00156</Id>
+    <Desc>O2 Sensor Circuit Malfunction (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00157</Id>
+    <Desc>O2 Sensor Circuit Low Voltage (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00158</Id>
+    <Desc>O2 Sensor Circuit High Voltage (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00159</Id>
+    <Desc>O2 Sensor Circuit Slow Response (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00160</Id>
+    <Desc>O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00161</Id>
+    <Desc>O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00162</Id>
+    <Desc>O2 Sensor Circuit Malfunction (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00163</Id>
+    <Desc>O2 Sensor Circuit Low Voltage (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00164</Id>
+    <Desc>O2 Sensor Circuit High Voltage (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00165</Id>
+    <Desc>O2 Sensor Circuit Slow Response (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00166</Id>
+    <Desc>O2 Sensor Circuit No Activity Detected (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00167</Id>
+    <Desc>O2 Sensor Heater Circuit Malfunction (Bank 2 Sensor 3)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00168</Id>
+    <Desc>Engine Fuel Temperature Too High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00169</Id>
+    <Desc>Incorrect Fuel Composition</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00170</Id>
+    <Desc>Fuel Trim Malfunction (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00171</Id>
+    <Desc>System Too Lean (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00172</Id>
+    <Desc>System Too Rich (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00173</Id>
+    <Desc>Fuel Trim Malfunction (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00174</Id>
+    <Desc>System Too Lean (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00175</Id>
+    <Desc>System Too Rich (Bank 2)</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00176</Id>
+    <Desc>Fuel Composition Sensor Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00177</Id>
+    <Desc>Fuel Composition Sensor Circuit Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00178</Id>
+    <Desc>Fuel Composition Sensor Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00179</Id>
+    <Desc>Fuel Composition Sensor Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00180</Id>
+    <Desc>Fuel Temperature Sensor A Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00181</Id>
+    <Desc>Fuel Temperature Sensor A Circuit Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00182</Id>
+    <Desc>Fuel Temperature Sensor A Circuit low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00183</Id>
+    <Desc>Fuel Temperature Sensor A Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00184</Id>
+    <Desc>Fuel Temperature Sensor A Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00185</Id>
+    <Desc>Fuel Temperature Sensor B Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00186</Id>
+    <Desc>Fuel Temperature Sensor B Circuit Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00187</Id>
+    <Desc>Fuel Temperature Sensor B Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00188</Id>
+    <Desc>Fuel Temperature Sensor B Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00189</Id>
+    <Desc>Fuel Temperature Sensor B Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00190</Id>
+    <Desc>Fuel Rail Pressure Sensor Circuit Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00191</Id>
+    <Desc>Fuel Rail Pressure Sensor Circuit Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00192</Id>
+    <Desc>Fuel Rail Pressure Sensor Circuit Low Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00193</Id>
+    <Desc>Fuel Rail Pressure Sensor Circuit High Input</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00194</Id>
+    <Desc>Fuel Rail Pressure Sensor Circuit Intermittent</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00195</Id>
+    <Desc>Engine Oil Temperature Sensor Malfunction</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00196</Id>
+    <Desc>Engine Oil Temperature Sensor Range/Performance</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00197</Id>
+    <Desc>Engine Oil Temperature Sensor Low</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00198</Id>
+    <Desc>Engine Oil Temperature Sensor High</Desc>
+  </DtcDetails>
+  <DtcDetails>
+    <Id>00199</Id>
+    <Desc>Engine Oil Temperature Sensor Intermittent</Desc>
+  </DtcDetails>
+</ArrayOfDtcDetails>
