@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using LiveCharts.Configurations;
 using Sodev.Marten.Domain.Events;
 using Sodev.Marten.Base.ObdCommunication;
+using Sodev.Marten.Base.Services;
 using Sodev.Marten.Domain.Model;
 using Sodev.Marten.Domain.Services;
 using Sodev.Marten.Presentation.Features.Connection;

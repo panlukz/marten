@@ -1,15 +1,9 @@
-﻿using Sodev.Marten.Base.Model;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sodev.Marten.Domain.Helpers;
-using Sodev.Marten.Domain.Services;
+using Sodev.Marten.Base.Helpers;
+using Sodev.Marten.Base.Model;
 
-namespace Sodev.Marten.Domain.Services
+namespace Sodev.Marten.Base.Services
 {
     public class PidRepository : IPidRepository
     {

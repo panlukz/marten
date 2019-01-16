@@ -45,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionHandling\CommunicationException.cs" />
+    <Compile Include="Helpers\XmlSerializeHelper.cs" />
+    <Compile Include="Model\Dtc.cs" />
+    <Compile Include="Model\DtcDescription.cs" />
+    <Compile Include="Model\DtcDetails.cs" />
     <Compile Include="ObdCommunication\ObdCommunicationService.cs" />
     <Compile Include="Connection\Connection.cs" />
     <Compile Include="Connection\ConnectionParameters.cs" />
@@ -56,6 +60,8 @@
     <Compile Include="Model\PidParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IConnection.cs" />
+    <Compile Include="Services\IPidRepository.cs" />
+    <Compile Include="Services\PidRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dtcdb.xml">

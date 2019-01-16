@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Sodev.Marten.Base.Model;
 using Sodev.Marten.Domain.Events;
 using Sodev.Marten.Domain.Services;
 

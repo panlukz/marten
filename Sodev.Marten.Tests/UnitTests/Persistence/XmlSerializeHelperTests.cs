@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sodev.Marten.Base.Helpers;
 using Sodev.Marten.Base.Model;
-using Sodev.Marten.Domain.Helpers;
 
 namespace Sodev.Marten.Tests.UnitTests.Persistence
 {

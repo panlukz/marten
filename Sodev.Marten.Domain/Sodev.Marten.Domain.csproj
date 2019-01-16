@@ -46,14 +46,11 @@
     <Compile Include="Events\ObdEventAggregator.cs" />
     <Compile Include="Events\ObdEventBase.cs" />
     <Compile Include="Events\StartQueryingEvent.cs" />
-    <Compile Include="Helpers\XmlSerializeHelper.cs" />
     <Compile Include="Model\ILiveMonitor.cs" />
     <Compile Include="Model\LiveMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FaultCodesService.cs" />
-    <Compile Include="Services\IPidRepository.cs" />
     <Compile Include="Services\LiveDataService.cs" />
-    <Compile Include="Services\PidRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sodev.Marten.Base\Sodev.Marten.Base.csproj">

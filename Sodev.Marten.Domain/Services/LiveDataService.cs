@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Sodev.Marten.Base.Connection;
 using Sodev.Marten.Base.Model;
 using Sodev.Marten.Base.ObdCommunication;
+using Sodev.Marten.Base.Services;
 using Sodev.Marten.Domain.Events;
 using Sodev.Marten.Domain.Model;
 
