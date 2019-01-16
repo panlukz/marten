@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Sodev.Marten.Base.Model
 {
-    public class Dtc //probably a base layer object
+    public class Dtc
     {
         public string Id { get; private set; }
 

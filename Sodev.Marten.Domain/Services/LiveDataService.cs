@@ -135,7 +135,7 @@ namespace Sodev.Marten.Domain.Services
                     var query = new ObdQuery(1, liveMonitor.Id);
                 obdCommuncation.SendQuery(query);
 
-                    await Task.Delay(200);
+                    await Task.Delay(200 / registeredLiveMonitors.Count);
             }
         }
 
