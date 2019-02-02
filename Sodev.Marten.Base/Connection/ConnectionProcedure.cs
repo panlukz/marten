@@ -38,7 +38,7 @@ namespace Sodev.Marten.Base.Connection
                 new ConnectionProcedureStep(StepName.EnableSeparators, () => SendAtCommand("ATS1"), () => IsAnswerCorrect("OK"),
                                             "Setting up the communication. Enabling separators..."),
                 new ConnectionProcedureStep(StepName.Connected, () => { }, () => true, 
-                                            "Everything OK. Communication with the vehicle established.")
+                                            "Everything OK. Communication with the vehicle is established.")
             };
         }
 

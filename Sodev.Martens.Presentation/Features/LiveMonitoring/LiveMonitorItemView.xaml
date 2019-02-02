@@ -10,6 +10,7 @@
              xmlns:converters="clr-namespace:Sodev.Marten.Presentation.Converters"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:model1="clr-namespace:Sodev.Marten.Domain.Model;assembly=Sodev.Marten.Domain"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -24,26 +25,33 @@
     </UserControl.Resources>
     <Grid Margin="30, 20, 30, 0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="20" />
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <ComboBox SelectedItem="{Binding StrokeColor}"  ItemsSource="{Binding Source={StaticResource ColorEnum}}" Height="20" VerticalAlignment="Top" >
+            <TextBlock Text="Color:" Margin="10, 0" VerticalAlignment="Center" />
+            <ComboBox SelectedItem="{Binding StrokeColor}"  ItemsSource="{Binding Source={StaticResource ColorEnum}}" Height="30" VerticalAlignment="Top" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Width="20" Height="20" Background="{Binding Converter={StaticResource ColorToBrushConverter}}" />
+                        <Border Width="20" Height="20" Background="{Binding Converter={StaticResource ColorToBrushConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <ComboBox ItemsSource="{Binding LiveMonitors}" SelectedItem="{Binding SelectedLiveMonitor}" >
+            <TextBlock Text="Parameter:" Margin="10, 0" VerticalAlignment="Center" />
+            <ComboBox ItemsSource="{Binding LiveMonitors}" SelectedItem="{Binding SelectedLiveMonitor}" Margin="10, 0" Width="220" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="model1:LiveMonitor">
                         <TextBlock Text="{Binding Name}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Content="Remove" cal:Message.Attach="Remove" />
+            <Button cal:Message.Attach="Remove" Width="30" Height="30" Background="IndianRed" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Grid.Row="1" Kind="TrashCanCircleOutline"
+                                             Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <ContentControl Grid.Row="2" Content="{Binding}">
@@ -54,20 +62,24 @@
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <lvc:CartesianChart DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}">
+                                        <lvc:CartesianChart DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" Background="Transparent">
                                             <lvc:CartesianChart.Series>
                                                 <lvc:LineSeries Values="{Binding ChartValues}" Stroke="{Binding StrokeColor, Converter={StaticResource ColorToBrushConverter}}" Fill="Transparent" PointGeometry="{x:Null}" />
                                             </lvc:CartesianChart.Series>
                                             <lvc:CartesianChart.AxisY>
                                                 <lvc:Axis Position="RightTop" Title="{Binding Unit}" MinValue="{Binding MinValue}"
-                                                          MaxValue="{Binding MaxValue}" />
+                                                          MaxValue="{Binding MaxValue}">
+                                                    <lvc:Axis.Separator>
+                                                        <lvc:Separator Stroke="LightGray"/>
+                                                    </lvc:Axis.Separator>
+                                                </lvc:Axis>
                                             </lvc:CartesianChart.AxisY>
                                             <lvc:CartesianChart.AxisX >
                                                 <lvc:Axis Title="Time" MinValue="{Binding MinXValue}" MaxValue="{Binding MaxXValue}" 
                                                           Unit="{Binding AxisUnit}" 
                                                           LabelFormatter="{Binding DateTimeFormatter}" >
                                                     <lvc:Axis.Separator>
-                                                        <lvc:Separator Step="{Binding AxisStep}" />
+                                                        <lvc:Separator Step="{Binding AxisStep}" Stroke="LightGray"/>
                                                     </lvc:Axis.Separator>
                                                 </lvc:Axis>
                                             </lvc:CartesianChart.AxisX>

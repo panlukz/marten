@@ -12,7 +12,7 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
-        Title="ShellView" MinHeight="720" MinWidth="1280">
+        Title="Marten Obd Diagnostic Application" MinHeight="720" MinWidth="1280">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" /> <!-- Menu -->
@@ -24,8 +24,8 @@
                 <menu:MenuViewModel />
             </menu:MenuView.DataContext>
         </menu:MenuView>
-        <Border BorderBrush="Black" BorderThickness="2" Grid.Column="1">
-            <ContentControl x:Name="ActiveItem"  />
+        <Border BorderBrush="Transparent" BorderThickness="0" Grid.Column="1">
+            <ContentControl x:Name="ActiveItem" Margin="10" />
 
         </Border>
     </Grid>

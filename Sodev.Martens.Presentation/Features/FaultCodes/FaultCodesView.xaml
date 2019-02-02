@@ -8,13 +8,25 @@
              xmlns:services="clr-namespace:Sodev.Marten.Domain.Services;assembly=Sodev.Marten.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Fault codes detected:" />
-            <TextBlock Text="{Binding FaultCodesNumber}" />
-        </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.RowSpan="2">
+            <TextBlock Text="Fault codes" Opacity="0.03" FontSize="150" HorizontalAlignment="Right" Margin="10, 10" />
+        </Grid>
 
-        <ListView ItemsSource="{Binding FaultCodesList}">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0">
+            <TextBlock Text="Fault codes detected:" VerticalAlignment="Center" Margin="5, 0" />
+            <TextBlock Text="{Binding FaultCodesNumber}" VerticalAlignment="Center" Margin="0,0,20,0" />
+            <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
+                Content="Read codes" cal:Message.Attach="RequestFaultCodes" />
+            <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
+            Content="Clear codes" cal:Message.Attach="ClearFaultCodes" />
+        </StackPanel>
+        
+        <ListView ItemsSource="{Binding FaultCodesList}" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="services:Dtc">
                     <StackPanel Orientation="Vertical">
@@ -30,10 +42,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
-        <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
-                    Content="Request fault codes" cal:Message.Attach="RequestFaultCodes" />
-        <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
-                Content="Clear fault codes" cal:Message.Attach="ClearFaultCodes" />
-    </StackPanel>
+
+    </Grid>
 </UserControl>

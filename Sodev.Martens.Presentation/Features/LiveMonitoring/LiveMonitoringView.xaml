@@ -4,33 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.LiveMonitoring"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Text="Columns:" />
-            <ComboBox ItemsSource="{Binding AvailableColumnsNumber}" SelectedItem="{Binding NumberOfColumns}" />
+        <Grid>
+            <TextBlock Text="Live Monitoring" Opacity="0.01" FontSize="150" HorizontalAlignment="Right" Margin="10, 10" />
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <TextBlock Text="Rows:" />
-            <ComboBox ItemsSource="{Binding AvailableRowsNumber}" SelectedItem="{Binding NumberOfRows}" />
-        </StackPanel>
-        
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding LiveMonitorItems}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <local:LiveMonitorItemView />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding NumberOfColumns}" Rows="{Binding NumberOfRows}" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+            <materialDesign:Card HorizontalAlignment="Left" Padding="10, 5" Background="Transparent">
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="No of charts in" VerticalAlignment="Center" />
+
+                    <TextBlock Text="columns:" VerticalAlignment="Center" Margin="5, 0" />
+                    <ComboBox ItemsSource="{Binding AvailableColumnsNumber}" SelectedItem="{Binding NumberOfColumns}" />
+
+                    <TextBlock Text="in rows:" VerticalAlignment="Center" Margin="5, 0" />
+                    <ComboBox ItemsSource="{Binding AvailableRowsNumber}" SelectedItem="{Binding NumberOfRows}" />
+                </StackPanel>
+            </materialDesign:Card>
+
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding LiveMonitorItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:LiveMonitorItemView />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding NumberOfColumns}" Rows="{Binding NumberOfRows}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
     </Grid>
 </UserControl>

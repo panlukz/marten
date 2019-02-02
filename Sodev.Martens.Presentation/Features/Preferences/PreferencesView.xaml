@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            <TextBlock>Preferences view not implemented yet</TextBlock>
+        <Grid>
+            <TextBlock Text="About" Opacity="0.03" FontSize="150" HorizontalAlignment="Right" Margin="10, 10" />
+        </Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock>Marten Obd Diagnostic Application is part of the engineering thesis written by Łukasz Mocarski.</TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

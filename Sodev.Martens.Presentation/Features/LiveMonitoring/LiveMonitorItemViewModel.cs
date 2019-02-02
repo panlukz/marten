@@ -75,7 +75,7 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
             }
         }
 
-        public Func<double, string> DateTimeFormatter => value => value < 0 ? string.Empty : TimeSpan.FromTicks((long)value).ToString("c");
+        public Func<double, string> DateTimeFormatter => value => value < 0 ? string.Empty : TimeSpan.FromTicks((long)value).ToString("mm\\:ss");
 
         public double AxisStep { get; } = TimeSpan.FromSeconds(1).Ticks;
 
