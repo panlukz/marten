@@ -7,15 +7,17 @@ using Sodev.Marten.Domain.Events;
 
 namespace Sodev.Marten.Presentation.Features.Connection
 {
-    public class ConnectionViewModel : Screen, IHandle<ConnectionStateChanged>
+    public class ConnectionViewModel : Screen
     {
         private readonly IObdCommuncation obdCommuncation;
+        private readonly IEventAggregator eventAggregator;
         private string selectedPort;
 
         public ConnectionViewModel(IEventAggregator eventAggregator, IObdCommuncation obdCommuncation)
         {
             this.obdCommuncation = obdCommuncation;
-            eventAggregator.Subscribe(this);
+            this.eventAggregator = eventAggregator;
+            this.eventAggregator.Subscribe(this);
         }
 
         public IList<string> AvailablePorts => obdCommuncation.GetAvailablePorts();
@@ -56,8 +58,12 @@ namespace Sodev.Marten.Presentation.Features.Connection
         {
             CurrentConnectionProcedureProgress = e.Progress;
             CurrentConnectionProcedureStepDescription = e.Description;
+            if(e.Progress == 100) //todo:fakeittillyoumakeit
+                eventAggregator.PublishOnCurrentThread(new ConnectionStateChanged(ConnectionState.Opened));
             NotifyOfPropertyChange(() => CurrentConnectionProcedureProgress);
             NotifyOfPropertyChange(() => CurrentConnectionProcedureStepDescription);
+            NotifyOfPropertyChange(nameof(CanConnectAsync));
+            NotifyOfPropertyChange(nameof(CanDisconnect));
         }
 
         public string CurrentConnectionProcedureStepDescription { get; private set; }
@@ -69,9 +75,15 @@ namespace Sodev.Marten.Presentation.Features.Connection
             obdCommuncation.Close();
 
             obdCommuncation.ConnectionStateChanged -= OnConnectionStateChanged;
-
+            //todo: following event should be send from the lower layer
+            eventAggregator.PublishOnCurrentThread(new ConnectionStateChanged(ConnectionState.Closed));
+            CurrentConnectionProcedureProgress = 0;
+            CurrentConnectionProcedureStepDescription = string.Empty;
+            NotifyOfPropertyChange(() => CurrentConnectionProcedureProgress);
+            NotifyOfPropertyChange(() => CurrentConnectionProcedureStepDescription);
             NotifyOfPropertyChange(() => IsConnected);
             NotifyOfPropertyChange(() => CanDisconnect);
+            NotifyOfPropertyChange(nameof(CanConnectAsync));
         }
 
         public bool CanConnectAsync => obdCommuncation.ConnectionState == ConnectionState.Closed && !string.IsNullOrEmpty(SelectedPort);
@@ -79,10 +91,5 @@ namespace Sodev.Marten.Presentation.Features.Connection
         public bool CanDisconnect => obdCommuncation.ConnectionState == ConnectionState.Opened;
 
         public bool IsConnected => obdCommuncation.ConnectionState == ConnectionState.Opened;
-
-        public void Handle(ConnectionStateChanged message)
-        {
-            NotifyOfPropertyChange(() => CanConnectAsync);
-        }
     }
 }
