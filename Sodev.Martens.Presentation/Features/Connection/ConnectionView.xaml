@@ -18,9 +18,9 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="22" />
+                <RowDefinition Height="30" />
                 <RowDefinition Height="15" /> <!-- 1. Spacer -->
-                <RowDefinition Height="22" />
+                <RowDefinition Height="30" />
                 <RowDefinition Height="22" /> <!-- 3. Spacer -->
                 <RowDefinition Height="30" />
                 <RowDefinition Height="22" /> <!-- 5. Spacer -->

@@ -9,6 +9,7 @@
              xmlns:common="clr-namespace:Sodev.Marten.Presentation.Common"
              xmlns:converters="clr-namespace:Sodev.Marten.Presentation.Converters"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:model1="clr-namespace:Sodev.Marten.Domain.Model;assembly=Sodev.Marten.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -37,7 +38,7 @@
             </ComboBox>
             <ComboBox ItemsSource="{Binding LiveMonitors}" SelectedItem="{Binding SelectedLiveMonitor}" >
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="model:LiveMonitor">
+                    <DataTemplate DataType="model1:LiveMonitor">
                         <TextBlock Text="{Binding Name}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
