@@ -23,13 +23,22 @@ namespace Sodev.Marten.Base.Connection
         {
             procedureSteps = new List<ConnectionProcedureStep>
             {
-                new ConnectionProcedureStep(StepName.ResetInterface, () => SendAtCommand("ATZ"), VerifyAndPublishNewDeviceName),
-                new ConnectionProcedureStep(StepName.DisableEcho, () => SendAtCommand("ATE0"), () => IsAnswerCorrect("OK")),
-                new ConnectionProcedureStep(StepName.SetAutoProtocol, () => SendAtCommand("ATSP0"), () => IsAnswerCorrect("OK")),
-                new ConnectionProcedureStep(StepName.CheckCarConnection, () => SendAtCommand("0100"), VerifyCarConnection),
-                new ConnectionProcedureStep(StepName.CheckProtocol, () => SendAtCommand("ATDP"), VerifyAndPublishNewProtocol),
-                new ConnectionProcedureStep(StepName.DisableHeaders, () => SendAtCommand("ATH0"), () => IsAnswerCorrect("OK")),
-                new ConnectionProcedureStep(StepName.EnableSeparators, () => SendAtCommand("ATS1"), () => IsAnswerCorrect("OK"))
+                new ConnectionProcedureStep(StepName.ResetInterface, () => SendAtCommand("ATZ"), VerifyAndPublishNewDeviceName,
+                                            "Reseting connected interface..."),
+                new ConnectionProcedureStep(StepName.DisableEcho, () => SendAtCommand("ATE0"), () => IsAnswerCorrect("OK"),
+                                            "Setting up the interface... Disabling echo..."),
+                new ConnectionProcedureStep(StepName.SetAutoProtocol, () => SendAtCommand("ATSP0"), () => IsAnswerCorrect("OK"),
+                                            "Setting up the interface... Reseting communication protocol..."),
+                new ConnectionProcedureStep(StepName.CheckCarConnection, () => SendAtCommand("0100"), VerifyCarConnection,
+                                            "Verifying the vehicle connection..."),
+                new ConnectionProcedureStep(StepName.CheckProtocol, () => SendAtCommand("ATDP"), VerifyAndPublishNewProtocol,
+                                            "Vehicle connected. Establishing communication protocol..."),
+                new ConnectionProcedureStep(StepName.DisableHeaders, () => SendAtCommand("ATH0"), () => IsAnswerCorrect("OK"),
+                                            "Setting up the communication. Disabling headers..."),
+                new ConnectionProcedureStep(StepName.EnableSeparators, () => SendAtCommand("ATS1"), () => IsAnswerCorrect("OK"),
+                                            "Setting up the communication. Enabling separators..."),
+                new ConnectionProcedureStep(StepName.Connected, () => { }, () => true, 
+                                            "Everything OK. Communication with the vehicle established.")
             };
         }
 
@@ -47,7 +56,7 @@ namespace Sodev.Marten.Base.Connection
 
         private void PublishConnectionProgress(StepName stepName)
         {
-            var stepDescription = stepName.ToString(); //TODO implement...
+            var stepDescription = procedureSteps.First(x => x.StepName == stepName).FriendlyDescription;
             var progress = CalculateProgress();
             var eventPayload = new ConnectionProcedureStateChangedPayload(stepDescription, progress);
 
@@ -119,21 +128,24 @@ namespace Sodev.Marten.Base.Connection
             CheckCarConnection,
             CheckProtocol,
             DisableHeaders,
-            EnableSeparators
+            EnableSeparators,
+            Connected
         }
 
         private class ConnectionProcedureStep
         {
             public ConnectionProcedureStep() {}
-            public ConnectionProcedureStep(StepName stepName, Action stepAction, Func<bool> handleAnswerAction=null, int waitTimeMs=1000)
+            public ConnectionProcedureStep(StepName stepName, Action stepAction, Func<bool> handleAnswerAction=null, string description = null, int waitTimeMs=1000)
             {
                 StepName = stepName;
                 StepAction = stepAction;
                 WaitTimeMs = waitTimeMs;
                 HandleAnswerAction = handleAnswerAction;
+                if (!string.IsNullOrWhiteSpace(description)) FriendlyDescription = description;
             }
 
             public StepName StepName { get; set; }
+            public string FriendlyDescription { get; set; } = "Working hard...";
             public Action StepAction { get; set; }
             public int WaitTimeMs { get; set; }
             public Func<bool> HandleAnswerAction { get; set; }
