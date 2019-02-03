@@ -19,7 +19,7 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         public LiveMonitorItemViewModel(ILiveDataService liveDataService)
         {
             eventAggregator.Subscribe(this);
-            this.liveMonitor = new EmptyLiveMonitor();
+            this.SelectedLiveMonitor = new EmptyLiveMonitor();
             this.liveDataService = liveDataService;
             ChartValues = new ChartValues<LiveDataModel>();
         }
@@ -28,11 +28,8 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
         {
             ChartValues.AddRange(e.NewItems.Cast<object>());
 
-
-
-            //TODO Probably it can't be just a fixed value (20). It has to be connected with the sample rate
-            //Saying differently, how many reads we get in a know period of time
-            if (ChartValues.Count > 40) ChartValues.RemoveAt(0);
+            if (ChartValues.Count > 0 && ChartValues[0].TimeSpan.Ticks < MinXValue)
+                ChartValues.RemoveAt(0);
 
             NotifyOfPropertyChange(() => MinXValue);
             NotifyOfPropertyChange(() => MaxXValue);
@@ -127,7 +124,8 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
 
         public void Remove()
         {
-            SelectedLiveMonitor = new EmptyLiveMonitor();
+            SelectedLiveMonitor = LiveMonitors.First(x => x is EmptyLiveMonitor);
+            NotifyOfPropertyChange(nameof(SelectedLiveMonitor));
         }
 
         public bool CanRemove => !(liveMonitor is EmptyLiveMonitor);

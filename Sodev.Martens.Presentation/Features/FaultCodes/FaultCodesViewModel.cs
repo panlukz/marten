@@ -24,17 +24,19 @@ namespace Sodev.Marten.Presentation.Features.FaultCodes
             NotifyOfPropertyChange(nameof(FaultCodesNumber));
             NotifyOfPropertyChange(nameof(FaultCodesList));
             NotifyOfPropertyChange(nameof(CanClearFaultCodes));
+
+            faultCodesService.UnsubscribeAnswerReceivedEvent();
         }
 
         protected override void OnActivate()
         {
-            faultCodesService.SubscribeAnswerReceivedEvent();
+            //faultCodesService.SubscribeAnswerReceivedEvent();
             base.OnActivate();
         }
 
         protected override void OnDeactivate(bool close)
         {
-            faultCodesService.UnsubscribeAnswerReceivedEvent();
+            //faultCodesService.UnsubscribeAnswerReceivedEvent();
             base.OnDeactivate(close);
         }
 
@@ -48,11 +50,13 @@ namespace Sodev.Marten.Presentation.Features.FaultCodes
         public void RequestFaultCodes()
         {
             faultCodesService.RequestFaultCodes();
+            faultCodesService.SubscribeAnswerReceivedEvent();
         }
 
         public void ClearFaultCodes()
         {
             faultCodesService.RequestClearingFaultCodes();
+            faultCodesService.SubscribeAnswerReceivedEvent();
         }
 
         public bool CanClearFaultCodes => FaultCodesNumber > 0;

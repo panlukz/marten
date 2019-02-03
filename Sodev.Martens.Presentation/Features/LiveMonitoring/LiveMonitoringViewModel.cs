@@ -27,6 +27,22 @@ namespace Sodev.Marten.Presentation.Features.LiveMonitoring
             }
         }
 
+        protected override void OnActivate()
+        {
+            liveDataService.SubscribeLiveDataUpdatedEvent();
+            base.OnActivate();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            foreach (var monitor in LiveMonitorItems)
+            {
+                monitor.Remove();
+            }
+            liveDataService.UnsubscribeLiveDataUpdatedEvent();
+            base.OnDeactivate(close);
+        }
+
         public IList<LiveMonitorItemViewModel> LiveMonitorItems { get; private set; } = new List<LiveMonitorItemViewModel>(8);
 
         public int NumberOfRows

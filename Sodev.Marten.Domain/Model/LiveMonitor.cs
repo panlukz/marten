@@ -40,7 +40,7 @@ namespace Sodev.Marten.Domain.Model
     {
         public int Id => -1;
 
-        public string Name => string.Empty;
+        public string Name => "Select a monitor...";
 
         public int MinValue => 0;
 

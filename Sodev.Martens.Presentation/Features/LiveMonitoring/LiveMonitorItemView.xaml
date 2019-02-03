@@ -39,7 +39,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Text="Parameter:" Margin="10, 0" VerticalAlignment="Center" />
-            <ComboBox ItemsSource="{Binding LiveMonitors}" SelectedItem="{Binding SelectedLiveMonitor}" Margin="10, 0" Width="220" >
+            <ComboBox ItemsSource="{Binding LiveMonitors}" SelectedItem="{Binding SelectedLiveMonitor}" Margin="10, 0" Width="220" Text="TEEZD">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="model1:LiveMonitor">
                         <TextBlock Text="{Binding Name}" />

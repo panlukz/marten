@@ -53,6 +53,7 @@ namespace Sodev.Marten.Domain.Services
             var pidsParamsList = pidRepository.GetAllPidsParameters();
             var newLiveMonitors = pidsParamsList.Select(x => new LiveMonitor(Pid.Create(x)));
             availableLiveMonitors.AddRange(newLiveMonitors);
+            availableLiveMonitors.Add(new EmptyLiveMonitor());
         }
 
         public IEnumerable<ILiveMonitor> GetAvailableLiveMonitors() => availableLiveMonitors;
@@ -83,14 +84,16 @@ namespace Sodev.Marten.Domain.Services
                 
         }
 
-        private void SubscribeLiveDataUpdatedEvent()
+        public void SubscribeLiveDataUpdatedEvent()
         {
             obdCommuncation.PidAnswerReceivedEvent -= OnLiveDataUpdated; //to ensure it won't be hooked up twice
             obdCommuncation.PidAnswerReceivedEvent += OnLiveDataUpdated;
         }
 
-        private void UnsubscribeLiveDataUpdatedEvent()
+        public void UnsubscribeLiveDataUpdatedEvent()
         {
+            var monitorsToUnregister = registeredLiveMonitors.ToList();
+            monitorsToUnregister.ForEach(UnregisterLiveMonitor);
             obdCommuncation.PidAnswerReceivedEvent -= OnLiveDataUpdated;
         }
 
@@ -135,7 +138,7 @@ namespace Sodev.Marten.Domain.Services
                     var query = new ObdQuery(1, liveMonitor.Id);
                 obdCommuncation.SendQuery(query);
 
-                    await Task.Delay(200 / registeredLiveMonitors.Count);
+                await Task.Delay(100);// / registeredLiveMonitors.Count);
             }
         }
 
@@ -154,5 +157,9 @@ namespace Sodev.Marten.Domain.Services
         void RegisterLiveMonitor(ILiveMonitor liveMonitor);
 
         void UnregisterLiveMonitor(ILiveMonitor liveMonitor);
+
+        void SubscribeLiveDataUpdatedEvent();
+
+        void UnsubscribeLiveDataUpdatedEvent();
     }
 }
