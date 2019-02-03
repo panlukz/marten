@@ -111,6 +111,9 @@
       <DependentUpon>GenericDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Dialogs\GenericDialogModel.cs" />
+    <Compile Include="Features\FaultCodes\FaultCodesReport.xaml.cs">
+      <DependentUpon>FaultCodesReport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Features\FaultCodes\FaultCodesView.xaml.cs">
       <DependentUpon>FaultCodesView.xaml</DependentUpon>
     </Compile>
@@ -202,6 +205,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Features\Dummy\DummyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\FaultCodes\FaultCodesReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

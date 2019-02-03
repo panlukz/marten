@@ -1,34 +1,24 @@
-﻿<UserControl x:Class="Sodev.Marten.Presentation.Features.FaultCodes.FaultCodesView"
+﻿<UserControl x:Class="Sodev.Marten.Presentation.Features.FaultCodes.FaultCodesReport"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sodev.Marten.Presentation.Features.FaultCodes"
-             xmlns:cal="http://www.caliburnproject.org"
-             xmlns:services="clr-namespace:Sodev.Marten.Domain.Services;assembly=Sodev.Marten.Domain"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Margin="35">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.RowSpan="2">
-            <TextBlock Text="Fault codes" Opacity="0.03" FontSize="150" HorizontalAlignment="Right" Margin="10, 10" />
-        </Grid>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0">
-            <TextBlock Text="Fault codes detected:" VerticalAlignment="Center" Margin="5, 0" />
-            <TextBlock Text="{Binding FaultCodesNumber}" VerticalAlignment="Center" Margin="0,0,20,0" />
-            <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
-                Content="Read codes" cal:Message.Attach="RequestFaultCodes" />
-            <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
-            Content="Print codes" cal:Message.Attach="PrintFaultCodes" />
-            <Button Grid.Column="1" Grid.Row="4" Margin="10, 0"
-            Content="Clear codes" cal:Message.Attach="ClearFaultCodes" />
+        <StackPanel Orientation="Vertical" Grid.Row="0">
+            <TextBlock Text="Marten Obd Diagnostics" />
+            <TextBlock Text="Fault codes" FontSize="30" FontWeight="Bold" />
         </StackPanel>
         
-        <ListView ItemsSource="{Binding FaultCodesList}" Grid.Row="1">
+        
+        <ListView ItemsSource="{Binding}" Grid.Row="1" VerticalAlignment="Top" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0, 20">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="services:Dtc">
                     <StackPanel Orientation="Vertical">
@@ -40,10 +30,10 @@
                         <TextBlock Text="{Binding Type}" FontWeight="Bold" />
                         <TextBlock Text="Subsystem: " />
                         <TextBlock Text="{Binding SubSystem}" FontWeight="Bold" />
+                        <Border BorderBrush="Black" BorderThickness="1" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
     </Grid>
 </UserControl>
