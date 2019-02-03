@@ -107,6 +107,10 @@
       <DependentUpon>ConnectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Connection\ConnectionViewModel.cs" />
+    <Compile Include="Features\Dialogs\GenericDialog.xaml.cs">
+      <DependentUpon>GenericDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Dialogs\GenericDialogModel.cs" />
     <Compile Include="Features\FaultCodes\FaultCodesView.xaml.cs">
       <DependentUpon>FaultCodesView.xaml</DependentUpon>
     </Compile>
@@ -139,6 +143,8 @@
     <Compile Include="Features\Shell\ShellViewModel.cs" />
     <Compile Include="Interfaces\INavigationFlowService.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Interfaces\IDialogService.cs" />
     <Compile Include="Services\NavigationFlowService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +194,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Features\Connection\ConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\Dialogs\GenericDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

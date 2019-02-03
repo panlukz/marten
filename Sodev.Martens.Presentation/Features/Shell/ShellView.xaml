@@ -18,6 +18,9 @@
             <ColumnDefinition Width="Auto" /> <!-- Menu -->
             <ColumnDefinition Width="*" />    <!-- Active item -->
         </Grid.ColumnDefinitions>
+        
+        
+
         <menu:MenuView Grid.Column="0">
             <!-- TODO do something about it -->
             <menu:MenuView.DataContext>
@@ -28,5 +31,8 @@
             <ContentControl x:Name="ActiveItem" Margin="10" />
 
         </Border>
+
+        <materialDesign:DialogHost Grid.ColumnSpan="2">
+        </materialDesign:DialogHost>
     </Grid>
 </Window>

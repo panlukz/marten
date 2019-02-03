@@ -38,6 +38,7 @@ namespace Sodev.Marten.Presentation.Bootstrapper
             container.Singleton<IWindowManager, WindowManager>();
             container.RegisterInstance(typeof(IServiceLocator), string.Empty, this);
             container.Singleton<IEventAggregator, EventAggregator>();
+            container.Singleton<IDialogService, DialogService>();
             container.Singleton<IObdEventBus, ObdEventBus>();
             container.Singleton<IObdCommuncation, ObdSerialCommunication>();
             container.Singleton<INavigationFlowService, NavigationFlowService>();

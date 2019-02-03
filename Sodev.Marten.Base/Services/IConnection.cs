@@ -16,6 +16,8 @@ namespace Sodev.Marten.Base.Services
 
         void Close();
 
+        void CloseOnError();
+
         ConnectionState GetState();
 
         IList<string> GetAvailablePorts();

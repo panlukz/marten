@@ -7,17 +7,23 @@ using Caliburn.Micro;
 using Sodev.Marten.Base.Model;
 using Sodev.Marten.Domain.Events;
 using Sodev.Marten.Domain.Services;
+using Sodev.Marten.Presentation.Interfaces;
 
 namespace Sodev.Marten.Presentation.Features.FaultCodes
 {
     public class FaultCodesViewModel : Screen, IHandle<FaultCodeEvent>
     {
         private readonly IFaultCodesService faultCodesService;
+        private readonly IDialogService dialogService;
 
         public void Handle(FaultCodeEvent message)
         {
+            if (message.EventType == FaultCodeEventType.FaultCodesNumberUpdated && FaultCodesNumber == 0)
+                dialogService.DisplayInfo("No fault codes found", "Fault codes");
+
             NotifyOfPropertyChange(nameof(FaultCodesNumber));
             NotifyOfPropertyChange(nameof(FaultCodesList));
+            NotifyOfPropertyChange(nameof(CanClearFaultCodes));
         }
 
         protected override void OnActivate()
@@ -32,9 +38,10 @@ namespace Sodev.Marten.Presentation.Features.FaultCodes
             base.OnDeactivate(close);
         }
 
-        public FaultCodesViewModel(IFaultCodesService faultCodesService, IEventAggregator eventAggregator)
+        public FaultCodesViewModel(IFaultCodesService faultCodesService, IEventAggregator eventAggregator, IDialogService dialogService)
         {
             this.faultCodesService = faultCodesService;
+            this.dialogService = dialogService;
             eventAggregator.Subscribe(this);
         }
 
@@ -47,6 +54,8 @@ namespace Sodev.Marten.Presentation.Features.FaultCodes
         {
             faultCodesService.RequestClearingFaultCodes();
         }
+
+        public bool CanClearFaultCodes => FaultCodesNumber > 0;
 
         public int FaultCodesNumber => faultCodesService.FaultCodesNumber;
 

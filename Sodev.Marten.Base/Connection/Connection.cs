@@ -66,6 +66,17 @@ namespace Sodev.Marten.Base.Connection
             port.DataReceived -= OnPortDataReceived;
         }
 
+        public void CloseOnError()
+        {
+            if (GetState() != ConnectionState.Ready)
+                throw new InvalidOperationException($"Connection couldn't be closed. Connection state: {GetState()}");
+
+            port.Close();
+            SetState(ConnectionState.Closed);
+
+            port.DataReceived -= OnPortDataReceived;
+        }
+
         public void SetParameters(ConnectionParameters parameters)
         {
             if (GetState() != ConnectionState.Closed)
@@ -73,8 +84,10 @@ namespace Sodev.Marten.Base.Connection
 
             port.PortName = parameters.PortName;
             port.BaudRate = parameters.BaudRate;
-            
+
             //the rest parameters have to be always the same
+            port.ReadTimeout = 5000;
+            port.WriteTimeout = 5000;
             port.Parity = Parity.None; 
             port.StopBits = StopBits.One;
             port.Handshake = Handshake.None;

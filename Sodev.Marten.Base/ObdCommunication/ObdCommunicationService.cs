@@ -41,6 +41,11 @@ namespace Sodev.Marten.Base.ObdCommunication
             connection.Close();
         }
 
+        public void CloseOnError()
+        {
+            connection.CloseOnError();
+        }
+
         public void SendQuery(ObdQuery query)
         {
             //if (state != ConnectionState.Opened) throw new InvalidOperationException("Connection is not opened");
@@ -153,6 +158,7 @@ namespace Sodev.Marten.Base.ObdCommunication
         void SetConnectionParameters(ConnectionParameters parameters);
         Task OpenAsync();
         void Close();
+        void CloseOnError();
         event EventHandler<ConnectionProcedureStateChangedPayload> ConnectionStateChanged;
         event EventHandler<bool> DtcClearedEvent;
     }

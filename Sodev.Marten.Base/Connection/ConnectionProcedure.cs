@@ -116,7 +116,7 @@ namespace Sodev.Marten.Base.Connection
 
         private void SendAtCommand(string command)
         {
-            port.WriteLine($"{command}\r");
+                port.WriteLine($"{command}\r");
         }
 
         private enum StepName
