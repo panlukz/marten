@@ -14,7 +14,7 @@
 
         <StackPanel Orientation="Vertical" Grid.Row="0">
             <TextBlock Text="Marten Obd Diagnostics" />
-            <TextBlock Text="Fault codes" FontSize="30" FontWeight="Bold" />
+            <TextBlock Text="Fault codes report" FontSize="30" FontWeight="Bold" />
         </StackPanel>
         
         
